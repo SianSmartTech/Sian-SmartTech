@@ -1,0 +1,119 @@
+.team-section-v2 .sian-smart-tech-carousel-container {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.team-section-v2 .sian-smart-tech-carousel-track {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 1.5rem 24px;
+  scroll-behavior: smooth;
+  cursor: grab;
+  user-select: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 1200px) {
+  .team-section-v2 .sian-smart-tech-carousel-track {
+    padding-left: calc((100vw - 1200px) / 2 + 1.5rem);
+    padding-right: calc((100vw - 1200px) / 2 + 1.5rem);
+  }
+}
+
+.team-section-v2 .sian-smart-tech-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.team-section-v2 .sian-smart-tech-carousel-track.active-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+
+.team-section-v2 .sian-smart-tech-card {
+  flex: 0 0 290px;
+  max-width: 290px;
+  border-radius: 20px;
+  padding: 2.2rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 310px;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="dark"] .team-section-v2 .sian-smart-tech-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.team-section-v2 .sian-smart-tech-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] .team-section-v2 .sian-smart-tech-card:hover {
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.1);
+}
+
+.team-icon-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(59, 130, 246, 0.08) !important;
+  margin-bottom: 1.2rem;
+}
+
+[data-theme="dark"] .team-icon-badge {
+  background: rgba(59, 130, 246, 0.15) !important;
+}
+
+.team-icon {
+  color: #3b82f6 !important;
+}
+
+.team-bio-text {
+  font-style: normal !important;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #475569;
+  margin: 0 0 1.2rem 0;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .team-bio-text {
+  color: #cbd5e1;
+}
+
+@media (max-width: 768px) {
+  .team-section-v2 .sian-smart-tech-card {
+    flex: 0 0 260px;
+    max-width: 260px;
+    padding: 1.8rem 1.4rem;
+    min-height: 280px;
+  }
+}

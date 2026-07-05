@@ -1,0 +1,245 @@
+.sian-smart-tech-carousel-container {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  overflow: hidden;
+  margin-top: 1rem;
+}
+
+.sian-smart-tech-carousel-track {
+  display: flex;
+  gap: 24px;
+  overflow-x: auto;
+  padding: 1.5rem 24px;
+  scroll-behavior: auto;
+  cursor: grab;
+  user-select: none;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 1200px) {
+  .sian-smart-tech-carousel-track {
+    padding-left: calc((100vw - 1200px) / 2 + 1.5rem);
+    padding-right: calc((100vw - 1200px) / 2 + 1.5rem);
+  }
+}
+
+.sian-smart-tech-carousel-track::-webkit-scrollbar {
+  display: none;
+}
+
+.sian-smart-tech-carousel-track.active-dragging {
+  cursor: grabbing;
+  scroll-behavior: auto;
+}
+
+.sian-smart-tech-card {
+  flex: 0 0 290px;
+  max-width: 290px;
+  border-radius: 20px;
+  padding: 2.2rem 1.8rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 310px;
+  transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1),
+    box-shadow 0.3s ease,
+    border-color 0.3s ease;
+  background: #ffffff;
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+}
+
+[data-theme="dark"] .sian-smart-tech-card {
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.sian-smart-tech-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+[data-theme="dark"] .sian-smart-tech-card:hover {
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.1);
+}
+
+.sian-smart-tech-card-quote-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(16, 185, 129, 0.08);
+  margin-bottom: 1.2rem;
+}
+
+[data-theme="dark"] .sian-smart-tech-card-quote-badge {
+  background: rgba(16, 185, 129, 0.15);
+}
+
+.sian-smart-tech-quote-icon {
+  color: #10b981;
+}
+
+.sian-smart-tech-card-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #475569;
+  font-style: italic;
+  margin: 0 0 1.2rem 0;
+  flex-grow: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  line-clamp: 5;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .sian-smart-tech-card-text {
+  color: #cbd5e1;
+}
+
+.sian-smart-tech-card-stars {
+  display: flex;
+  gap: 3px;
+  margin-bottom: 1.5rem;
+}
+
+.sian-smart-tech-star-icon {
+  flex-shrink: 0;
+}
+
+.sian-smart-tech-card-profile {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sian-smart-tech-avatar-wrapper {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  flex-shrink: 0;
+}
+
+.sian-smart-tech-avatar-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .sian-smart-tech-avatar-img {
+  border-color: #1e293b;
+}
+
+.sian-smart-tech-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 1.1rem;
+  font-weight: 700;
+  border: 2px solid #ffffff;
+}
+
+[data-theme="dark"] .sian-smart-tech-avatar-fallback {
+  border-color: #1e293b;
+}
+
+.sian-smart-tech-avatar-badge {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .sian-smart-tech-avatar-badge {
+  border-color: #1e293b;
+}
+
+.green-badge {
+  background: #10b981;
+}
+
+.blue-badge {
+  background: #3b82f6;
+}
+
+.sian-smart-tech-profile-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.sian-smart-tech-profile-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+[data-theme="dark"] .sian-smart-tech-profile-name {
+  color: #ffffff;
+}
+
+.sian-smart-tech-profile-role {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+[data-theme="dark"] .sian-smart-tech-profile-role {
+  color: #94a3b8;
+}
+
+.sian-smart-tech-carousel-hint {
+  text-align: center;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #94a3b8;
+  margin-top: 1.5rem;
+  user-select: none;
+  letter-spacing: 0.5px;
+}
+
+[data-theme="dark"] .sian-smart-tech-carousel-hint {
+  color: #64748b;
+}
+
+@media (max-width: 768px) {
+  .sian-smart-tech-card {
+    flex: 0 0 260px;
+    max-width: 260px;
+    padding: 1.8rem 1.4rem;
+    min-height: 280px;
+  }
+}

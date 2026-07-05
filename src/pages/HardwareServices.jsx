@@ -1,0 +1,124 @@
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import "../css/HardwareServices.css";
+import * as Icons from 'lucide-react';
+import { services } from '../mockData';
+const HardwareServices = () => {
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState('all');
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const catParam = params.get('category');
+    if (catParam && ['laptop', 'computer', 'printer', 'cctv', 'drone'].includes(catParam.toLowerCase())) {
+      setActiveTab(catParam.toLowerCase());
+    } else {
+      setActiveTab('all');
+    }
+  }, [location]);
+  const displayServices = activeTab === 'all' ? services : services.filter(s => s.categories.includes(activeTab));
+  const handleTabClick = (tab) => {
+    setActiveTab(tab);
+    const url = new URL(window.location);
+    if (tab === 'all') {
+      url.searchParams.delete('category');
+    } else {
+      url.searchParams.set('category', tab);
+    }
+    window.history.pushState({}, '', url);
+  };
+  return (
+    <div className="v2-page-layout">
+      <div className="contact-bg-text">HARDWARE</div>
+      <section className="page-hero hero-hardware">
+        <div className="container">
+          <span className="section-subtitle">Electronics & Computing</span>
+          <h1 className="section-title">Hardware Services</h1>
+          <p className="page-description">Professional chip-level repairs, hardware upgrades, and maintenance for all your devices.</p>
+        </div>
+        <div className="scroll-arrow" onClick={() => document.getElementById('services-list').scrollIntoView({ behavior: 'smooth' })}>
+          <Icons.ChevronDown size={32} color="#11678E" />
+        </div>
+      </section>
+      <div className="curved-section">
+        <section className="section bg-alt" id="services-list">
+          <div className="container hw-premium-container">
+            <div className="hw-tabs-container reveal">
+              {['all', 'laptop', 'computer', 'printer', 'cctv', 'drone'].map((cat) => (
+                <button key={cat} onClick={() => handleTabClick(cat)} className={`hw-tab-btn ${activeTab === cat ? 'active' : ''}`}>{cat === 'all' ? 'All Services' : cat}</button>
+              ))}
+            </div>
+            <div className="hw-premium-list">
+              {displayServices.map((service, index) => {
+                const IconComponent = Icons[service.icon] || Icons.Cpu;
+                const isSelected = index === 0 && activeTab !== 'all';
+                return (
+                  <div key={service.id} className={`hw-premium-card reveal active ${isSelected ? 'hw-selected-card' : ''}`}>
+                    <div className="hw-glow-orb orb-1"></div>
+                    <div className="hw-glow-orb orb-2"></div>
+                    {isSelected && (
+                      <div className="hw-selected-badge">
+                        <Icons.Star size={14} className="hw-star-icon" />Selected Service
+                      </div>
+                    )}
+                    <div className="hw-card-image-section">
+                      <div className="hw-img-overlay"></div>
+                      <div className="hw-scanline"></div>
+                      <img src={service.image} alt={service.title} className="hw-service-img" />
+                      <div className="hw-card-icon-badge">
+                        <IconComponent size={32} />
+                      </div>
+                    </div>
+                    <div className="hw-card-content-section">
+                      <div className="hw-card-header">
+                        <span className="hw-category">{service.category}</span>
+                        <div className="hw-rating">
+                          <Icons.Star size={16} className="hw-rating-icon" />
+                          <span>{service.rating || '4.9'}</span>
+                        </div>
+                      </div>
+                      <h3 className="hw-card-title">{service.title}</h3>
+                      <p className="hw-card-desc">{service.description}</p>
+                      <div className="hw-metrics-row">
+                        <div className="hw-metric-box">
+                          <span className="hw-metric-label">Turnaround</span>
+                          <span className="hw-metric-value">{service.turnaround || '1-3 Days'}</span>
+                        </div>
+                        <div className="hw-metric-box">
+                          <span className="hw-metric-label">Warranty</span>
+                          <span className="hw-metric-value">{service.warranty || '90 Days'}</span>
+                        </div>
+                        <div className="hw-metric-box">
+                          <span className="hw-metric-label">Est. Price</span>
+                          <span className="hw-metric-value">{service.priceRange || 'Custom'}</span>
+                        </div>
+                      </div>
+                      <div className="hw-features-grid">
+                        <div className="hw-feature-pill">
+                          <Icons.CheckCircle size={16} className="hw-feature-icon" />
+                          <span>{service.benefits?.[0] || 'Advanced Diagnostics'}</span>
+                        </div>
+                        <div className="hw-feature-pill">
+                          <Icons.ShieldCheck size={16} className="hw-feature-icon" />
+                          <span>{service.benefits?.[1] || 'Warranty Covered'}</span>
+                        </div>
+                        <div className="hw-feature-pill">
+                          <Icons.Wrench size={16} className="hw-feature-icon" />
+                          <span>{service.benefits?.[2] || 'Quality Spares'}</span>
+                        </div>
+                      </div>
+                      <button className="hw-book-btn" onClick={() => navigate('/book-service', { state: { selectedService: service.title } })}>
+                        <span>Book This Service</span> <Icons.ArrowRight size={18} />
+                      </button>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+};
+export default HardwareServices;
