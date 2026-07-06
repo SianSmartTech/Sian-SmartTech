@@ -429,7 +429,7 @@ export const companyInfo = {
   description:
     "Professional computer repair and hardware services with over 15 years of experience. We specialize in hardware repair, upgrades, data recovery, and custom PC builds.",
   phone: "+91 93446 78135",
-  email: "info@siansmarttech.com",
+  email: "siansmarttech@gmail.com",
   address: "5/195, ponnu pillai thoppu, anuppanadi, madurai - 625009.",
   hours: "Mon-Fri: 9AM-6PM, Sat: 10AM-4PM",
   mapUrl:

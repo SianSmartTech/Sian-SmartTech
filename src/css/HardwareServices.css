@@ -468,26 +468,80 @@
 }
 
 .hw-tab-btn {
-  padding: 0.8rem 1.8rem;
-  border-radius: 50px;
-  border: 1px solid var(--border-color);
-  background: transparent;
-  color: var(--text-primary);
-  font-family: 'Exo 2', sans-serif;
+  background: rgba(70, 130, 180, 0.08) !important;
+  border: 1.5px solid #4682B4 !important;
+  color: var(--text-primary) !important;
+  padding: 0.5rem 0.5rem 0.5rem 2rem !important;
+  border-radius: 9999px !important;
   font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  box-shadow: 0 0 20px rgba(70, 130, 180, 0.20) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-family: 'Exo 2', sans-serif;
   text-transform: uppercase;
   letter-spacing: 1px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  z-index: 1;
 }
 
-.hw-tab-btn:hover {
-  background: rgba(0, 242, 255, 0.05);
-  border-color: var(--accent-primary);
+.hw-tab-btn:hover:not(.active) {
+  background: rgba(70, 130, 180, 0.18) !important;
+  border-color: #5094ce !important;
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(70, 130, 180, 0.5), 0 0 45px rgba(70, 130, 180, 0.2) !important;
 }
 
 .hw-tab-btn.active {
-  border: 2px solid var(--accent-primary);
-  background: var(--accent-primary);
-  color: #ffffff;
+  background: #4682B4 !important;
+  border: 1.5px solid #4682B4 !important;
+  color: #ffffff !important;
+  box-shadow: 0 0 25px rgba(70, 130, 180, 0.45) !important;
+  transform: translateY(-2px);
+}
+
+.hw-tab-btn.active:hover {
+  background: #5094ce !important;
+  border-color: #5094ce !important;
+  box-shadow: 0 0 25px rgba(70, 130, 180, 0.8), 0 0 50px rgba(70, 130, 180, 0.4) !important;
+  transform: translateY(-3px);
+}
+
+/* Ensure white text for inactive button in dark theme */
+[data-theme="dark"] .hw-tab-btn {
+  color: #ffffff !important;
+}
+
+/* Circle icon container inside hardware tab buttons */
+.hw-tab-btn .btn-icon-circle {
+  background: #ffffff !important;
+  border-radius: 50% !important;
+  width: 38px;
+  height: 38px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: transform 0.3s ease !important;
+  flex-shrink: 0;
+}
+
+.hw-tab-btn .btn-icon-circle svg {
+  color: #4682B4 !important;
+  transition: transform 0.3s ease;
+}
+
+.hw-tab-btn.active .btn-icon-circle {
+  transform: scale(1.05);
+}
+
+.hw-tab-btn.active:hover .btn-icon-circle svg {
+  transform: scale(1.15) rotate(10deg);
+}
+
+.hw-tab-btn:not(.active):hover .btn-icon-circle svg {
+  transform: scale(1.15) rotate(10deg);
 }

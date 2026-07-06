@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import "../css/App.css";
-import { Play } from 'lucide-react';
+import { Play, ArrowUpRight, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 const Hero = () => {
   const sectionRef = useRef(null);
@@ -233,9 +233,17 @@ const Hero = () => {
               <div className="hero-ss-right">
                 <p className="hero-ss-subtitle">Unlock the full potential of your technology. Professional device repairs, hardware upgrades, and custom IT solutions tailored to your needs.</p>
                 <div className="hero-ss-actions">
-                  <Link to="/book-service" className="btn-ss-primary">BOOK SERVICE</Link>
+                  <Link to="/book-service" className="btn-ss-primary">
+                    <span>BOOK SERVICE</span>
+                    <span className="btn-icon-circle">
+                      <ArrowUpRight size={18} strokeWidth={2.5} />
+                    </span>
+                  </Link>
                   <a href="/" className="btn-ss-secondary" onClick={(e) => { e.preventDefault(); document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }); }}>
-                    <Play size={18} fill="currentColor" /> ALL SERVICES
+                    <span>ALL SERVICES</span>
+                    <span className="btn-icon-circle">
+                      <Zap size={16} strokeWidth={2.5} fill="currentColor" />
+                    </span>
                   </a>
                 </div>
               </div>
@@ -263,9 +271,17 @@ const Hero = () => {
               <div className="hero-ss-right">
                 <p className="hero-ss-subtitle">Whether it is a laptop repair, CCTV installation, or custom website development, Sian SmartTech delivers high-quality service at unbeatable prices.</p>
                 <div className="hero-ss-actions">
-                  <Link to="/book-service" className="btn-ss-primary">BOOK SERVICE NOW</Link>
+                  <Link to="/book-service" className="btn-ss-primary">
+                    <span>BOOK SERVICE NOW</span>
+                    <span className="btn-icon-circle">
+                      <ArrowUpRight size={18} strokeWidth={2.5} />
+                    </span>
+                  </Link>
                   <a href="/" className="btn-ss-secondary" onClick={(e) => { e.preventDefault(); document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }); }}>
-                    <Play size={18} fill="currentColor" /> BROWSE SERVICES
+                    <span>BROWSE SERVICES</span>
+                    <span className="btn-icon-circle">
+                      <Zap size={16} strokeWidth={2.5} fill="currentColor" />
+                    </span>
                   </a>
                 </div>
               </div>

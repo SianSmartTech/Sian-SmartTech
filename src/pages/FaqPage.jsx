@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Minus, ChevronDown } from 'lucide-react';
+import { Plus, Minus } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import "../css/App.css";
 const faqData = [
@@ -42,9 +42,6 @@ const FaqPage = () => {
           <span className="section-subtitle">Support</span>
           <h1 className="section-title">FAQ</h1>
           <p className="page-description">Welcome to our FAQ section! Here, we've compiled answers to the most common questions about our products, services, and policies to help you find the information you need quickly. Whether you're curious about PC configurations, order tracking, or our return policy, you'll find all the details right here. Still have questions? Feel free to reach out to our support team—we're here to help!</p>
-        </div>
-        <div className="scroll-arrow" onClick={() => document.querySelector('.section').scrollIntoView({ behavior: 'smooth' })}>
-          <ChevronDown size={32} color="#11678E" />
         </div>
       </section>
       <div className="curved-section">

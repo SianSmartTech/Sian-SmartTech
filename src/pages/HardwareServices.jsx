@@ -27,6 +27,18 @@ const HardwareServices = () => {
     }
     window.history.pushState({}, '', url);
   };
+  const getTabIcon = (cat) => {
+    switch (cat) {
+      case 'all': return Icons.Layers || Icons.Wrench;
+      case 'laptop': return Icons.Laptop;
+      case 'computer': return Icons.Monitor;
+      case 'printer': return Icons.Printer;
+      case 'cctv': return Icons.Cctv || Icons.Camera;
+      case 'drone': return Icons.Plane || Icons.Cpu;
+      default: return Icons.Cpu;
+    }
+  };
+
   return (
     <div className="v2-page-layout">
       <div className="contact-bg-text">HARDWARE</div>
@@ -36,31 +48,31 @@ const HardwareServices = () => {
           <h1 className="section-title">Hardware Services</h1>
           <p className="page-description">Professional chip-level repairs, hardware upgrades, and maintenance for all your devices.</p>
         </div>
-        <div className="scroll-arrow" onClick={() => document.getElementById('services-list').scrollIntoView({ behavior: 'smooth' })}>
-          <Icons.ChevronDown size={32} color="#11678E" />
-        </div>
       </section>
       <div className="curved-section">
         <section className="section bg-alt" id="services-list">
           <div className="container hw-premium-container">
             <div className="hw-tabs-container reveal">
-              {['all', 'laptop', 'computer', 'printer', 'cctv', 'drone'].map((cat) => (
-                <button key={cat} onClick={() => handleTabClick(cat)} className={`hw-tab-btn ${activeTab === cat ? 'active' : ''}`}>{cat === 'all' ? 'All Services' : cat}</button>
-              ))}
+              {['all', 'laptop', 'computer', 'printer', 'cctv', 'drone'].map((cat) => {
+                const TabIcon = getTabIcon(cat);
+                return (
+                  <button key={cat} onClick={() => handleTabClick(cat)} className={`hw-tab-btn ${activeTab === cat ? 'active' : ''}`}>
+                    <span>{cat === 'all' ? 'All Services' : cat}</span>
+                    <span className="btn-icon-circle">
+                      <TabIcon size={16} strokeWidth={2.5} />
+                    </span>
+                  </button>
+                );
+              })}
             </div>
             <div className="hw-premium-list">
               {displayServices.map((service, index) => {
                 const IconComponent = Icons[service.icon] || Icons.Cpu;
-                const isSelected = index === 0 && activeTab !== 'all';
+                const isSelected = false;
                 return (
-                  <div key={service.id} className={`hw-premium-card reveal active ${isSelected ? 'hw-selected-card' : ''}`}>
+                  <div key={service.id} className="hw-premium-card reveal active">
                     <div className="hw-glow-orb orb-1"></div>
                     <div className="hw-glow-orb orb-2"></div>
-                    {isSelected && (
-                      <div className="hw-selected-badge">
-                        <Icons.Star size={14} className="hw-star-icon" />Selected Service
-                      </div>
-                    )}
                     <div className="hw-card-image-section">
                       <div className="hw-img-overlay"></div>
                       <div className="hw-scanline"></div>

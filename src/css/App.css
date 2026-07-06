@@ -1538,7 +1538,7 @@ h6,
   position: fixed;
   bottom: 20px;
   right: 140px;
-  background: var(--effect-color);
+  background: var(--accent-primary);
   width: 50px;
   height: 50px;
   border-radius: 50%;
@@ -1549,8 +1549,14 @@ h6,
   z-index: 999;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-to-top:hover {
+  background: var(--accent-hover);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(70, 130, 180, 0.45);
 }
 
 .scroll-to-top.visible {
@@ -6356,6 +6362,17 @@ h6,
   opacity: 0.35;
 }
 
+.thunder-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.75;
+}
+
 .hero-ss-title {
   color: white !important;
 }
@@ -6455,25 +6472,91 @@ h6,
   align-items: center;
 }
 
-.btn-ss-primary {
-  background: var(--accent-primary);
-  color: white;
-  padding: 1rem 2.5rem;
-  border-radius: 50px;
+.hero-ss-actions .btn-ss-primary {
+  background: #4682B4 !important;
+  border: 1.5px solid #4682B4 !important;
+  color: #ffffff !important;
+  padding: 0.5rem 0.5rem 0.5rem 2rem !important;
+  border-radius: 9999px !important;
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.95rem;
   text-decoration: none !important;
-  transition: all 0.3s ease;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  box-shadow: 0 0 25px rgba(70, 130, 180, 0.45) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
-.btn-ss-secondary {
-  color: white;
-  text-decoration: none;
+.hero-ss-actions .btn-ss-primary:hover {
+  background: #5094ce !important;
+  border-color: #5094ce !important;
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(70, 130, 180, 0.8), 0 0 50px rgba(70, 130, 180, 0.4) !important;
+}
+
+.hero-ss-actions .btn-ss-secondary {
+  background: rgba(70, 130, 180, 0.08) !important;
+  border: 1.5px solid #4682B4 !important;
+  color: #ffffff !important;
+  padding: 0.5rem 0.5rem 0.5rem 2rem !important;
+  border-radius: 9999px !important;
   font-weight: 700;
-  display: flex;
+  font-size: 0.95rem;
+  text-decoration: none !important;
+  display: inline-flex !important;
   align-items: center;
-  gap: 10px;
-  font-size: 1rem;
+  justify-content: space-between;
+  gap: 1.5rem;
+  box-shadow: 0 0 20px rgba(70, 130, 180, 0.20) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.hero-ss-actions .btn-ss-secondary:hover {
+  background: rgba(70, 130, 180, 0.18) !important;
+  border-color: #5094ce !important;
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(70, 130, 180, 0.5), 0 0 45px rgba(70, 130, 180, 0.2) !important;
+}
+
+[data-theme="dark"] .hero-ss-actions .btn-ss-primary,
+[data-theme="dark"] .hero-ss-actions .btn-ss-secondary {
+  color: #ffffff !important;
+}
+
+.hero-ss-actions .btn-icon-circle {
+  background: #ffffff !important;
+  border-radius: 50% !important;
+  width: 38px;
+  height: 38px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: transform 0.3s ease !important;
+  flex-shrink: 0;
+}
+
+.hero-ss-actions .btn-ss-primary:hover .btn-icon-circle {
+  transform: scale(1.05);
+}
+
+.hero-ss-actions .btn-ss-primary .btn-icon-circle svg {
+  color: #4682B4 !important;
+  transition: transform 0.3s ease;
+}
+
+.hero-ss-actions .btn-ss-primary:hover .btn-icon-circle svg {
+  transform: translate(2px, -2px);
+}
+
+.hero-ss-actions .btn-ss-secondary .btn-icon-circle svg {
+  color: #4682B4 !important;
+  transition: transform 0.3s ease;
+}
+
+.hero-ss-actions .btn-ss-secondary:hover .btn-icon-circle svg {
+  transform: scale(1.15) rotate(10deg);
 }
 
 @media (max-width: 768px) {
@@ -6493,10 +6576,10 @@ h6,
     gap: 1rem;
   }
 
-  .btn-ss-primary,
-  .btn-ss-secondary {
-    width: 100%;
-    justify-content: center;
+  .hero-ss-actions .btn-ss-primary,
+  .hero-ss-actions .btn-ss-secondary {
+    width: 100% !important;
+    justify-content: space-between !important;
   }
 
   .hero-beat-overlay {
@@ -7226,7 +7309,6 @@ h6,
   font-weight: 700;
   text-decoration: none;
   transition: all 0.3s ease;
-  box-shadow: 0 4px 15px rgba(255, 87, 34, 0.3);
 }
 
 .btn-view-more:hover {
@@ -7328,7 +7410,7 @@ img {
   -webkit-text-fill-color: transparent !important;
 }
 
-button:not(.portfolio-v2-filter-btn):not(.faq-question-v2):not(.chatbot-toggle):not(.theme-toggle):not(.mobile-menu-button):not(.mail-modal-close):not(.drawer-close-btn),
+button:not(.portfolio-v2-filter-btn):not(.faq-question-v2):not(.chatbot-toggle):not(.theme-toggle):not(.mobile-menu-button):not(.mail-modal-close):not(.drawer-close-btn):not(.hw-tab-btn):not(.services-tab-btn),
 .btn-confirm,
 .btn-manage,
 .refresh-btn,
@@ -7349,7 +7431,7 @@ button:not(.portfolio-v2-filter-btn):not(.faq-question-v2):not(.chatbot-toggle):
   color: #ffffff !important;
 }
 
-button:not(.portfolio-v2-filter-btn):not(.faq-question-v2):not(.chatbot-toggle):not(.theme-toggle):not(.mobile-menu-button):not(.mail-modal-close):not(.drawer-close-btn):hover,
+button:not(.portfolio-v2-filter-btn):not(.faq-question-v2):not(.chatbot-toggle):not(.theme-toggle):not(.mobile-menu-button):not(.mail-modal-close):not(.drawer-close-btn):not(.hw-tab-btn):not(.services-tab-btn):hover,
 .btn-confirm:hover,
 .btn-manage:hover,
 .refresh-btn:hover,
@@ -7369,7 +7451,7 @@ button:not(.portfolio-v2-filter-btn):not(.faq-question-v2):not(.chatbot-toggle):
   border-color: var(--accent-hover) !important;
 }
 
-[data-theme="dark"] button:not(.portfolio-v2-filter-btn):not(.faq-question-v2):not(.chatbot-toggle):not(.theme-toggle):not(.mobile-menu-button):not(.mail-modal-close):not(.drawer-close-btn),
+[data-theme="dark"] button:not(.portfolio-v2-filter-btn):not(.faq-question-v2):not(.chatbot-toggle):not(.theme-toggle):not(.mobile-menu-button):not(.mail-modal-close):not(.drawer-close-btn):not(.hw-tab-btn):not(.services-tab-btn),
 [data-theme="dark"] .btn-confirm,
 [data-theme="dark"] .btn-manage,
 [data-theme="dark"] .refresh-btn,
@@ -7438,51 +7520,85 @@ button:not(.portfolio-v2-filter-btn):not(.faq-question-v2):not(.chatbot-toggle):
 }
 
 .services-tab-btn {
-  padding: 0.9rem 2.2rem;
-  border-radius: 50px;
-  border: 1px solid var(--border-color);
-  background: rgba(255, 255, 255, 0.03);
-  color: var(--text-primary);
-  font-family: 'Exo 2', sans-serif;
+  background: rgba(70, 130, 180, 0.08) !important;
+  border: 1.5px solid #4682B4 !important;
+  color: var(--text-primary) !important;
+  padding: 0.5rem 0.5rem 0.5rem 2rem !important;
+  border-radius: 9999px !important;
   font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  box-shadow: 0 0 20px rgba(70, 130, 180, 0.20) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  font-family: 'Exo 2', sans-serif;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   cursor: pointer;
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-  position: relative;
-  overflow: hidden;
+  overflow: visible !important;
   z-index: 1;
 }
 
 .services-tab-btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(135deg, var(--accent-primary) 0%, #a200ff 100%);
-  opacity: 0;
-  z-index: -1;
-  transition: opacity 0.4s ease;
+  display: none !important;
 }
 
 .services-tab-btn.active {
-  border-color: transparent;
+  background: #4682B4 !important;
+  border: 1.5px solid #4682B4 !important;
   color: #ffffff !important;
-  box-shadow: 0 0 25px rgba(0, 242, 255, 0.35);
+  box-shadow: 0 0 25px rgba(70, 130, 180, 0.45) !important;
   transform: translateY(-2px);
 }
 
-.services-tab-btn.active::before {
-  opacity: 1;
+.services-tab-btn.active:hover {
+  background: #5094ce !important;
+  border-color: #5094ce !important;
+  box-shadow: 0 0 25px rgba(70, 130, 180, 0.8), 0 0 50px rgba(70, 130, 180, 0.4) !important;
+  transform: translateY(-3px);
 }
 
 .services-tab-btn:hover:not(.active) {
-  border-color: var(--accent-primary);
-  background: rgba(0, 242, 255, 0.05);
-  transform: translateY(-1px);
+  background: rgba(70, 130, 180, 0.18) !important;
+  border-color: #5094ce !important;
+  transform: translateY(-2px);
+  box-shadow: 0 0 25px rgba(70, 130, 180, 0.5), 0 0 45px rgba(70, 130, 180, 0.2) !important;
+}
+
+.services-tab-btn .btn-icon-circle {
+  background: #ffffff !important;
+  border-radius: 50% !important;
+  width: 38px;
+  height: 38px;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  transition: transform 0.3s ease !important;
+  flex-shrink: 0;
+}
+
+.services-tab-btn .btn-icon-circle svg {
+  color: #4682B4 !important;
+  transition: transform 0.3s ease;
+}
+
+.services-tab-btn.active .btn-icon-circle {
+  transform: scale(1.05);
+}
+
+.services-tab-btn.active:hover .btn-icon-circle svg {
+  transform: scale(1.15) rotate(10deg);
+}
+
+.services-tab-btn:not(.active):hover .btn-icon-circle svg {
+  transform: scale(1.15) rotate(10deg);
+}
+
+[data-theme="dark"] .services-tab-btn {
+  color: #ffffff !important;
 }
 
 .services-explore-btn-container {

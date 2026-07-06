@@ -32,8 +32,18 @@ const Services = () => {
           <p className="services-premium-desc">Elevate your technology with our state-of-the-art hardware repair, custom assembly, and premium website development services.</p>
         </div>
         <div className="services-tabs-container">
-          <button className={`services-tab-btn ${activeTab === 'hardware' ? 'active' : ''}`} onClick={() => setActiveTab('hardware')}>Hardware Services</button>
-          <button className={`services-tab-btn ${activeTab === 'it' ? 'active' : ''}`} onClick={() => setActiveTab('it')}>IT Services</button>
+          <button className={`services-tab-btn ${activeTab === 'hardware' ? 'active' : ''}`} onClick={() => setActiveTab('hardware')}>
+            <span>Hardware Services</span>
+            <span className="btn-icon-circle">
+              <Icons.Cpu size={16} strokeWidth={2.5} />
+            </span>
+          </button>
+          <button className={`services-tab-btn ${activeTab === 'it' ? 'active' : ''}`} onClick={() => setActiveTab('it')}>
+            <span>IT Services</span>
+            <span className="btn-icon-circle">
+              <Icons.Code size={16} strokeWidth={2.5} />
+            </span>
+          </button>
         </div>
         <div className="services-premium-grid">
           {displayCards.map((service) => {

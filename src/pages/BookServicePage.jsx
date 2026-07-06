@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { ChevronDown, CheckCircle2, Ticket, ArrowRight, ArrowLeft } from 'lucide-react';
+import { CheckCircle2, Ticket, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import { services, itServicesData } from '../mockData';
 import { toast, Toaster } from 'sonner';
@@ -60,11 +60,6 @@ const BookServicePage = () => {
           <h1 className="section-title">Book a Service</h1>
           <p className="page-description">Get expert hardware and software support at your convenience. Fill out the form below to schedule your appointment.</p>
         </div>
-        {!successBooking && (
-          <div className="scroll-arrow" onClick={() => document.querySelector('.book-service-form-section').scrollIntoView({ behavior: 'smooth' })}>
-            <ChevronDown size={32} color="#11678E" />
-          </div>
-        )}
       </section>
       <div className="container book-service-form-section">
         <div className="contact-v2-wrapper book-service-wrapper">

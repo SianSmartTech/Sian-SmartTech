@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Plus, Minus, ArrowLeft, ChevronDown } from 'lucide-react';
+import { Plus, Minus, ArrowLeft } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import "../css/App.css";
 const allFaqsData = [
@@ -87,7 +87,7 @@ const AllFaqsPage = () => {
   return (
     <div className="v2-page-layout">
       <div className="contact-bg-text">FAQS</div>
-      <section className="page-hero">
+      <section className="page-hero hero-faq">
         <div className="container">
           <div className="faq-back-container">
             <Link to="/faq" className="nav-link faq-back-link">
@@ -97,9 +97,6 @@ const AllFaqsPage = () => {
           <span className="section-subtitle">Complete Guide</span>
           <h1 className="section-title">All FAQs</h1>
           <p className="page-description">Explore our comprehensive list of frequently asked questions to find answers about our PC building services, hardware repairs, warranties, and more.</p>
-        </div>
-        <div className="scroll-arrow" onClick={() => document.querySelector('.section').scrollIntoView({ behavior: 'smooth' })}>
-          <ChevronDown size={32} color="#11678E" />
         </div>
       </section>
       <div className="curved-section">

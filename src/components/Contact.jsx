@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Mail, Phone, MapPin, ArrowUpRight, Loader2 } from 'lucide-react';
+import { Mail, Phone, MapPin, ArrowUpRight, Loader2, Instagram } from 'lucide-react';
 import { companyInfo } from '../mockData';
 import { toast } from 'sonner';
 import "../css/App.css";
@@ -88,6 +88,18 @@ const Contact = () => {
                 <ArrowUpRight size={18} />
               </div>
             </div>
+            <a href="https://www.instagram.com/sian_smart_tech?igsh=MTJ5Y3YybXl3aXBrYQ==" target="_blank" rel="noopener noreferrer" className="contact-v2-card accent-card">
+              <div className="contact-v2-card-icon">
+                <Instagram size={22} />
+              </div>
+              <div className="contact-v2-card-content">
+                <span className="contact-v2-card-label">Instagram</span>
+                <span className="contact-v2-card-value">@sian_smart_tech</span>
+              </div>
+              <div className="contact-v2-card-arrow">
+                <ArrowUpRight size={18} />
+              </div>
+            </a>
           </div>
         </div>
         <form className="contact-v2-form" onSubmit={handleSubmit}>

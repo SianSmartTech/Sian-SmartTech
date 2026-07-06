@@ -15,9 +15,6 @@ const ITServices = () => {
           <h1 className="section-title">IT Services</h1>
           <p className="page-description">Comprehensive IT support, networking, and software solutions for home and business.</p>
         </div>
-        <div className="scroll-arrow" onClick={() => document.getElementById('services-list').scrollIntoView({ behavior: 'smooth' })}>
-          <Icons.ChevronDown size={32} color="#11678E" />
-        </div>
       </section>
       <div className="curved-section">
         <section className="section bg-alt" id="services-list">
