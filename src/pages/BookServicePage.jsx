@@ -79,7 +79,7 @@ const BookServicePage = () => {
                 </div>
               </div>
               <div className="booking-success-actions">
-                <Link to={`/track/${successBooking.ticketId}`} className="contact-v2-submit booking-track-link">Track Service Status<ArrowRight size={18} /></Link>
+                <Link to={`/track/${successBooking.ticketId}`} className="contact-v2-submit booking-track-link">Track Ticket Status<ArrowRight size={18} /></Link>
                 <button onClick={() => setSuccessBooking(null)} className="btn-book-again">
                   <ArrowLeft size={16} />Book Another Service
                 </button>

@@ -26,7 +26,7 @@ const AboutPage = () => {
           <div className="container">
             <div className="about-page-grid reveal">
               <div className="about-page-image">
-                <img src="/images/about_repair.webp" alt="Expert Electronic Repair"/>
+                <img src="/images/about_repair.webp" alt="Expert Electronic Repair" />
                 <div className="about-page-badge">
                   <div className="about-page-stars">
                     <Star size={16} fill="#41C8F3" color="#41C8F3" />

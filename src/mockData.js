@@ -364,7 +364,7 @@ export const itPricing = [
     id: 2,
     name: "Business Website",
     icon: "BarChart2",
-    price: "₹4,999",
+    price: "₹5,999",
     period: "one-time",
     hostingNote: null,
     subtitle: null,
@@ -480,7 +480,7 @@ export const itServicesData = [
     rating: 5.0,
     turnaround: "1-2 Weeks",
     warranty: "30 Days Support",
-    priceRange: "Started at ₹9,999",
+    priceRange: "Started at ₹2,999",
     benefits: ["Responsive Design", "SEO Optimized", "Free Setup & Deployment"]
   },
   {

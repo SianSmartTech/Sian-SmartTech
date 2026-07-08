@@ -2,15 +2,37 @@ import { useState, useEffect, useRef } from 'react';
 import { MessageSquare, Minus, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import '../css/Chatbot.css';
-import { companyInfo, services } from '../mockData';
+import { companyInfo, services, itServicesData } from '../mockData';
+import { bookingStore } from '../utils/bookingStore';
 const initialMessages = [
   { sender: 'bot', text: `Hi there! Welcome to ${companyInfo.name}. How can I help you today?` }
 ];
-const quickReplies = ["Book a service", "Track my service", "What are your services?", "Pricing info", "Contact details"];
+const DEFAULT_QUICK_REPLIES = ["Book a service", "Track my ticket", "What are your services?", "Pricing info", "Contact details"];
+const hardwareMap = services.map(s => {
+  let label = s.title;
+  if (s.title.includes("Laptop Repair")) label = "Laptop Repair";
+  else if (s.title.includes("Computer Repair")) label = "Computer Repair";
+  else if (s.title.includes("Printer Repair")) label = "Printer Repair";
+  else if (s.title.includes("Chip Level")) label = "Chip Level Service";
+  else if (s.title.includes("Data Backup")) label = "Data Backup";
+  else if (s.title.includes("Software Installation")) label = "Software Install";
+  else if (s.title.includes("Custom PC")) label = "Custom PC Build";
+  else if (s.title.includes("Refurbished Laptops")) label = "Refurbished Laptops";
+  else if (s.title.includes("New Laptops")) label = "New Laptops";
+  else if (s.title.includes("Accessories")) label = "Accessories Sales";
+  return { label, title: s.title, price: s.priceRange };
+});
+const itMap = itServicesData.map(s => {
+  let label = s.title;
+  if (s.title.includes("Website Development")) label = "Website Development";
+  return { label, title: s.title, price: s.priceRange };
+});
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState(initialMessages);
   const [inputValue, setInputValue] = useState('');
+  const [quickReplies, setQuickReplies] = useState(DEFAULT_QUICK_REPLIES);
+  const [isWaitingForTicket, setIsWaitingForTicket] = useState(false);
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -25,34 +47,172 @@ const Chatbot = () => {
     const newMessages = [...messages, { sender: 'user', text }];
     setMessages(newMessages);
     setInputValue('');
-    setTimeout(() => {
-      const lowerText = text.toLowerCase();
+    setTimeout(async () => {
+      const lowerText = text.toLowerCase().trim();
       let botResponse = "I'm sorry, I didn't quite catch that. Could you try rephrasing or choose one of the quick options below?";
-      if (lowerText.includes("book") || lowerText.includes("booking") || lowerText.includes("appoint") || lowerText.includes("reserve")) {
+      let nextReplies = DEFAULT_QUICK_REPLIES;
+      const isTicketPattern = /^sian-\d{4}-\d+$/i.test(lowerText);
+      const matchedHW = hardwareMap.find(h =>
+        lowerText === h.label.toLowerCase() ||
+        lowerText === h.title.toLowerCase() ||
+        (lowerText.includes("laptop") && h.label === "Laptop Repair" && (lowerText.includes("repair") || lowerText.includes("service"))) ||
+        (lowerText.includes("computer") && h.label === "Computer Repair" && (lowerText.includes("repair") || lowerText.includes("service"))) ||
+        (lowerText.includes("printer") && h.label === "Printer Repair" && (lowerText.includes("repair") || lowerText.includes("service"))) ||
+        (lowerText.includes("drone") && h.label === "Drone Service") ||
+        (lowerText.includes("chip") && h.label === "Chip Level Service") ||
+        (lowerText.includes("cctv") && h.label === "CCTV Installation") ||
+        (lowerText.includes("backup") && h.label === "Data Backup") ||
+        (lowerText.includes("software") && h.label === "Software Install") ||
+        (lowerText.includes("custom") && h.label === "Custom PC Build") ||
+        (lowerText.includes("refurbished") && h.label === "Refurbished Laptops") ||
+        (lowerText.includes("new laptop") && h.label === "New Laptops") ||
+        (lowerText.includes("accessory") && h.label === "Accessories Sales")
+      );
+      const matchedIT = itMap.find(i =>
+        lowerText === i.label.toLowerCase() ||
+        lowerText === i.title.toLowerCase() ||
+        (lowerText.includes("web") && i.label === "Website Development") ||
+        (lowerText.includes("freelance") && i.label === "Freelancing IT Services")
+      );
+      if (lowerText === "main menu" || lowerText === "back to main") {
+        botResponse = "How else can I assist you today?";
+        nextReplies = DEFAULT_QUICK_REPLIES;
+        setIsWaitingForTicket(false);
+      } else if (isWaitingForTicket || isTicketPattern) {
+        try {
+          const booking = await bookingStore.getBookingByTicket(text.trim());
+          if (booking) {
+            const statusClass = booking.status === 'Completed' ? 'chat-status-completed' : booking.status === 'Cancelled' ? 'chat-status-cancelled' : 'chat-status-other';
+            botResponse = (
+              <div className="chat-tracking-info">
+                <p style={{ margin: '0 0 8px 0', fontSize: '0.95rem' }}>🔍 <strong>Status for Ticket #{booking.ticketId}:</strong></p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+                  <div>👤 <strong>Customer:</strong> {booking.name}</div>
+                  <div>🛠️ <strong>Service:</strong> {booking.service}</div>
+                  <div>📌 <strong>Status:</strong>{' '}
+                    <span className={`chat-status-badge ${statusClass}`}>{booking.status}</span>
+                  </div>
+                  <div>💰 <strong>Estimated Cost:</strong> {booking.estimatedCost}</div>
+                  <div>📅 <strong>Estimated Delivery:</strong> {booking.estimatedDelivery}</div>
+                  <div style={{ borderTop: '1px solid rgba(128,128,128,0.2)', paddingTop: '6px', marginTop: '4px' }}>
+                    📝 <strong>Notes:</strong> <span style={{ fontStyle: 'italic' }}>"{booking.notes}"</span>
+                  </div>
+                </div>
+              </div>
+            );
+            nextReplies = ["Track Another Ticket", "Main Menu"];
+            setIsWaitingForTicket(false);
+          } else {
+            botResponse = (
+              <span>
+                I couldn't find any service record for Ticket ID <strong>{text}</strong>. Please check the ID and try again, or type <strong>Main Menu</strong> to exit.
+              </span>
+            );
+            nextReplies = ["Main Menu"];
+            setIsWaitingForTicket(true);
+          }
+        } catch (err) {
+          console.error("Error fetching ticket in chat:", err);
+          botResponse = "Sorry, I encountered an error checking your ticket status. Please try again later or visit our Track Ticket page.";
+          nextReplies = DEFAULT_QUICK_REPLIES;
+          setIsWaitingForTicket(false);
+        }
+      } else if (lowerText === "track another ticket" || lowerText === "track another service") {
+        botResponse = (
+          <span>Please enter your <strong>Ticket ID</strong> (e.g., <code>SIAN-2026-1002</code>) to track your service live, or visit our{' '}
+            <Link to="/track" className="chat-link" onClick={() => setIsOpen(false)}>Track Ticket</Link> page.
+          </span>
+        );
+        nextReplies = ["Main Menu"];
+        setIsWaitingForTicket(true);
+      } else if (lowerText === "hardware services") {
+        botResponse = "Here are our Hardware Services. Click one of the options below to see its pricing:";
+        nextReplies = [...hardwareMap.map(h => h.label), "Back to Pricing", "Main Menu"];
+      } else if (lowerText === "it services") {
+        botResponse = "Here are our IT Services. Click one of the options below to see its pricing:";
+        nextReplies = [...itMap.map(i => i.label), "Back to Pricing", "Main Menu"];
+      } else if (matchedHW) {
+        botResponse = (
+          <span>The pricing for <strong>{matchedHW.title}</strong> is <strong>{matchedHW.price}</strong>.</span>
+        );
+        nextReplies = ["Check More Prices", "Main Menu"];
+      } else if (matchedIT) {
+        botResponse = (
+          <span>The pricing for <strong>{matchedIT.title}</strong> is <strong>{matchedIT.price}</strong>.</span>
+        );
+        nextReplies = ["Check More Prices", "Main Menu"];
+      } else if (
+        lowerText.includes("price") ||
+        lowerText.includes("cost") ||
+        lowerText.includes("pricing") ||
+        lowerText === "back to pricing" ||
+        lowerText === "check more prices"
+      ) {
+        botResponse = (
+          <span>Would you like to check the pricing for <strong>Hardware Services</strong> or <strong>IT Services</strong>?</span>
+        );
+        nextReplies = ["Hardware Services", "IT Services", "Main Menu"];
+      } else if (lowerText.includes("book") || lowerText.includes("booking") || lowerText.includes("appoint") || lowerText.includes("reserve")) {
         botResponse = (
           <span>You can book a service directly on our{' '}
             <Link to="/book-service" className="chat-link" onClick={() => setIsOpen(false)}> Book Service</Link>{' '}page. Fill out the details, and we'll confirm your schedule!
           </span>
         );
+        nextReplies = DEFAULT_QUICK_REPLIES;
       } else if (lowerText.includes("track") || lowerText.includes("status") || lowerText.includes("where") || lowerText.includes("ticket")) {
         botResponse = (
-          <span>You can track the status of your service/repair on our{' '}
-            <Link to="/track" className="chat-link" onClick={() => setIsOpen(false)}>Track Service</Link>{' '}page. Just enter your Ticket ID to see the updates.
+          <span>Please enter your <strong>Ticket ID</strong> (e.g., <code>SIAN-2026-1002</code>) to track your service live, or visit our{' '}
+            <Link to="/track" className="chat-link" onClick={() => setIsOpen(false)}>Track Ticket</Link> page.
           </span>
         );
+        nextReplies = ["Main Menu"];
+        setIsWaitingForTicket(true);
       } else if (lowerText.includes("service") || lowerText.includes("what do you do")) {
-        const serviceNames = services.map(s => s.title).join(', ');
-        botResponse = `We offer a variety of services including: ${serviceNames}. Which one would you like to know more about?`;
-      } else if (lowerText.includes("price") || lowerText.includes("cost") || lowerText.includes("pricing")) {
-        botResponse = "Our general diagnostics fee is ₹150, and standard repair/general service starts at ₹350. Prices vary depending on the issue and complexity. For a detailed estimate, please contact us!";
+        botResponse = (
+          <div className="chat-services-list" style={{ textAlign: 'left', lineHeight: '1.4' }}>
+            <p style={{ margin: '0 0 8px 0' }}>We offer a variety of services:</p>
+            <strong style={{ display: 'block', margin: '8px 0 4px 0', fontSize: '0.9rem' }}>Hardware & Repair Services:</strong>
+            <ul style={{ paddingLeft: '20px', margin: '0 0 10px 0', display: 'flex', flexDirection: 'column', gap: '3px' }}>
+              {services.map((s) => (
+                <li key={s.id}>{s.title}</li>
+              ))}
+            </ul>
+            <strong style={{ display: 'block', margin: '8px 0 4px 0', fontSize: '0.9rem' }}>IT Services:</strong>
+            <ul style={{ paddingLeft: '20px', margin: '0 0 4px 0', display: 'flex', flexDirection: 'column', gap: '3px' }}>
+              {itServicesData.map((s) => (
+                <li key={s.id}>{s.title}</li>
+              ))}
+            </ul>
+            <p style={{ margin: '8px 0 0 0', fontSize: '0.85rem', opacity: 0.8 }}>
+              Click on <strong>Pricing info</strong> or ask about any service to see details.
+            </p>
+          </div>
+        );
+        nextReplies = DEFAULT_QUICK_REPLIES;
       } else if (lowerText.includes("contact") || lowerText.includes("phone") || lowerText.includes("email") || lowerText.includes("address")) {
-        botResponse = `You can reach us at ${companyInfo.phone} or email us at ${companyInfo.email}. We are located at ${companyInfo.address}.`;
+        botResponse = (
+          <div className="chat-contact-info" style={{ textAlign: 'left', lineHeight: '1.4' }}>
+            <p style={{ margin: '0 0 8px 0' }}>You can reach us at:</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <div>📞 <strong>Contact Number:</strong> {companyInfo.phone}</div>
+              <div>✉️ <strong>Email:</strong> <a href={`mailto:${companyInfo.email}`} className="chat-link">{companyInfo.email}</a></div>
+              <div>📸 <strong>Instagram:</strong> <a href="https://www.instagram.com/sian_smart_tech?igsh=MTJ5Y3YybXl3aXBrYQ==" target="_blank" rel="noopener noreferrer" className="chat-link">@sian_smart_tech</a></div>
+              <div>📍 <strong>Shop Location:</strong> {companyInfo.address}</div>
+            </div>
+          </div>
+        );
+        nextReplies = DEFAULT_QUICK_REPLIES;
       } else if (lowerText.includes("hour") || lowerText.includes("time") || lowerText.includes("open")) {
         botResponse = `Our business hours are: ${companyInfo.hours}.`;
+        nextReplies = DEFAULT_QUICK_REPLIES;
       } else if (lowerText.includes("hello") || lowerText.includes("hi")) {
         botResponse = "Hello! How can I assist you today?";
+        nextReplies = DEFAULT_QUICK_REPLIES;
+      } else {
+        nextReplies = quickReplies;
       }
       setMessages(prev => [...prev, { sender: 'bot', text: botResponse }]);
+      setQuickReplies(nextReplies);
     }, 600);
   };
   return (

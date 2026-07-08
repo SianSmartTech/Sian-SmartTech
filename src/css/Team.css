@@ -64,12 +64,13 @@
 
 .team-section-v2 .sian-smart-tech-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.06), 0 0 20px rgba(0, 242, 255, 0.15);
+  border-color: transparent !important;
 }
 
 [data-theme="dark"] .team-section-v2 .sian-smart-tech-card:hover {
-  border-color: rgba(59, 130, 246, 0.3);
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 0 20px rgba(59, 130, 246, 0.1);
+  border-color: transparent !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 242, 255, 0.3);
 }
 
 .team-icon-badge {

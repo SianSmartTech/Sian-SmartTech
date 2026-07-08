@@ -28,8 +28,8 @@
 
 .hw-premium-card:hover {
   transform: translateY(-8px);
-  border-color: rgba(0, 242, 255, 0.5);
-  box-shadow: 0 20px 40px rgba(0, 242, 255, 0.12), 0 0 30px rgba(0, 242, 255, 0.05);
+  border-color: #00f2ff !important;
+  box-shadow: 0 20px 40px rgba(0, 242, 255, 0.35), 0 0 30px rgba(0, 242, 255, 0.15);
 }
 
 .hw-selected-card {
@@ -511,12 +511,10 @@
   transform: translateY(-3px);
 }
 
-/* Ensure white text for inactive button in dark theme */
 [data-theme="dark"] .hw-tab-btn {
   color: #ffffff !important;
 }
 
-/* Circle icon container inside hardware tab buttons */
 .hw-tab-btn .btn-icon-circle {
   background: #ffffff !important;
   border-radius: 50% !important;
@@ -544,4 +542,72 @@
 
 .hw-tab-btn:not(.active):hover .btn-icon-circle svg {
   transform: scale(1.15) rotate(10deg);
+}
+
+@media (max-width: 768px) {
+  .hw-tabs-container {
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    padding: 0.5rem 1.5rem 1rem !important;
+    margin-left: -1.5rem !important;
+    margin-right: -1.5rem !important;
+    margin-bottom: 2rem !important;
+    -webkit-overflow-scrolling: touch !important;
+    scrollbar-width: thin !important;
+    scrollbar-color: rgba(70, 130, 180, 0.2) rgba(70, 130, 180, 0.05) !important;
+  }
+
+  .hw-tabs-container::-webkit-scrollbar {
+    display: block !important;
+    height: 5px !important;
+  }
+
+  .hw-tabs-container::-webkit-scrollbar-track {
+    background: rgba(70, 130, 180, 0.05) !important;
+    border-radius: 99px !important;
+  }
+
+  .hw-tabs-container::-webkit-scrollbar-thumb {
+    background: rgba(70, 130, 180, 0.2) !important;
+    border-radius: 99px !important;
+  }
+
+  .hw-tabs-container::-webkit-scrollbar-thumb:hover {
+    background: rgba(70, 130, 180, 0.4) !important;
+  }
+
+  .hw-tab-btn {
+    flex-shrink: 0 !important;
+    padding: 0.4rem 0.4rem 0.4rem 1.2rem !important;
+    font-size: 0.85rem !important;
+    gap: 1rem !important;
+  }
+
+  .hw-tab-btn .btn-icon-circle {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .hw-tab-btn.active {
+    box-shadow: 0 4px 12px rgba(70, 130, 180, 0.2) !important;
+    transform: none !important;
+  }
+
+  .hw-tab-btn:hover:not(.active),
+  .hw-tab-btn.active:hover {
+    transform: none !important;
+    box-shadow: 0 4px 12px rgba(70, 130, 180, 0.2) !important;
+  }
+
+  .hw-tab-btn:hover:not(.active) {
+    background: rgba(70, 130, 180, 0.08) !important;
+    border-color: #4682B4 !important;
+    box-shadow: none !important;
+  }
+
+  .hw-tab-btn.active:hover {
+    background: #4682B4 !important;
+    border-color: #4682B4 !important;
+  }
 }

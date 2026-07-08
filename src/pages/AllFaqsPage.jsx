@@ -51,7 +51,7 @@ const allFaqsData = [
   {
     id: 10,
     question: 'Can I track the status of my repair online?',
-    answer: 'Currently, you can track your repair status by contacting us with your ticket number. We are working on an online tracking system that will be available soon.'
+    answer: 'Yes, you can track the status of your repair online on our Track Ticket page by entering your Ticket ID.'
   },
   {
     id: 11,

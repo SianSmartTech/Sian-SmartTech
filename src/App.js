@@ -17,7 +17,7 @@ import BookServicePage from "./pages/BookServicePage";
 import WhatsAppButton from "./components/WhatsAppButton";
 import Chatbot from "./components/Chatbot";
 import AdminDashboard from "./pages/AdminDashboard";
-import TrackService from "./pages/TrackService";
+import TrackTicket from "./pages/TrackTicket";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 function AppContent() {
@@ -31,7 +31,7 @@ function AppContent() {
       "/book-service": "Book a Service | Sian SmartTech",
       "/faq": "Frequently Asked Questions | Sian SmartTech",
       "/admin": "Admin Dashboard | Sian SmartTech",
-      "/track": "Track Service | Sian SmartTech"
+      "/track": "Track Ticket | Sian SmartTech"
     };
     document.title = routeTitles[location.pathname] || "Sian SmartTech | Tech Experts";
   }, [location.pathname]);
@@ -56,7 +56,6 @@ function AppContent() {
       }
     };
     document.addEventListener('contextmenu', handleContextMenu);
-
     const handleMouseMove = (e) => {
       if (!ticking) {
         requestAnimationFrame(() => {
@@ -82,19 +81,14 @@ function AppContent() {
     };
     window.addEventListener('mousemove', handleMouseMove, { passive: true });
     window.addEventListener('mouseover', handleMouseOver, { passive: true });
-
     return () => {
       window.removeEventListener('mousemove', handleMouseMove);
       window.removeEventListener('mouseover', handleMouseOver);
       document.removeEventListener('contextmenu', handleContextMenu);
     };
   }, []);
-
   useEffect(() => {
-    const observerOptions = {
-      threshold: 0.02,
-      rootMargin: "0px 0px 80px 0px",
-    };
+    const observerOptions = { threshold: 0.02, rootMargin: "0px 0px 80px 0px" };
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
@@ -146,8 +140,8 @@ function AppContent() {
         <Route path="/all-faqs" element={<AllFaqsPage />} />
         <Route path="/book-service" element={<BookServicePage />} />
         <Route path="/admin" element={<ProtectedRoute> <AdminDashboard /> </ProtectedRoute>} />
-        <Route path="/track" element={<TrackService />} />
-        <Route path="/track/:ticketId" element={<TrackService />} />
+        <Route path="/track" element={<TrackTicket />} />
+        <Route path="/track/:ticketId" element={<TrackTicket />} />
       </Routes>
       {!isAdmin && <Footer />}
       <ScrollToTop />

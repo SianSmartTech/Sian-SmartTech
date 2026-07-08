@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import "../css/App.css";
-import { Play, ArrowUpRight, Zap } from 'lucide-react';
+import { ArrowUpRight, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 const Hero = () => {
   const sectionRef = useRef(null);
@@ -37,7 +37,8 @@ const Hero = () => {
   };
   useEffect(() => {
     const loadedImages = [];
-    const totalFrames = 240;
+    const isMobile = window.innerWidth <= 768;
+    const totalFrames = isMobile ? 1 : 240;
     for (let i = 1; i <= totalFrames; i++) {
       loadedImages.push(new Image());
     }
@@ -51,6 +52,7 @@ const Hero = () => {
       setCanvasLoaded(true);
     }
     const loadRemaining = () => {
+      if (isMobile) return;
       let currentIndex = 1;
       const batchSize = 6;
       const delayBetweenBatches = 80;
@@ -141,7 +143,8 @@ const Hero = () => {
       } else {
         currentFrameRef.current += diff * 0.12;
       }
-      const renderFrame = Math.max(0, Math.min(239, Math.round(currentFrameRef.current)));
+      const isMobile = window.innerWidth <= 768;
+      const renderFrame = isMobile ? 0 : Math.max(0, Math.min(239, Math.round(currentFrameRef.current)));
       const img = imagesRef.current[renderFrame];
       if (img) {
         if (!img.src || img.src === window.location.href) {
@@ -272,13 +275,13 @@ const Hero = () => {
                 <p className="hero-ss-subtitle">Whether it is a laptop repair, CCTV installation, or custom website development, Sian SmartTech delivers high-quality service at unbeatable prices.</p>
                 <div className="hero-ss-actions">
                   <Link to="/book-service" className="btn-ss-primary">
-                    <span>BOOK SERVICE NOW</span>
+                    <span>BOOK SERVICE</span>
                     <span className="btn-icon-circle">
                       <ArrowUpRight size={18} strokeWidth={2.5} />
                     </span>
                   </Link>
                   <a href="/" className="btn-ss-secondary" onClick={(e) => { e.preventDefault(); document.getElementById('services')?.scrollIntoView({ behavior: 'smooth' }); }}>
-                    <span>BROWSE SERVICES</span>
+                    <span>ALL SERVICES</span>
                     <span className="btn-icon-circle">
                       <Zap size={16} strokeWidth={2.5} fill="currentColor" />
                     </span>

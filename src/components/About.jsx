@@ -30,7 +30,7 @@ const About = () => {
         </div>
         <div className="about-v2-right">
           <div className="about-image-wrapper">
-            <img src="/images/about_repair.webp" alt="Expert Electronic Repair"/>
+            <img src="/images/about_repair.webp" alt="Expert Electronic Repair" />
           </div>
           <div className="about-badge">
             <div className="team-heads">

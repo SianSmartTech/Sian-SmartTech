@@ -136,13 +136,7 @@ const GoogleReviews = () => {
                 <p className="sian-smart-tech-card-text">"{review.text}"</p>
                 <div className="sian-smart-tech-card-stars">
                   {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      size={15}
-                      fill={i < review.rating ? "#fbbf24" : "transparent"}
-                      color={i < review.rating ? "#fbbf24" : "#cbd5e1"}
-                      className="sian-smart-tech-star-icon"
-                    />
+                    <Star key={i} size={15} fill={i < review.rating ? "#fbbf24" : "transparent"} color={i < review.rating ? "#fbbf24" : "#cbd5e1"} className="sian-smart-tech-star-icon" />
                   ))}
                 </div>
                 <div className="sian-smart-tech-card-profile">

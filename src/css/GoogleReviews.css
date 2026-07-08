@@ -70,11 +70,12 @@
 }
 
 .google-card-style:hover {
-  border-color: rgba(66, 133, 244, 0.3) !important;
+  border-color: transparent !important;
 }
 
 [data-theme="dark"] .google-card-style:hover {
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 0 20px rgba(66, 133, 244, 0.1) !important;
+  border-color: transparent !important;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 0 25px rgba(0, 242, 255, 0.3) !important;
 }
 
 .google-badge-style {

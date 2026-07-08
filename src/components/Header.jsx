@@ -14,7 +14,8 @@ const Header = () => {
     { label: 'Home', href: '/' },
     { label: 'About Us', href: '/about' },
     { label: 'Services', href: '#', dropdown: [{ label: 'Hardware Services', href: '/hardware-services' }, { label: 'IT Services', href: '/it-services' }] },
-    { label: 'Pages', href: '#', dropdown: [{ label: 'Price List', href: '/price-list' }, { label: 'FAQ', href: '/faq' }, { label: 'Track Service', href: '/track' }] },
+    { label: 'Pages', href: '#', dropdown: [{ label: 'Price List', href: '/price-list' }, { label: 'FAQ', href: '/faq' }] },
+    { label: 'Track Ticket', href: '/track' },
     { label: 'Book Service', href: '/book-service' }
   ];
   const handleLinkClick = (e, item) => {
