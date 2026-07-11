@@ -7,9 +7,9 @@ const AboutPage = () => {
     { id: '03', title: 'Solve Your Problem', description: 'Fast and efficient repair using genuine parts to get you back on track. We ensure quality with every fix.', icon: <Wrench size={32} color="#41C8F3" /> }
   ];
   const stats = [
-    { label: 'Happy Clients', count: '1500+', icon: <Smile size={40} color="var(--accent-primary)" /> },
-    { label: 'Members Active', count: '25+', icon: <Users size={40} color="var(--accent-primary)" /> },
-    { label: 'Years Experience', count: '10+', icon: <Award size={40} color="var(--accent-primary)" /> }
+    { label: 'Happy Clients', count: '150+', icon: <Smile size={40} color="var(--accent-primary)" /> },
+    { label: 'Members Active', count: '2+', icon: <Users size={40} color="var(--accent-primary)" /> },
+    { label: 'Years Experience', count: '5+', icon: <Award size={40} color="var(--accent-primary)" /> }
   ];
   return (
     <div className="v2-page-layout">

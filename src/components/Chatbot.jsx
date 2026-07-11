@@ -189,10 +189,13 @@ const Chatbot = () => {
           </div>
         );
         nextReplies = DEFAULT_QUICK_REPLIES;
-      } else if (lowerText.includes("contact") || lowerText.includes("phone") || lowerText.includes("email") || lowerText.includes("address")) {
+      } else if (
+        lowerText.includes("hardware contact") ||
+        (lowerText.includes("contact") && lowerText.includes("hardware"))
+      ) {
         botResponse = (
           <div className="chat-contact-info" style={{ textAlign: 'left', lineHeight: '1.4' }}>
-            <p style={{ margin: '0 0 8px 0' }}>You can reach us at:</p>
+            <p style={{ margin: '0 0 8px 0' }}><strong>Hardware Services Contact:</strong></p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <div>📞 <strong>Contact Number:</strong> {companyInfo.phone}</div>
               <div>✉️ <strong>Email:</strong> <a href={`mailto:${companyInfo.email}`} className="chat-link">{companyInfo.email}</a></div>
@@ -202,6 +205,23 @@ const Chatbot = () => {
           </div>
         );
         nextReplies = DEFAULT_QUICK_REPLIES;
+      } else if (
+        lowerText.includes("it contact") ||
+        (lowerText.includes("contact") && lowerText.includes("it"))
+      ) {
+        botResponse = (
+          <div className="chat-contact-info" style={{ textAlign: 'left', lineHeight: '1.4' }}>
+            <p style={{ margin: '0 0 8px 0' }}><strong>IT Services Contact:</strong></p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+              <div>📞 <strong>Contact Number:</strong> 8056534429</div>
+              <div>✉️ <strong>Email:</strong> <a href="mailto:santhoshsandy81140@gmail.com" className="chat-link">santhoshsandy81140@gmail.com</a></div>
+            </div>
+          </div>
+        );
+        nextReplies = DEFAULT_QUICK_REPLIES;
+      } else if (lowerText.includes("contact") || lowerText.includes("phone") || lowerText.includes("email") || lowerText.includes("address")) {
+        botResponse = "Would you like the contact details for Hardware Services or IT Services?";
+        nextReplies = ["Hardware Contact", "IT Contact", "Main Menu"];
       } else if (lowerText.includes("hour") || lowerText.includes("time") || lowerText.includes("open")) {
         botResponse = `Our business hours are: ${companyInfo.hours}.`;
         nextReplies = DEFAULT_QUICK_REPLIES;

@@ -11,6 +11,15 @@ const Contact = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!formData.email || !formData.email.trim()) {
+      toast.error('Please enter your email address.');
+      return;
+    }
+    if (!emailRegex.test(formData.email.trim())) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
     setIsSubmitting(true);
     const contactUrl = process.env.REACT_APP_GOOGLE_CONTACT_SHEETS_URL;
     if (!contactUrl) {

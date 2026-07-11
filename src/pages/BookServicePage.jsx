@@ -28,10 +28,49 @@ const BookServicePage = () => {
   }, [location]);
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    if (name === 'phone') {
+      const cleaned = value.replace(/\D/g, '').slice(0, 10);
+      setFormData(prev => ({ ...prev, [name]: cleaned }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!formData.name || !formData.name.trim()) {
+      toast.error('Please enter your full name.');
+      return;
+    }
+    if (!formData.email || !formData.email.trim()) {
+      toast.error('Please enter your email address.');
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      toast.error('Please enter a valid email address.');
+      return;
+    }
+    if (!formData.phone || !formData.phone.trim()) {
+      toast.error('Please enter your mobile number.');
+      return;
+    }
+    const phoneRegex = /^[6-9]\d{9}$/;
+    if (!phoneRegex.test(formData.phone)) {
+      toast.error('Mobile number must be exactly 10 digits and start with 6, 7, 8, or 9.');
+      return;
+    }
+    if (!formData.address || !formData.address.trim()) {
+      toast.error('Please enter your full address.');
+      return;
+    }
+    if (!formData.service) {
+      toast.error('Please select a service type.');
+      return;
+    }
+    if (!formData.issue || !formData.issue.trim()) {
+      toast.error('Please describe your issue.');
+      return;
+    }
     setIsSubmitting(true);
     try {
       await new Promise(resolve => setTimeout(resolve, 800));
@@ -86,10 +125,10 @@ const BookServicePage = () => {
               </div>
             </div>
           ) : (
-            <form className="contact-v2-form book-service-form" onSubmit={handleSubmit}>
+            <form className="contact-v2-form book-service-form" onSubmit={handleSubmit} noValidate>
               <input type="text" name="name" value={formData.name} onChange={handleChange} required placeholder="Full Name" className="contact-v2-input book-service-input-field" />
               <input type="email" name="email" value={formData.email} onChange={handleChange} required placeholder="Email Address" className="contact-v2-input book-service-input-field" />
-              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required placeholder="Mobile Number" className="contact-v2-input book-service-input-field" />
+              <input type="tel" name="phone" value={formData.phone} onChange={handleChange} required maxLength={10} placeholder="Mobile Number (10 digits)" className="contact-v2-input book-service-input-field" />
               <input type="text" name="address" value={formData.address} onChange={handleChange} required placeholder="Full Address" className="contact-v2-input book-service-address" />
               <select name="service" value={formData.service} onChange={handleChange} required className="contact-v2-input book-service-select">
                 <option value="" disabled>-- Select Service Type --</option>

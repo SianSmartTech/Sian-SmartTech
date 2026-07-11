@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Users, Clock, CheckCircle2, ClipboardList, Search, Edit3, X, Mail, TrendingUp, RefreshCw, Send, Check, AlertCircle, ShieldCheck, BarChart2, LogOut } from 'lucide-react';
+import { Users, Clock, CheckCircle2, ClipboardList, Search, Edit3, X, Mail, TrendingUp, RefreshCw, Send, Check, AlertCircle, BarChart2, LogOut, Menu } from 'lucide-react';
 import { toast, Toaster } from 'sonner';
 import { bookingStore } from '../utils/bookingStore';
 import { useAuth } from '../context/AuthContext';
@@ -19,6 +19,7 @@ const AdminDashboard = () => {
   const [editCost, setEditCost] = useState('');
   const [editDelivery, setEditDelivery] = useState('');
   const [isSyncing, setIsSyncing] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const handleLogout = async () => {
     try {
       await logout();
@@ -117,16 +118,34 @@ const AdminDashboard = () => {
   return (
     <div className="admin-root">
       <Toaster position="top-right" richColors />
+      <header className="admin-mobile-header">
+        <button className="admin-mobile-toggle" onClick={() => setIsSidebarOpen(true)} aria-label="Toggle Sidebar">
+          <Menu size={22} />
+        </button>
+        <div className="admin-mobile-brand">
+          <div className="admin-sidebar-brand-icon">
+            <img src="/favicon.png" alt="Logo" className="admin-brand-logo-img" />
+          </div>
+          <span className="admin-mobile-title">Admin Panel</span>
+        </div>
+        <div style={{ width: 22 }} />
+      </header>
+      {isSidebarOpen && (
+        <div className="admin-sidebar-backdrop" onClick={() => setIsSidebarOpen(false)} />
+      )}
       <div className="admin-dashboard-container">
-        <aside className="admin-sidebar">
+        <aside className={`admin-sidebar ${isSidebarOpen ? 'open' : ''}`}>
           <div className="admin-sidebar-brand">
             <div className="admin-sidebar-brand-icon">
-              <ShieldCheck size={18} />
+              <img src="/favicon.png" alt="Logo" className="admin-brand-logo-img" />
             </div>
-            <div>
+            <div className="admin-brand-texts">
               <div className="admin-sidebar-title">Admin Panel</div>
               <div className="admin-sidebar-sub">Sian SmartTech</div>
             </div>
+            <button className="admin-sidebar-close" onClick={() => setIsSidebarOpen(false)} aria-label="Close Sidebar">
+              <X size={18} />
+            </button>
           </div>
           <div>
             <span className="admin-sidebar-section-label">Navigation</span>
@@ -137,7 +156,7 @@ const AdminDashboard = () => {
                 { key: 'outbox', icon: <Mail size={17} />, label: 'Email Outbox' },
               ].map(({ key, icon, label }) => (
                 <li key={key} className="admin-menu-item">
-                  <button className={`admin-menu-btn ${activeTab === key ? 'active' : ''}`} onClick={() => setActiveTab(key)}><span className="admin-menu-icon">{icon}</span>{label}</button>
+                  <button className={`admin-menu-btn ${activeTab === key ? 'active' : ''}`} onClick={() => { setActiveTab(key); setIsSidebarOpen(false); }}><span className="admin-menu-icon">{icon}</span>{label}</button>
                 </li>
               ))}
             </ul>
@@ -158,7 +177,7 @@ const AdminDashboard = () => {
                 <div className="admin-profile-email-text">{user?.email}</div>
               </div>
             </div>
-            <button onClick={handleLogout} className="admin-btn-logout">
+            <button onClick={() => { handleLogout(); setIsSidebarOpen(false); }} className="admin-btn-logout">
               <LogOut size={14} /> Sign Out
             </button>
           </div>
@@ -453,7 +472,6 @@ const AdminDashboard = () => {
           </div>
         </div>
       )}
-
     </div>
   );
 };

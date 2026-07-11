@@ -26,16 +26,11 @@ const HardwareServices = () => {
         const activeTabOffsetLeft = activeTabEl.offsetLeft;
         const activeTabWidth = activeTabEl.offsetWidth;
         const scrollLeft = activeTabOffsetLeft + (activeTabWidth / 2) - (containerWidth / 2);
-
-        container.scrollTo({
-          left: scrollLeft,
-          behavior: 'smooth'
-        });
+        container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
       }
     }, 100);
     return () => clearTimeout(timer);
   }, [activeTab]);
-
   const displayServices = activeTab === 'all' ? services : services.filter(s => s.categories.includes(activeTab));
   const handleTabClick = (tab) => {
     setActiveTab(tab);
@@ -58,7 +53,6 @@ const HardwareServices = () => {
       default: return Icons.Cpu;
     }
   };
-
   return (
     <div className="v2-page-layout">
       <div className="contact-bg-text">HARDWARE</div>

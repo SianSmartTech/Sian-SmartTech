@@ -47,15 +47,21 @@
 }
 
 .admin-sidebar-brand-icon {
-  width: 36px;
-  height: 36px;
-  background: linear-gradient(135deg, #11678E 0%, #0d4e6c 100%);
+  width: 40px;
+  height: 40px;
+  background: transparent;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
   flex-shrink: 0;
+}
+
+.admin-brand-logo-img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
 }
 
 .admin-sidebar-title {
@@ -1208,6 +1214,99 @@
   margin-bottom: 8px;
 }
 
+.admin-mobile-header {
+  display: none;
+  background: var(--card-bg, #ffffff);
+  border-bottom: 1px solid rgba(17, 103, 142, 0.12);
+  padding: 12px 18px;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+
+[data-theme="dark"] .admin-mobile-header {
+  background: #101015;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.admin-mobile-toggle {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+}
+
+.admin-mobile-toggle:hover {
+  background: rgba(17, 103, 142, 0.08);
+  color: #11678E;
+}
+
+[data-theme="dark"] .admin-mobile-toggle:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: #67bed9;
+}
+
+.admin-mobile-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-mobile-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #11678E;
+}
+
+[data-theme="dark"] .admin-mobile-title {
+  color: #67bed9;
+}
+
+.admin-sidebar-close {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-secondary, #9ca3af);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  margin-left: auto;
+}
+
+.admin-sidebar-close:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .admin-sidebar-close:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+.admin-sidebar-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(3px);
+  z-index: 10000;
+  animation: fadeIn 0.25s ease;
+}
+
 @media (min-width: 1440px) {
   .admin-sidebar {
     width: 280px;
@@ -1251,69 +1350,104 @@
 }
 
 @media (max-width: 900px) {
+  .admin-mobile-header {
+    display: flex;
+  }
+
+  .admin-sidebar-close {
+    display: flex;
+  }
+
+  .admin-sidebar-backdrop {
+    display: block;
+  }
+
   .admin-dashboard-container {
     flex-direction: column;
+    min-height: calc(100vh - 60px);
   }
 
   .admin-sidebar {
-    width: 100%;
-    position: relative;
+    position: fixed;
     top: 0;
-    height: auto;
-    border-right: none;
-    border-bottom: 1px solid rgba(17, 103, 142, 0.12);
-    padding: 16px 20px;
-    gap: 16px;
-    flex-direction: row;
-    align-items: center;
-    flex-wrap: wrap;
+    left: 0;
+    height: 100vh;
+    width: 280px;
+    max-width: 85vw;
+    background: var(--card-bg, #ffffff);
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+    padding: 24px 20px;
+    border-right: 1px solid rgba(17, 103, 142, 0.12);
+    border-bottom: none;
+    box-shadow: none;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 
   [data-theme="dark"] .admin-sidebar {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    background: #101015;
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+  }
+
+  .admin-sidebar.open {
+    transform: translateX(0);
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.15);
+  }
+
+  [data-theme="dark"] .admin-sidebar.open {
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
   }
 
   .admin-sidebar-brand {
-    flex: 0 0 auto;
-    padding-bottom: 0;
-    border-bottom: none;
-    border-right: 1px solid rgba(17, 103, 142, 0.1);
-    padding-right: 16px;
-    margin-right: 6px;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(17, 103, 142, 0.12);
+    border-right: none;
+    padding-right: 0;
+    margin-right: 0;
+    gap: 10px;
   }
 
   [data-theme="dark"] .admin-sidebar-brand {
-    border-right: 1px solid rgba(255, 255, 255, 0.06);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-right: none;
   }
 
   .admin-sidebar-brand-icon {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
   }
 
   .admin-sidebar-title {
-    font-size: 0.75rem;
+    font-size: 0.85rem;
   }
 
   .admin-sidebar-section-label {
-    display: none;
+    display: block;
+    margin-bottom: 8px;
   }
 
   .admin-menu-list {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin-top: 0 !important;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 6px;
+    margin-top: 12px !important;
   }
 
   .admin-menu-item {
-    width: auto;
+    width: 100%;
   }
 
   .admin-menu-btn {
-    padding: 9px 16px;
-    font-size: 0.85rem;
-    border-radius: 8px;
+    padding: 11px 14px;
+    font-size: 0.9rem;
+    border-radius: 10px;
+    width: 100%;
   }
 
   .admin-main-content {
@@ -1411,30 +1545,13 @@
 }
 
 @media (max-width: 600px) {
-
   .admin-sidebar {
-    padding: 12px 14px;
-    gap: 10px;
-  }
-
-  .admin-sidebar-brand {
-    padding-right: 12px;
-    margin-right: 4px;
+    padding: 20px 16px;
+    gap: 20px;
   }
 
   .admin-sidebar-sub {
-    display: none;
-  }
-
-  .admin-menu-btn {
-    padding: 8px 12px;
-    font-size: 0.8rem;
-    gap: 6px;
-  }
-
-  .admin-menu-icon {
-    width: 15px;
-    height: 15px;
+    display: block;
   }
 
   .admin-main-content {
@@ -1542,13 +1659,8 @@
 }
 
 @media (max-width: 480px) {
-
   .admin-sidebar {
-    gap: 8px;
-  }
-
-  .admin-sidebar-brand {
-    display: none;
+    gap: 16px;
   }
 
   .admin-menu-list {
@@ -1556,8 +1668,8 @@
   }
 
   .admin-menu-btn {
-    padding: 7px 11px;
-    font-size: 0.78rem;
+    padding: 9px 12px;
+    font-size: 0.82rem;
   }
 
   .admin-stat-card {

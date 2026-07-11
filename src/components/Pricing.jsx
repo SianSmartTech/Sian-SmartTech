@@ -18,7 +18,7 @@ const Pricing = () => {
           <p className="pricing-v2-desc">Choose the plan that fits your needs. No hidden fees, no surprises.</p>
         </div>
         <div className="pricing-notice-banner reveal">
-          <p>📢 <strong>Please Note:</strong> Price depends on the problem and it depends on the work case scenario.</p>
+          <p>📢 <strong>Please Note:</strong>Price depends on the problem and it depends on the work case scenario.</p>
         </div>
         <div className="pricing-v2-grid">
           {pricing.map((plan) => (
