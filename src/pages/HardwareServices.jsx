@@ -1,7 +1,49 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import "../css/HardwareServices.css";
-import * as Icons from 'lucide-react';
+import {
+  Layers,
+  Wrench,
+  Laptop,
+  Monitor,
+  Printer,
+  Cctv,
+  Camera,
+  Plane,
+  Cpu,
+  Star,
+  Zap,
+  Video,
+  HardDrive,
+  Settings,
+  RefreshCw,
+  ShoppingBag,
+  Keyboard,
+  Globe,
+  Briefcase
+} from 'lucide-react';
+
+const Icons = {
+  Layers,
+  Wrench,
+  Laptop,
+  Monitor,
+  Printer,
+  Cctv,
+  Camera,
+  Plane,
+  Cpu,
+  Star,
+  Zap,
+  Video,
+  HardDrive,
+  Settings,
+  RefreshCw,
+  ShoppingBag,
+  Keyboard,
+  Globe,
+  Briefcase
+};
 import { services } from '../mockData';
 const HardwareServices = () => {
   const location = useLocation();

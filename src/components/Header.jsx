@@ -1,9 +1,8 @@
 import { useState, useEffect } from 'react';
-import { Moon, Sun, Menu, X, ChevronDown, Phone, MapPin } from 'lucide-react';
+import { Moon, Sun, Menu, X, ChevronDown } from 'lucide-react';
 import logo from '../assets/images/heroes/sian_smarttech_logo.webp';
 import { useTheme } from '../context/ThemeContext';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { companyInfo } from '../mockData';
 import "../css/App.css";
 const Header = () => {
   const { theme, toggleTheme } = useTheme();
@@ -64,24 +63,6 @@ const Header = () => {
   }, []);
   return (
     <>
-      <div className="header-top-bar">
-        <div className="header-top-container">
-          <div className="header-top-left">
-            <a href={`tel:${companyInfo.phone.replace(/\s+/g, '')}`} className="header-top-item">
-              <Phone size={13} className="header-top-icon" />
-              <span>{companyInfo.phone}</span>
-            </a>
-            <span className="header-top-divider">|</span>
-            <a href="https://maps.google.com/maps?q=5%2F195%2C%20ponnu%20pillai%20thoppu%2C%20anuppanadi%2C%20madurai%20-%20625009" target="_blank" rel="noopener noreferrer" className="header-top-item">
-              <MapPin size={13} className="header-top-icon" />
-              <span>{companyInfo.address}</span>
-            </a>
-          </div>
-          <div className="header-top-right">
-            <span>Hours: {companyInfo.hours}</span>
-          </div>
-        </div>
-      </div>
       <header className="header-fixed">
         <div className="header-container">
           <div className="header-logo" onClick={() => navigate('/')}>
