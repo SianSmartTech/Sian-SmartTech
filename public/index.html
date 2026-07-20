@@ -106,22 +106,213 @@
       }]
     }
     </script>
+  <script>
+    document.documentElement.className += ' js-enabled';
+  </script>
+  <style>
+    .js-enabled .static-fallback {
+      display: none !important;
+    }
+  </style>
 </head>
 
 <body>
   <div id="root">
-    <div style="min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; font-family: 'Exo 2', sans-serif; background-color: #0a0a0a; color: #ffffff; text-align: center; padding: 20px;">
-      <h1 style="color: #00f2ff; margin-bottom: 20px;">Sian SmartTech - Custom PC Builds & Laptop Service</h1>
-      <h2 style="font-size: 1.5rem; margin-bottom: 15px;">Explore Service for PC Set Up, Cable Management & Drone Repair in Madurai</h2>
-      <p style="max-width: 600px; margin-bottom: 30px; line-height: 1.6; color: #a0a0a0;">
-        Welcome to Sian SmartTech! Explore our premium service offerings including custom PC builds, expert chip level laptop service, and specialized drone repair in Madurai. We provide professional PC set up and neat cable management to give you the best experience.
-      </p>
-      <div style="display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; margin-bottom: 30px;">
-        <span style="padding: 10px 20px; border: 1px solid #00f2ff; border-radius: 5px; color: #00f2ff;">Custom PC Builds</span>
-        <span style="padding: 10px 20px; border: 1px solid #00f2ff; border-radius: 5px; color: #00f2ff;">Chip Level Service</span>
-        <span style="padding: 10px 20px; border: 1px solid #00f2ff; border-radius: 5px; color: #00f2ff;">Drone Repair</span>
-      </div>
-      <p style="color: #666; font-size: 0.9rem;">Loading application...</p>
+    <div class="static-fallback">
+      <header>
+        <div class="logo"
+          style="font-family: 'Orbitron', sans-serif; font-size: 1.8rem; font-weight: bold; color: #ffffff;">Sian <span
+            style="color: #00f2ff;">SmartTech</span></div>
+        <p>Professional Computer, Laptop, and Drone Services in Madurai</p>
+        <nav>
+          <ul>
+            <li><a href="#services">Our Services</a></li>
+            <li><a href="#pricing">Price List</a></li>
+            <li><a href="#process">Technical Workflow</a></li>
+            <li><a href="#faq">Frequently Asked Questions</a></li>
+            <li><a href="#contact">Contact & Location</a></li>
+          </ul>
+        </nav>
+      </header>
+
+      <main>
+        <section id="hero">
+          <h1>Pro Tech Services in Madurai</h1>
+          <p class="lead">Unlock the full potential of your technology. Professional device repairs, hardware upgrades, and custom IT solutions tailored to your needs.</p>
+          <div class="highlight-box">
+            <h2>Technical Workflow & Precision</h2>
+            <p>Comprehensive diagnostics, precision chip-level micro-soldering, and rigorous stress testing protocols to ensure your devices function flawlessly. Pay only for the actual repairs done. Premium technical support and chip-level servicing at rates significantly lower than third-party and authorized stores.</p>
+          </div>
+        </section>
+
+        <section id="services">
+          <h2>Our Professional Services</h2>
+          <p>Experience the best laptop service and chip level repair in Madurai at Sian SmartTech. We specialize in custom PC builds, drone service, PC setup, cable management, and premium IT solutions.</p>
+
+          <div class="services-list">
+            <div class="service-item">
+              <h3>Laptop Repair & Service</h3>
+              <p>Complete hardware diagnostics, screen replacement, keyboard repair, battery replacements, and cooling system cleaning for all laptop brands.</p>
+              <p><strong>Benefits:</strong> Brand Warranty, Express Service, Genuine Spares</p>
+            </div>
+
+            <div class="service-item">
+              <h3>Computer Repair & Service</h3>
+              <p>Professional desktop computer repair, power supply replacement, motherboard servicing, hardware troubleshooting, and general servicing.</p>
+              <p><strong>Benefits:</strong> On-Site Repair, Expert Fixing, Diagnostic Report</p>
+            </div>
+
+            <div class="service-item">
+              <h3>Printer Repair & Service</h3>
+              <p>Laser & inkjet printer maintenance, paper jam resolution, printhead cleaning, cartridge refilling, and
+                printer network setup.</p>
+              <p><strong>Benefits:</strong> Toner Refill, Head Cleaned, Free Delivery</p>
+            </div>
+
+            <div class="service-item">
+              <h3>Drone Service & Assembly</h3>
+              <p>Custom drone assembly, flight controller tuning, motor mounting, propeller calibration, battery diagnostics, and crash repair.</p>
+              <p><strong>Benefits:</strong> Flight Test, ESC Calibration, Firmware Updates</p>
+            </div>
+
+            <div class="service-item">
+              <h3>Chip Level Motherboard Service</h3>
+              <p>Advanced microscopic soldering, BGA rework, bios reprogramming, motherboard short-circuit troubleshooting, and component IC replacements.</p>
+              <p><strong>Benefits:</strong> BGA Rework, IC Replacement, Bios Programming</p>
+            </div>
+
+            <div class="service-item">
+              <h3>CCTV Installation & Setup</h3>
+              <p>Secure indoor and outdoor CCTV camera setup, DVR/NVR network configuration, cable laying, and remote viewing setup on smartphones.</p>
+              <p><strong>Benefits:</strong> Remote Access, Night Vision IP, Secure Cabling</p>
+            </div>
+
+            <div class="service-item">
+              <h3>Data Backup & File Recovery</h3>
+              <p>Secure data backup setup, lost file recovery from hard drives or SSDs, forensic disk imaging, and regular backup automation.</p>
+              <p><strong>Benefits:</strong> Secure Storage, Lost Recovery, Auto Schedule</p>
+            </div>
+
+            <div class="service-item">
+              <h3>System Assembly & Custom PC Build</h3>
+              <p>Professional assembly of high-end gaming rigs, workstation setups, rendering PCs, custom cooling systems, and cable routing.</p>
+              <p><strong>Benefits:</strong> Cable Management, Stress Testing, Component Warranty</p>
+            </div>
+
+            <div class="service-item">
+              <h3>Website Development & Design</h3>
+              <p>Custom, highly responsive websites built with modern technologies like React, Next.js, and WordPress. High performance, SEO-friendly, and secure.</p>
+              <p><strong>Benefits:</strong> Responsive Design, SEO Optimized, Free Setup & Deployment</p>
+            </div>
+
+            <div class="service-item">
+              <h3>Freelancing IT Services</h3>
+              <p>Professional IT freelancing services including custom database setups, server integration, web applications, and network consultancy.</p>
+              <p><strong>Benefits:</strong> Custom Coding, Expert Consultants, On-Time Delivery</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="pricing">
+          <h2>Affordable and Transparent Price List</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Service Name</th>
+                <th>Price</th>
+                <th>Type</th>
+                <th>What is Included</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>General Diagnostics</td>
+                <td>₹150</td>
+                <td>Base fee</td>
+                <td>Initial troubleshooting, problem identification, physical checking, detailed repair estimate.</td>
+              </tr>
+              <tr>
+                <td>General Service & Repair</td>
+                <td>₹350</td>
+                <td>Standard</td>
+                <td>Complete cleaning & servicing, standard software diagnosis, minor repairs, thermal paste replacement.</td>
+              </tr>
+              <tr>
+                <td>OS Installation</td>
+                <td>₹350</td>
+                <td>One-time</td>
+                <td>Windows / Linux installation, driver configuration & updates, essential free tools setup, system performance tuning.</td>
+              </tr>
+              <tr>
+                <td>OS Installation + Backup</td>
+                <td>₹450</td>
+                <td>One-time</td>
+                <td>Full Operating System installation, complete user data backup, data migration & restore, driver setup.</td>
+              </tr>
+              <tr>
+                <td>Spare Part Replacement</td>
+                <td>₹200</td>
+                <td>Plus spare cost</td>
+                <td>Replacing screen, keyboard, RAM, SSD, professional mounting & fitting, compatibility verification, post-installation test.</td>
+              </tr>
+              <tr>
+                <td>Starter Website</td>
+                <td>₹2,999</td>
+                <td>One-time</td>
+                <td>Up to 5 pages, responsive design, basic SEO setup, 1 year free hosting, 30 days support.</td>
+              </tr>
+              <tr>
+                <td>Business Website</td>
+                <td>₹5,999</td>
+                <td>One-time</td>
+                <td>20+ pages, full functionality, WhatsApp integration, email notifications, advanced SEO, 1 year free hosting.</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <section id="process">
+          <h2>Our Technical Service Process</h2>
+          <ol>
+            <li><strong>Diagnostics:</strong> We thoroughly inspect your device to pinpoint the exact issue.</li>
+            <li><strong>Repair Quote:</strong> We provide an honest, transparent cost breakdown before proceeding.</li>
+            <li><strong>Precision Fixing:</strong> Our experts perform chip-level repair, upgrades, or servicing.</li>
+            <li><strong>Quality Testing:</strong> We stress test and verify your device to ensure it runs flawlessly.
+            </li>
+          </ol>
+        </section>
+
+        <section id="faq">
+          <h2>Frequently Asked Questions</h2>
+          <div class="faq-item">
+            <h3>What services does Sian SmartTech offer?</h3>
+            <p>Sian SmartTech offers professional repair services for computers, laptops, and mobile phones, including hardware diagnostics, screen replacements, battery repairs, and IT software solutions.</p>
+          </div>
+          <div class="faq-item">
+            <h3>Where is Sian SmartTech located?</h3>
+            <p>We are located at 105A/251, Sourashtra Teachers Colony, Anuppandai, Madurai, Tamil Nadu 625009.</p>
+          </div>
+          <div class="faq-item">
+            <h3>What is your turnaround time for repairs?</h3>
+            <p>Most standard computer and laptop repairs are completed within 1-2 days. Diagnostic services are often same-day, and custom PC assembly takes 1-2 days including testing.</p>
+          </div>
+        </section>
+
+        <section id="contact">
+          <h2>Contact Sian SmartTech</h2>
+          <p>Have a question or want to book a service? Get in touch with our team today!</p>
+          <ul>
+            <li><strong>Phone:</strong> +91 93446 78135</li>
+            <li><strong>Email:</strong> siansmarttech@gmail.com</li>
+            <li><strong>Address:</strong> 5/195, ponnu pillai thoppu, anuppanadi, madurai - 625009.</li>
+            <li><strong>Working Hours:</strong> Mon-Fri: 9AM-6PM, Sat: 10AM-4PM</li>
+          </ul>
+        </section>
+      </main>
+
+      <footer>
+        <p>&copy; 2026 Sian SmartTech. All rights reserved. Madurai, Tamil Nadu, India.</p>
+      </footer>
     </div>
   </div>
 </body>
