@@ -1,7 +1,7 @@
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
-const puppeteer = require('puppeteer');
+const { JSDOM, VirtualConsole } = require('jsdom');
 const PORT = 3000;
 const BUILD_DIR = path.join(__dirname, '..', 'build');
 const TEMP_INDEX_PATH = path.join(BUILD_DIR, 'index.temp.html');
@@ -31,7 +31,6 @@ const routes = [
   '/track'
 ];
 let server;
-let browser;
 function startServer() {
   server = http.createServer((req, res) => {
     let urlPath = decodeURIComponent(req.url).split('?')[0];
@@ -66,22 +65,46 @@ async function runPrerender() {
     throw new Error('index.html not found in build directory.');
   }
   await startServer();
-  browser = await puppeteer.launch({
-    headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox']
-  });
-  const page = await browser.newPage();
-  await page.setViewport({ width: 1200, height: 800 });
   for (const route of routes) {
     const url = `http://localhost:${PORT}${route}`;
-    await page.goto(url, { waitUntil: 'networkidle0', timeout: 30000 });
-    try {
-      await page.waitForSelector('.page-loading-fallback', { hidden: true, timeout: 5000 });
-    } catch (e) {
-      console.log(`[Prerender] Warning: Timeout waiting for page loader to hide on route: ${route}`);
-    }
-    await new Promise(resolve => setTimeout(resolve, 800));
-    const html = await page.content();
+    const virtualConsole = new VirtualConsole();
+    virtualConsole.sendTo(console, { omitJSDOMErrors: true });
+    const dom = await JSDOM.fromURL(url, {
+      resources: "usable",
+      runScripts: "dangerously",
+      pretendToBeVisual: true,
+      virtualConsole
+    });
+    const window = dom.window;
+    window.IntersectionObserver = class IntersectionObserver {
+      constructor() { }
+      observe() { }
+      unobserve() { }
+      disconnect() { }
+    };
+    window.matchMedia = window.matchMedia || function () {
+      return {
+        matches: false,
+        addListener: function () { },
+        removeListener: function () { }
+      };
+    };
+    window.Element.prototype.scrollTo = function () { };
+    window.scrollTo = function () { };
+    await new Promise((resolve) => {
+      const startTime = Date.now();
+      const interval = setInterval(() => {
+        const document = window.document;
+        const root = document.getElementById('root');
+        const loader = document.querySelector('.page-loading-fallback');
+        if ((root && root.children.length > 0 && !loader) || (Date.now() - startTime > 10000)) {
+          clearInterval(interval);
+          resolve();
+        }
+      }, 100);
+    });
+    await new Promise(resolve => setTimeout(resolve, 600));
+    const html = dom.serialize();
     let outputDir = BUILD_DIR;
     let outputFile = 'index.html';
     if (route !== '/') {
@@ -92,19 +115,17 @@ async function runPrerender() {
     }
     const outputPath = path.join(outputDir, outputFile);
     fs.writeFileSync(outputPath, html, 'utf8');
+    window.close();
   }
 }
 async function main() {
   try {
     await runPrerender();
+    console.log('[Prerender] All routes successfully pre-rendered!');
   } catch (error) {
     console.error('[Prerender] Error during pre-rendering:', error);
     process.exitCode = 1;
   } finally {
-    if (browser) {
-      await browser.close();
-
-    }
     if (server) {
       await new Promise((resolve) => server.close(resolve));
     }

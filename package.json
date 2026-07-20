@@ -18,7 +18,7 @@
     "postbuild": "node scripts/prerender.js"
   },
   "devDependencies": {
-    "puppeteer": "^22.6.0"
+    "jsdom": "^24.0.0"
   },
   "browserslist": {
     "production": [
