@@ -106,7 +106,7 @@ const TrackTicket = () => {
             </div>
             <div className="stepper-container">
               <div className="stepper-progress-bar">
-                <div className={`stepper-progress-fill ${ticketDetails.status === 'Cancelled' ? 'cancelled' : ''}`} style={{ '--progress-width': `${(currentStatusIndex / (statusSteps.length - 1)) * 90 + 5}%` }}></div>
+                <div className={`stepper-progress-fill ${ticketDetails.status === 'Cancelled' ? 'cancelled' : ''}`} style={{ width: `${(currentStatusIndex / (statusSteps.length - 1)) * 90 + 5}%` }}></div>
               </div>
               <div className="stepper-steps">
                 {statusSteps.map((step, idx) => {
@@ -131,7 +131,7 @@ const TrackTicket = () => {
               </div>
             </div>
             {ticketDetails.status === 'Cancelled' && (
-              <div className="status-summary-box track-cancelled-box">
+              <div className="status-summary-box track-cancelled-box" style={{ marginTop: '-10px', marginBottom: '30px' }}>
                 <div className="track-cancelled-header">
                   <ShieldAlert size={28} />
                   <div>

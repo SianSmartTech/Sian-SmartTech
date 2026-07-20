@@ -199,7 +199,6 @@
 }
 
 .stepper-progress-fill {
-  width: var(--progress-width, 0%);
   height: 100%;
   background: linear-gradient(90deg, #11678E 0%, #10b981 100%);
   border-radius: 2px;
@@ -349,11 +348,6 @@
   border: 1px solid rgba(17, 103, 142, 0.15);
   border-radius: 12px;
   padding: 25px;
-}
-
-.track-cancelled-box {
-  margin-top: -10px;
-  margin-bottom: 30px;
 }
 
 .detail-row {

@@ -62,21 +62,16 @@ const Contact = () => {
           <p className="contact-v2-desc"> Have questions or ready to transform your business with our tech solutions?
           </p>
           <div className="contact-v2-cards">
-            <div 
-              onClick={() => window.location.href = 'mailto:' + 'siansmarttech' + '@' + 'gmail.com'}
-              className="contact-v2-card accent-card"
-              style={{ cursor: 'pointer' }}
-              title="Click to email us"
-            >
+            <a href={`mailto:${companyInfo.email}`} className="contact-v2-card accent-card">
               <div className="contact-v2-card-icon"><Mail size={22} /></div>
               <div className="contact-v2-card-content">
                 <span className="contact-v2-card-label">Email us</span>
-                <span className="contact-v2-card-value">siansmarttech [at] gmail [dot] com</span>
+                <span className="contact-v2-card-value">{companyInfo.email}</span>
               </div>
               <div className="contact-v2-card-arrow">
                 <ArrowUpRight size={18} />
               </div>
-            </div>
+            </a>
             <a href={`tel:${companyInfo.phone}`} className="contact-v2-card accent-card">
               <div className="contact-v2-card-icon">
                 <Phone size={22} />
@@ -121,7 +116,7 @@ const Contact = () => {
           <textarea name="message" value={formData.message} onChange={handleChange} required rows="6" placeholder="Message" className="contact-v2-input contact-v2-textarea" ></textarea>
           <button type="submit" className="contact-v2-submit" disabled={isSubmitting}>
             {isSubmitting ? (
-              <span className="contact-submitting-text">
+              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%' }}>
                 <Loader2 size={18} className="animate-spin" /> Sending...
               </span>
             ) : (

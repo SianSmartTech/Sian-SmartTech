@@ -13,8 +13,7 @@
     "sonner": "^2.0.7"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build && node scripts/prerender.js"
+    "start": "react-scripts start"
   },
   "browserslist": {
     "production": [
@@ -27,8 +26,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "puppeteer": "^25.3.0"
   }
 }

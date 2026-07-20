@@ -141,7 +141,7 @@ const GoogleReviews = () => {
                 </div>
                 <div className="sian-smart-tech-card-profile">
                   <div className="sian-smart-tech-avatar-wrapper">
-                    <div className="sian-smart-tech-avatar-fallback" style={{ '--avatar-bg': getAvatarBg(review.authorName) }}>
+                    <div className="sian-smart-tech-avatar-fallback" style={{ background: getAvatarBg(review.authorName) }}>
                       {review.authorName.trim().charAt(0).toUpperCase()}
                     </div>
                     <div className="sian-smart-tech-avatar-badge google-badge-blue">

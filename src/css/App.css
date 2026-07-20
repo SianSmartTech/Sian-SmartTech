@@ -312,6 +312,7 @@ h6,
 .nav-dropdown-link svg {
   margin-top: 2px;
 }
+
 .header-fixed {
   position: fixed;
   top: 16px;
@@ -1069,7 +1070,6 @@ h6,
   opacity: 0;
   transform: translateY(50px);
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-  transition-delay: var(--delay, 0ms);
 }
 
 .reveal.active {
@@ -1230,22 +1230,6 @@ h6,
 
 .map-v2-iframe {
   filter: invert(90%) hue-rotate(180deg) brightness(0.9);
-  min-height: 400px;
-  display: block;
-}
-
-.map-hours-list {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  font-size: 0.95rem;
-  color: var(--text-secondary);
-  line-height: 1.4;
-}
-
-.map-holiday {
-  color: rgba(239, 68, 68, 0.95);
-  font-weight: 600;
 }
 
 [data-theme="light"] .map-v2-iframe {
@@ -1482,7 +1466,6 @@ h6,
   inset: 0;
   background-size: cover;
   background-position: center;
-  background-image: var(--card-bg-img);
   opacity: 0.6;
   transition: all 0.7s ease;
 }
@@ -3070,14 +3053,6 @@ h6,
   cursor: pointer;
   transition: all 0.3s ease;
   letter-spacing: 0.02em;
-}
-
-.contact-submitting-text {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  width: 100%;
 }
 
 [data-theme="light"] .contact-v2-submit {
@@ -5213,54 +5188,4 @@ img {
     width: 32px;
     height: 32px;
   }
-}
-
-/* Performance Optimizations Styles */
-.hero-mobile-bg {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center center;
-  background-repeat: no-repeat;
-  z-index: 1;
-  pointer-events: none;
-  mix-blend-mode: screen;
-  opacity: 0.35;
-}
-
-.route-loading-fallback {
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  background-color: #050505;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.spinner-loader {
-  width: 48px;
-  height: 48px;
-  border: 4px solid rgba(0, 242, 255, 0.1);
-  border-left-color: #00f2ff;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-.js-enabled .static-fallback {
-  display: none !important;
-}
-
-.static-fallback .logo {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 1.8rem;
-  font-weight: bold;
-  color: #ffffff;
-}
-
-.static-fallback .logo span {
-  color: #00f2ff;
 }

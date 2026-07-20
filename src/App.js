@@ -1,40 +1,39 @@
 import "./css/App.css";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
-import { useEffect, lazy, Suspense } from "react";
+import { useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
+import HardwareServices from "./pages/HardwareServices";
+import ITServices from "./pages/ITServices";
+import PriceListPage from "./pages/PriceListPage";
+import FaqPage from "./pages/FaqPage";
+import AboutPage from "./pages/AboutPage";
+import AllFaqsPage from "./pages/AllFaqsPage";
 import ScrollToTop from "./components/ScrollToTop";
+import BookServicePage from "./pages/BookServicePage";
 import WhatsAppButton from "./components/WhatsAppButton";
+import Chatbot from "./components/Chatbot";
+import AdminDashboard from "./pages/AdminDashboard";
+import TrackTicket from "./pages/TrackTicket";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-
-const HardwareServices = lazy(() => import("./pages/HardwareServices"));
-const ITServices = lazy(() => import("./pages/ITServices"));
-const PriceListPage = lazy(() => import("./pages/PriceListPage"));
-const FaqPage = lazy(() => import("./pages/FaqPage"));
-const AboutPage = lazy(() => import("./pages/AboutPage"));
-const AllFaqsPage = lazy(() => import("./pages/AllFaqsPage"));
-const BookServicePage = lazy(() => import("./pages/BookServicePage"));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
-const TrackTicket = lazy(() => import("./pages/TrackTicket"));
-const Chatbot = lazy(() => import("./components/Chatbot"));
 function AppContent() {
   const location = useLocation();
   useEffect(() => {
     const routeTitles = {
-      "/": "Sian SmartTech | Custom PC & Laptop Service, Madurai",
-      "/hardware-services": "Hardware Repair & Chip Level Service | Sian SmartTech",
-      "/it-services": "IT Software Solutions & PC Set Up | Sian SmartTech",
-      "/price-list": "Repair Service & Custom PC Price List | Sian SmartTech",
-      "/about": "About Sian SmartTech | Premium Tech Repair Experts",
-      "/book-service": "Book Laptop, PC & Drone Service | Sian SmartTech",
-      "/faq": "Frequently Asked Questions on Service | Sian SmartTech",
-      "/all-faqs": "All FAQs for Tech Repair Services | Sian SmartTech",
-      "/admin": "Admin Dashboard Control Panel | Sian SmartTech",
-      "/track": "Track Your Repair Service Ticket | Sian SmartTech"
+      "/": "Home | Sian SmartTech",
+      "/hardware-services": "Hardware Repair Services | Sian SmartTech",
+      "/it-services": "IT Software Solutions | Sian SmartTech",
+      "/price-list": "Price List | Sian SmartTech",
+      "/about": "About Us | Sian SmartTech",
+      "/book-service": "Book a Service | Sian SmartTech",
+      "/faq": "Frequently Asked Questions | Sian SmartTech",
+      "/all-faqs": "All FAQs | Sian SmartTech",
+      "/admin": "Admin Dashboard | Sian SmartTech",
+      "/track": "Track Ticket | Sian SmartTech"
     };
     const routeDescriptions = {
       "/": "Expert computer, laptop, and mobile repair services in Madurai. Sian SmartTech provides professional hardware diagnostics, IT solutions, and genuine parts.",
@@ -69,25 +68,8 @@ function AppContent() {
     }
   }, [location.state]);
   useEffect(() => {
-    const isMobile = window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 768;
     const cursor = document.querySelector('.custom-cursor');
     const glow = document.querySelector('.cursor-glow');
-    
-    if (isMobile) {
-      if (glow) glow.style.display = 'none';
-      if (cursor) cursor.style.display = 'none';
-      
-      const handleContextMenu = (e) => {
-        if (e.target.tagName === 'IMG') {
-          e.preventDefault();
-        }
-      };
-      document.addEventListener('contextmenu', handleContextMenu);
-      return () => {
-        document.removeEventListener('contextmenu', handleContextMenu);
-      };
-    }
-    
     let ticking = false;
     const handleContextMenu = (e) => {
       if (e.target.tagName === 'IMG') {
@@ -169,33 +151,23 @@ function AppContent() {
   return (
     <>
       {!isAdmin && <Header />}
-      <Suspense fallback={
-        <div className="route-loading-fallback">
-          <div className="spinner-loader"></div>
-        </div>
-      }>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/hardware-services" element={<HardwareServices />} />
-          <Route path="/it-services" element={<ITServices />} />
-          <Route path="/price-list" element={<PriceListPage />} />
-          <Route path="/faq" element={<FaqPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/all-faqs" element={<AllFaqsPage />} />
-          <Route path="/book-service" element={<BookServicePage />} />
-          <Route path="/admin" element={<ProtectedRoute> <AdminDashboard /> </ProtectedRoute>} />
-          <Route path="/track" element={<TrackTicket />} />
-          <Route path="/track/:ticketId" element={<TrackTicket />} />
-        </Routes>
-      </Suspense>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/hardware-services" element={<HardwareServices />} />
+        <Route path="/it-services" element={<ITServices />} />
+        <Route path="/price-list" element={<PriceListPage />} />
+        <Route path="/faq" element={<FaqPage />} />
+        <Route path="/about" element={<AboutPage />} />
+        <Route path="/all-faqs" element={<AllFaqsPage />} />
+        <Route path="/book-service" element={<BookServicePage />} />
+        <Route path="/admin" element={<ProtectedRoute> <AdminDashboard /> </ProtectedRoute>} />
+        <Route path="/track" element={<TrackTicket />} />
+        <Route path="/track/:ticketId" element={<TrackTicket />} />
+      </Routes>
       {!isAdmin && <Footer />}
       <ScrollToTop />
       {!isAdmin && <WhatsAppButton />}
-      {!isAdmin && (
-        <Suspense fallback={null}>
-          <Chatbot />
-        </Suspense>
-      )}
+      {!isAdmin && <Chatbot />}
     </>
   );
 }

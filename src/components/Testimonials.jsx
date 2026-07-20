@@ -120,7 +120,7 @@ const Testimonials = () => {
                     {testimonial.image ? (
                       <img src={testimonial.image} alt={`Client ${testimonial.name} - Sian SmartTech Madurai Customer`} className="sian-smart-tech-avatar-img" loading="lazy" decoding="async" />
                     ) : (
-                      <div className="sian-smart-tech-avatar-fallback" style={{ '--avatar-bg': getAvatarBg(testimonial.name) }}>
+                      <div className="sian-smart-tech-avatar-fallback" style={{ background: getAvatarBg(testimonial.name) }}>
                         {testimonial.name.trim().charAt(0).toUpperCase()}
                       </div>
                     )}

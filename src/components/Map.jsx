@@ -29,10 +29,10 @@ const Map = () => {
               </div>
               <div className="map-info-text">
                 <h3>Open Hours</h3>
-                <div className="map-hours-list">
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
                   <span><strong>Mon - Fri:</strong> 9:00 AM - 6:00 PM</span>
                   <span><strong>Saturday:</strong> 10:00 AM - 4:00 PM</span>
-                  <span className="map-holiday"><strong>Sunday:</strong> Holiday (Leave)</span>
+                  <span style={{ color: 'rgba(239, 68, 68, 0.95)', fontWeight: '600' }}><strong>Sunday:</strong> Holiday (Leave)</span>
                 </div>
               </div>
             </div>
@@ -42,7 +42,7 @@ const Map = () => {
             </a>
           </div>
           <div className="map-v2-container">
-            <iframe src={companyInfo.mapUrl} width="100%" height="100%" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Sian SmartTech Location" className="map-v2-iframe map-v2-iframe-border0"></iframe>
+            <iframe src={companyInfo.mapUrl} width="100%" height="100%" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Sian SmartTech Location" className="map-v2-iframe map-v2-iframe-border0" style={{ minHeight: '400px', display: 'block' }}></iframe>
           </div>
         </div>
       </div>

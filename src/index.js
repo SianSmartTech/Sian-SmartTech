@@ -1,15 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './css/App.css';
-import './css/fallback.css';
 import App from './App';
-const container = document.getElementById('root');
-if (container && container.hasChildNodes()) {
-  container.innerHTML = '';
-}
-const root = ReactDOM.createRoot(container);
+const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>
 );

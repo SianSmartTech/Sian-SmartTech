@@ -261,7 +261,7 @@ const AdminDashboard = () => {
           </div>
           <span className="admin-mobile-title">Admin Panel</span>
         </div>
-        <div className="admin-header-spacer" />
+        <div style={{ width: 22 }} />
       </header>
       {isSidebarOpen && (
         <div className="admin-sidebar-backdrop" onClick={() => setIsSidebarOpen(false)} />
@@ -329,7 +329,7 @@ const AdminDashboard = () => {
         </aside>
         <main className="admin-main-content">
           <div className="admin-page-header">
-            <div className="admin-page-header-left">
+            <div className="admin-page-header-left" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
               {isSidebarCollapsed && (
                 <button className="admin-sidebar-toggle-desktop" onClick={() => setIsSidebarCollapsed(false)} aria-label="Open Sidebar">
                   <Menu size={18} />
@@ -349,8 +349,8 @@ const AdminDashboard = () => {
           </div>
           {activeTab === 'dashboard' && (
             <>
-              <h2 className="admin-section-heading">
-                <span className="admin-heading-indicator"></span>
+              <h2 style={{ fontSize: '1.05rem', fontWeight: '700', color: '#11678E', marginBottom: '14px', textTransform: 'uppercase', letterSpacing: '0.6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ width: '4px', height: '16px', background: '#11678E', borderRadius: '2px' }}></span>
                 Website Services Ledger
               </h2>
               <div className="admin-stats-grid">
@@ -390,11 +390,11 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               </div>
-              <h2 className="admin-section-heading mt-28">
-                <span className="admin-heading-indicator"></span>
+              <h2 style={{ fontSize: '1.05rem', fontWeight: '700', color: '#11678E', marginTop: '28px', marginBottom: '14px', textTransform: 'uppercase', letterSpacing: '0.6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
+                <span style={{ width: '4px', height: '16px', background: '#11678E', borderRadius: '2px' }}></span>
                 Other Services Ledger
               </h2>
-              <div className="admin-stats-grid mb-32">
+              <div className="admin-stats-grid" style={{ marginBottom: '32px' }}>
                 <div className="admin-stat-card card-blue">
                   <div className="admin-stat-icon-wrap blue"><Users size={22} /></div>
                   <div className="admin-stat-info">
@@ -446,7 +446,7 @@ const AdminDashboard = () => {
                             <span className="service-bar-count">{count} ({Math.round(pct)}%)</span>
                           </div>
                           <div className="service-bar-bg">
-                            <div className="service-bar-fill" style={{ '--fill-width': `${pct}%` }} />
+                            <div className="service-bar-fill" style={{ width: `${pct}%` }} />
                           </div>
                         </div>
                       );
@@ -558,12 +558,12 @@ const AdminDashboard = () => {
           {activeTab === 'other-bookings' && (
             <>
               <div className="ledger-controls">
-                <div className="ledger-search-controls">
-                  <div className="ledger-search-wrapper">
+                <div style={{ display: 'flex', gap: '12px', flex: 1, minWidth: '280px', maxWidth: '520px' }}>
+                  <div className="ledger-search-wrapper" style={{ flex: 1 }}>
                     <Search size={16} className="ledger-search-icon" />
                     <input type="text" placeholder="Search name, email, phone, service type..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="ledger-search-input" />
                   </div>
-                  <button className="refresh-btn add-booking-btn" onClick={() => setIsAddOtherOpen(true)}>
+                  <button className="refresh-btn" style={{ borderColor: '#11678E', color: '#11678E', display: 'inline-flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }} onClick={() => setIsAddOtherOpen(true)}>
                     <Plus size={14} /> Add Booking
                   </button>
                 </div>
@@ -597,16 +597,16 @@ const AdminDashboard = () => {
                           <td>
                             <div className="ledger-customer-name">{booking.name}</div>
                             <div className="ledger-customer-email">{booking.email}</div>
-                            <div className="ledger-customer-phone">{booking.phone}</div>
+                            <div className="ledger-customer-email" style={{ fontStyle: 'normal', color: 'var(--text-secondary)' }}>{booking.phone}</div>
                           </td>
-                          <td className="ledger-cell-address" title={booking.address}>
+                          <td style={{ maxWidth: '160px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={booking.address}>
                             {booking.address}
                           </td>
-                          <td className="ledger-cell-semibold">{booking.serviceType}</td>
-                          <td className="ledger-cell-issue" title={booking.issue}>
+                          <td style={{ fontWeight: '600' }}>{booking.serviceType}</td>
+                          <td style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={booking.issue}>
                             {booking.issue}
                           </td>
-                          <td className="ledger-cell-cost">{booking.estimatedCost}</td>
+                          <td style={{ fontWeight: '700', color: '#11678E' }}>{booking.estimatedCost}</td>
                           <td>
                             <span className={`status-badge ${booking.status.toLowerCase().replace(/\s+/g, '_')}`}>{booking.status}</span>
                           </td>
@@ -756,7 +756,7 @@ const AdminDashboard = () => {
               <span className="drawer-section-label">Service Type & Issue</span>
               <div className="drawer-info-block">
                 <div className="drawer-info-row"><strong>Service Type:</strong> {selectedOtherBooking.serviceType}</div>
-                <div className="drawer-info-row mt-6"><strong>Reported Issue:</strong></div>
+                <div className="drawer-info-row" style={{ marginTop: '6px' }}><strong>Reported Issue:</strong></div>
                 <div className="drawer-issue-block">"{selectedOtherBooking.issue}"</div>
               </div>
             </div>
@@ -808,7 +808,7 @@ const AdminDashboard = () => {
                 <X size={18} />
               </button>
             </div>
-            <form onSubmit={handleAddOtherBooking} className="drawer-edit-form mt-10">
+            <form onSubmit={handleAddOtherBooking} className="drawer-edit-form" style={{ marginTop: '10px' }}>
               <span className="drawer-section-label">Customer Information</span>
               <div className="drawer-form-group">
                 <label className="drawer-label">Full Name *</label>
@@ -874,7 +874,7 @@ const AdminDashboard = () => {
                 <label className="drawer-label">Technician Note</label>
                 <textarea rows={2} className="drawer-textarea" value={newOtherBooking.notes} onChange={e => setNewOtherBooking({ ...newOtherBooking, notes: e.target.value })} placeholder="Technician diagnostics or initial comment..." />
               </div>
-              <div className="drawer-form-actions">
+              <div style={{ marginTop: '15px' }}>
                 <button type="submit" className="drawer-save-btn">Log Service Booking</button>
               </div>
             </form>

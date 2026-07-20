@@ -25,8 +25,8 @@ const Services = () => {
       <div className="services-bg-text">SERVICES</div>
       <div className="services-premium-wrapper">
         <div className="services-premium-header">
-          <h2 className="services-premium-title">Laptop Service, Custom PC & <span className="text-gradient">Drone Repair in Madurai</span></h2>
-          <p className="services-premium-desc">Experience the best laptop service and chip level repair in Madurai at Sian SmartTech.<br className="desktop-only-br" /> We specialize in custom PC builds, drone service, PC set up, cable management, and premium IT solutions.</p>
+          <h2 className="services-premium-title">Laptop Service & <span className="text-gradient">IT Solutions in Madurai</span></h2>
+          <p className="services-premium-desc">Experience the best laptop service and computer repair in Madurai at Sian SmartTech.<br className="desktop-only-br" /> We specialize in chip-level repairs, custom PC builds, and premium web development in Anuppanadi.</p>
         </div>
         <div className="services-tabs-container">
           <button className={`services-tab-btn ${activeTab === 'hardware' ? 'active' : ''}`} onClick={() => setActiveTab('hardware')}>
@@ -47,7 +47,7 @@ const Services = () => {
             const IconComponent = Icons[service.icon] || Icons.Wrench;
             return (
               <div key={service.id} className="premium-service-card" onClick={() => handleExplore(service)}>
-                <div className="premium-card-bg" style={{ '--card-bg-img': `url(${service.image})` }}></div>
+                <div className="premium-card-bg" style={{ backgroundImage: `url(${service.image})` }}></div>
                 <div className="premium-card-overlay"></div>
                 <div className="premium-card-content">
                   <div className="premium-icon-wrapper">

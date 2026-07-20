@@ -85,8 +85,8 @@ const Chatbot = () => {
             const statusClass = booking.status === 'Completed' ? 'chat-status-completed' : booking.status === 'Cancelled' ? 'chat-status-cancelled' : 'chat-status-other';
             botResponse = (
               <div className="chat-tracking-info">
-                <p className="chat-tracking-header">🔍 <strong>Status for Ticket #{booking.ticketId}:</strong></p>
-                <div className="chat-tracking-fields">
+                <p style={{ margin: '0 0 8px 0', fontSize: '0.95rem' }}>🔍 <strong>Status for Ticket #{booking.ticketId}:</strong></p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
                   <div>👤 <strong>Customer:</strong> {booking.name}</div>
                   <div>🛠️ <strong>Service:</strong> {booking.service}</div>
                   <div>📌 <strong>Status:</strong>{' '}
@@ -94,8 +94,8 @@ const Chatbot = () => {
                   </div>
                   <div>💰 <strong>Estimated Cost:</strong> {booking.estimatedCost}</div>
                   <div>📅 <strong>Estimated Delivery:</strong> {booking.estimatedDelivery}</div>
-                  <div className="chat-tracking-notes-container">
-                    📝 <strong>Notes:</strong> <span className="chat-notes-text">"{booking.notes}"</span>
+                  <div style={{ borderTop: '1px solid rgba(128,128,128,0.2)', paddingTop: '6px', marginTop: '4px' }}>
+                    📝 <strong>Notes:</strong> <span style={{ fontStyle: 'italic' }}>"{booking.notes}"</span>
                   </div>
                 </div>
               </div>
@@ -169,21 +169,21 @@ const Chatbot = () => {
         setIsWaitingForTicket(true);
       } else if (lowerText.includes("service") || lowerText.includes("what do you do")) {
         botResponse = (
-          <div className="chat-services-list">
-            <p>We offer a variety of services:</p>
-            <strong>Hardware & Repair Services:</strong>
-            <ul>
+          <div className="chat-services-list" style={{ textAlign: 'left', lineHeight: '1.4' }}>
+            <p style={{ margin: '0 0 8px 0' }}>We offer a variety of services:</p>
+            <strong style={{ display: 'block', margin: '8px 0 4px 0', fontSize: '0.9rem' }}>Hardware & Repair Services:</strong>
+            <ul style={{ paddingLeft: '20px', margin: '0 0 10px 0', display: 'flex', flexDirection: 'column', gap: '3px' }}>
               {services.map((s) => (
                 <li key={s.id}>{s.title}</li>
               ))}
             </ul>
-            <strong>IT Services:</strong>
-            <ul className="mb-4">
+            <strong style={{ display: 'block', margin: '8px 0 4px 0', fontSize: '0.9rem' }}>IT Services:</strong>
+            <ul style={{ paddingLeft: '20px', margin: '0 0 4px 0', display: 'flex', flexDirection: 'column', gap: '3px' }}>
               {itServicesData.map((s) => (
                 <li key={s.id}>{s.title}</li>
               ))}
             </ul>
-            <p className="chat-services-footer">
+            <p style={{ margin: '8px 0 0 0', fontSize: '0.85rem', opacity: 0.8 }}>
               Click on <strong>Pricing info</strong> or ask about any service to see details.
             </p>
           </div>
@@ -194,11 +194,11 @@ const Chatbot = () => {
         (lowerText.includes("contact") && lowerText.includes("hardware"))
       ) {
         botResponse = (
-          <div className="chat-contact-info">
-            <p><strong>Hardware Services Contact:</strong></p>
-            <div className="chat-tracking-fields">
+          <div className="chat-contact-info" style={{ textAlign: 'left', lineHeight: '1.4' }}>
+            <p style={{ margin: '0 0 8px 0' }}><strong>Hardware Services Contact:</strong></p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <div>📞 <strong>Contact Number:</strong> {companyInfo.phone}</div>
-              <div>✉️ <strong>Email:</strong> <a href="#" onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:' + 'siansmarttech' + '@' + 'gmail.com'; }} className="chat-link">siansmarttech [at] gmail [dot] com</a></div>
+              <div>✉️ <strong>Email:</strong> <a href={`mailto:${companyInfo.email}`} className="chat-link">{companyInfo.email}</a></div>
               <div>📸 <strong>Instagram:</strong> <a href="https://www.instagram.com/sian_smart_tech?igsh=MTJ5Y3YybXl3aXBrYQ==" target="_blank" rel="noopener noreferrer" className="chat-link">@sian_smart_tech</a></div>
               <div>📍 <strong>Shop Location:</strong> {companyInfo.address}</div>
             </div>
@@ -210,11 +210,11 @@ const Chatbot = () => {
         (lowerText.includes("contact") && lowerText.includes("it"))
       ) {
         botResponse = (
-          <div className="chat-contact-info">
-            <p><strong>IT Services Contact:</strong></p>
-            <div className="chat-tracking-fields">
+          <div className="chat-contact-info" style={{ textAlign: 'left', lineHeight: '1.4' }}>
+            <p style={{ margin: '0 0 8px 0' }}><strong>IT Services Contact:</strong></p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <div>📞 <strong>Contact Number:</strong> 8056534429</div>
-              <div>✉️ <strong>Email:</strong> <a href="#" onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:' + 'santhoshsandy81140' + '@' + 'gmail.com'; }} className="chat-link">santhoshsandy81140 [at] gmail [dot] com</a></div>
+              <div>✉️ <strong>Email:</strong> <a href="mailto:santhoshsandy81140@gmail.com" className="chat-link">santhoshsandy81140@gmail.com</a></div>
             </div>
           </div>
         );
