@@ -30,12 +30,7 @@ const Footer = () => {
                 <Phone size={16} />
                 <span>{companyInfo.phone}</span>
               </li>
-              <li 
-                onClick={() => window.location.href = 'mailto:' + 'siansmarttech' + '@' + 'gmail.com'}
-                style={{ cursor: 'pointer' }}
-                title="Click to email us"
-                className="footer-email-item"
-              >
+              <li onClick={() => window.location.href = 'mailto:' + 'siansmarttech' + '@' + 'gmail.com'} style={{ cursor: 'pointer' }} title="Click to email us" className="footer-email-item">
                 <Mail size={16} />
                 <span>siansmarttech [at] gmail [dot] com</span>
               </li>

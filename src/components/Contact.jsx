@@ -62,7 +62,7 @@ const Contact = () => {
           <p className="contact-v2-desc"> Have questions or ready to transform your business with our tech solutions?
           </p>
           <div className="contact-v2-cards">
-            <div 
+            <div
               onClick={() => window.location.href = 'mailto:' + 'siansmarttech' + '@' + 'gmail.com'}
               className="contact-v2-card accent-card"
               style={{ cursor: 'pointer' }}

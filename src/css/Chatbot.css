@@ -353,7 +353,6 @@
   color: #11678e;
 }
 
-/* Extracted inline style classes */
 .chat-tracking-header {
   margin: 0 0 8px 0;
   font-size: 0.95rem;
@@ -366,7 +365,7 @@
 }
 
 .chat-tracking-notes-container {
-  border-top: 1px solid rgba(128,128,128,0.2);
+  border-top: 1px solid rgba(128, 128, 128, 0.2);
   padding-top: 6px;
   margin-top: 4px;
 }

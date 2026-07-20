@@ -8,9 +8,6 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import ScrollToTop from "./components/ScrollToTop";
 import WhatsAppButton from "./components/WhatsAppButton";
-import { AuthProvider } from "./context/AuthContext";
-import ProtectedRoute from "./components/ProtectedRoute";
-
 const HardwareServices = lazy(() => import("./pages/HardwareServices"));
 const ITServices = lazy(() => import("./pages/ITServices"));
 const PriceListPage = lazy(() => import("./pages/PriceListPage"));
@@ -18,7 +15,7 @@ const FaqPage = lazy(() => import("./pages/FaqPage"));
 const AboutPage = lazy(() => import("./pages/AboutPage"));
 const AllFaqsPage = lazy(() => import("./pages/AllFaqsPage"));
 const BookServicePage = lazy(() => import("./pages/BookServicePage"));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const AdminWrapper = lazy(() => import("./pages/AdminWrapper"));
 const TrackTicket = lazy(() => import("./pages/TrackTicket"));
 const Chatbot = lazy(() => import("./components/Chatbot"));
 function AppContent() {
@@ -72,11 +69,9 @@ function AppContent() {
     const isMobile = window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 768;
     const cursor = document.querySelector('.custom-cursor');
     const glow = document.querySelector('.cursor-glow');
-    
     if (isMobile) {
       if (glow) glow.style.display = 'none';
       if (cursor) cursor.style.display = 'none';
-      
       const handleContextMenu = (e) => {
         if (e.target.tagName === 'IMG') {
           e.preventDefault();
@@ -87,7 +82,6 @@ function AppContent() {
         document.removeEventListener('contextmenu', handleContextMenu);
       };
     }
-    
     let ticking = false;
     const handleContextMenu = (e) => {
       if (e.target.tagName === 'IMG') {
@@ -183,7 +177,7 @@ function AppContent() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/all-faqs" element={<AllFaqsPage />} />
           <Route path="/book-service" element={<BookServicePage />} />
-          <Route path="/admin" element={<ProtectedRoute> <AdminDashboard /> </ProtectedRoute>} />
+          <Route path="/admin" element={<AdminWrapper />} />
           <Route path="/track" element={<TrackTicket />} />
           <Route path="/track/:ticketId" element={<TrackTicket />} />
         </Routes>
@@ -202,12 +196,10 @@ function AppContent() {
 function App() {
   return (
     <ThemeProvider>
-      <AuthProvider>
-        <div className="cursor-glow"></div>
-        <BrowserRouter>
-          <AppContent />
-        </BrowserRouter>
-      </AuthProvider>
+      <div className="cursor-glow"></div>
+      <BrowserRouter>
+        <AppContent />
+      </BrowserRouter>
     </ThemeProvider>
   );
 }
