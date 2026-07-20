@@ -11,9 +11,11 @@ const TrackTicket = () => {
   const [loading, setLoading] = useState(false);
   const [ticketDetails, setTicketDetails] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
-  const statusSteps = ['Pending', 'Confirmed', 'In Progress', 'Completed'];
+  const statusSteps = ticketDetails?.status === 'Cancelled'
+    ? ['Pending', 'Confirmed', 'In Progress', 'Cancelled']
+    : ['Pending', 'Confirmed', 'In Progress', 'Completed'];
   const getStatusIndex = (status) => {
-    if (status === 'Cancelled') return -1;
+    if (status === 'Cancelled') return 3;
     return statusSteps.indexOf(status);
   };
   const loadTicket = async (id) => {
@@ -42,8 +44,14 @@ const TrackTicket = () => {
   }, [ticketId, searchParams]);
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    if (!inputTicket.trim()) return;
-    navigate(`/track/${inputTicket.trim().toUpperCase()}`);
+    const trimmedInput = inputTicket.trim().toUpperCase();
+    if (!trimmedInput) return;
+    const currentTicketId = (ticketId || searchParams.get('ticket') || '').trim().toUpperCase();
+    if (trimmedInput === currentTicketId) {
+      loadTicket(trimmedInput);
+    } else {
+      navigate(`/track/${trimmedInput}`);
+    }
   };
   const currentStatusIndex = ticketDetails ? getStatusIndex(ticketDetails.status) : -1;
   const formatDate = (isoString) => {
@@ -96,34 +104,34 @@ const TrackTicket = () => {
                 <span className="track-date">{formatDate(ticketDetails.createdAt)}</span>
               </div>
             </div>
-            {ticketDetails.status !== 'Cancelled' ? (
-              <div className="stepper-container">
-                <div className="stepper-progress-bar">
-                  <div className="stepper-progress-fill" style={{ width: `${(currentStatusIndex / (statusSteps.length - 1)) * 90 + 5}%` }}></div>
-                </div>
-                <div className="stepper-steps">
-                  {statusSteps.map((step, idx) => {
-                    const isCompleted = idx < currentStatusIndex;
-                    const isActive = idx === currentStatusIndex;
-                    let StepIcon = Clock;
-                    if (step === 'Confirmed') StepIcon = CheckCircle2;
-                    if (step === 'In Progress') StepIcon = Cpu;
-                    if (step === 'Completed') StepIcon = Check;
-                    return (
-                      <div key={step} className={`step-node ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''}`}>
-                        <div className="step-circle">
-                          {isCompleted ? <Check size={20} /> : <StepIcon size={20} />}
-                        </div>
-                        <span className="step-label">
-                          {step === 'Pending' ? 'Request Received' : step === 'Confirmed' ? 'Confirmed' : step === 'In Progress' ? 'In Progress' : 'Ready / Complete'}
-                        </span>
-                      </div>
-                    );
-                  })}
-                </div>
+            <div className="stepper-container">
+              <div className="stepper-progress-bar">
+                <div className={`stepper-progress-fill ${ticketDetails.status === 'Cancelled' ? 'cancelled' : ''}`} style={{ width: `${(currentStatusIndex / (statusSteps.length - 1)) * 90 + 5}%` }}></div>
               </div>
-            ) : (
-              <div className="status-summary-box track-cancelled-box">
+              <div className="stepper-steps">
+                {statusSteps.map((step, idx) => {
+                  const isCompleted = idx < currentStatusIndex;
+                  const isActive = idx === currentStatusIndex;
+                  let StepIcon = Clock;
+                  if (step === 'Confirmed') StepIcon = CheckCircle2;
+                  if (step === 'In Progress') StepIcon = Cpu;
+                  if (step === 'Completed') StepIcon = Check;
+                  if (step === 'Cancelled') StepIcon = ShieldAlert;
+                  return (
+                    <div key={step} className={`step-node ${isCompleted ? 'completed' : ''} ${isActive ? 'active' : ''} ${step === 'Cancelled' ? 'cancelled' : ''}`}>
+                      <div className="step-circle">
+                        {isCompleted ? <Check size={20} /> : <StepIcon size={20} />}
+                      </div>
+                      <span className="step-label">
+                        {step === 'Pending' ? 'Request Received' : step === 'Confirmed' ? 'Confirmed' : step === 'In Progress' ? 'In Progress' : step === 'Cancelled' ? 'Cancelled' : 'Ready / Complete'}
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+            {ticketDetails.status === 'Cancelled' && (
+              <div className="status-summary-box track-cancelled-box" style={{ marginTop: '-10px', marginBottom: '30px' }}>
                 <div className="track-cancelled-header">
                   <ShieldAlert size={28} />
                   <div>

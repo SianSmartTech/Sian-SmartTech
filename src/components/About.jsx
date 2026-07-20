@@ -30,11 +30,11 @@ const About = () => {
         </div>
         <div className="about-v2-right">
           <div className="about-image-wrapper">
-            <img src="/images/about_repair.webp" alt="Expert Electronic Repair" />
+            <img src="/images/about_repair.webp" alt="Expert Laptop and Computer Repair in Madurai - Sian SmartTech" loading="lazy" decoding="async" />
           </div>
           <div className="about-badge">
             <div className="team-heads">
-              <img src="/images/team_avatars.webp" alt="Team members" />
+              <img src="/images/team_avatars.webp" alt="Certified Technicians and Support Team at Sian SmartTech Madurai" loading="lazy" decoding="async" />
             </div>
             <div className="rating-info">
               <div className="stars">

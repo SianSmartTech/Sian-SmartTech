@@ -48,7 +48,6 @@ const Contact = () => {
         throw new Error(result.error || 'Failed to save submission');
       }
     } catch (err) {
-      console.error('Error submitting contact form:', err);
       toast.error('Failed to send message. Please try again or contact us directly.');
     } finally {
       setIsSubmitting(false);

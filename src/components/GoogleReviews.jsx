@@ -100,7 +100,7 @@ const GoogleReviews = () => {
         <div className="google-reviews-header">
           <p className="google-reviews-subtitle">Google Reviews</p>
           <h2 className="google-reviews-title">What Our Customers Say <span className="text-gradient">On Google</span></h2>
-          <p className="google-reviews-desc">We are rated 4.9/5 stars based on verified reviews from our clients in Madurai. Check out some of our recent feedback.</p>
+          <p className="google-reviews-desc">Sian SmartTech is rated 4.9/5 stars for the best laptop repair service and computer service center in Madurai. Read verified customer reviews and feedback from our clients.</p>
         </div>
         <div className="sian-smart-tech-carousel-container">
           <div

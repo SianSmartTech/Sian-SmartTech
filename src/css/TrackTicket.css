@@ -26,7 +26,7 @@
 }
 
 .hero-tracking::before {
-  background-image: url('../assets/images/heroes/track_hero.png');
+  background-image: url('../assets/images/heroes/track_hero.webp');
 }
 
 .search-section {
@@ -206,6 +206,11 @@
   box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
 }
 
+.stepper-progress-fill.cancelled {
+  background: linear-gradient(90deg, #11678E 0%, #dc2626 100%);
+  box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+}
+
 .stepper-steps {
   display: flex;
   justify-content: space-between;
@@ -270,6 +275,33 @@
 
 .step-node.completed .step-label {
   color: #10b981;
+}
+
+.step-node.cancelled .step-circle {
+  border-color: #dc2626;
+  background: #dc2626;
+  color: #ffffff;
+  box-shadow: 0 0 20px rgba(220, 38, 38, 0.4);
+  animation: pulse-border-cancelled 2s infinite;
+}
+
+.step-node.cancelled .step-label {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+@keyframes pulse-border-cancelled {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.6);
+  }
+
+  70% {
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+  }
 }
 
 @keyframes pulse-border {

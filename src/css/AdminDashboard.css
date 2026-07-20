@@ -184,19 +184,25 @@
 
 .admin-stats-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 16px;
   margin-bottom: 36px;
+}
+
+@media (max-width: 1200px) {
+  .admin-stats-grid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  }
 }
 
 .admin-stat-card {
   background: var(--card-bg, #ffffff);
   border: 1px solid rgba(17, 103, 142, 0.1);
   border-radius: 16px;
-  padding: 22px 20px;
+  padding: 18px 16px;
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.03);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
@@ -260,7 +266,7 @@
 }
 
 .admin-stat-value {
-  font-size: 1.9rem;
+  font-size: 1.6rem;
   font-weight: 800;
   font-family: 'Orbitron', sans-serif;
   color: var(--text-primary);
@@ -1018,10 +1024,36 @@
   font-family: inherit;
 }
 
+
 .drawer-approve-btn:hover {
   background: #10b981;
   color: #ffffff;
   border-color: #10b981;
+}
+
+.drawer-delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 13px 20px;
+  border-radius: 10px;
+  background: rgba(239, 68, 68, 0.08);
+  color: #dc2626;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  font-weight: 700;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  width: 100%;
+  margin-top: 10px;
+  font-family: inherit;
+}
+
+.drawer-delete-btn:hover {
+  background: #dc2626;
+  color: #ffffff;
+  border-color: #dc2626;
 }
 
 .outbox-desc {
@@ -1850,4 +1882,218 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
+}
+
+.admin-sidebar-collapse-btn {
+  display: flex;
+  background: none;
+  border: none;
+  color: var(--text-secondary, #9ca3af);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, color 0.2s;
+  margin-left: auto;
+}
+
+.admin-sidebar-collapse-btn:hover {
+  background: rgba(0, 0, 0, 0.05);
+  color: var(--text-primary);
+}
+
+[data-theme="dark"] .admin-sidebar-collapse-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+}
+
+@media (max-width: 900px) {
+  .admin-sidebar-collapse-btn {
+    display: none;
+  }
+}
+
+.admin-sidebar.collapsed {
+  width: 0;
+  padding: 0;
+  margin: 0;
+  border-right: none;
+  overflow: hidden;
+}
+
+.admin-sidebar.collapsed * {
+  display: none !important;
+}
+
+.admin-sidebar-toggle-desktop {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card-bg, #ffffff);
+  border: 1px solid rgba(17, 103, 142, 0.12);
+  color: var(--text-primary);
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s, transform 0.2s;
+}
+
+.admin-sidebar-toggle-desktop:hover {
+  background: rgba(17, 103, 142, 0.08);
+  color: #11678E;
+  transform: scale(1.05);
+}
+
+[data-theme="dark"] .admin-sidebar-toggle-desktop {
+  background: #101015;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="dark"] .admin-sidebar-toggle-desktop:hover {
+  background: rgba(255, 255, 255, 0.04);
+  color: #67bed9;
+}
+
+.delete-confirm-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(5px);
+  z-index: 10000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s ease;
+}
+
+.delete-confirm-box {
+  width: 420px;
+  max-width: 90vw;
+  background: var(--card-bg, #ffffff);
+  border-radius: 16px;
+  padding: 30px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.15);
+  animation: scaleIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+[data-theme="dark"] .delete-confirm-box {
+  background: #181820;
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+}
+
+.delete-confirm-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.delete-confirm-icon {
+  color: #dc2626;
+}
+
+.delete-confirm-header h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+  font-family: inherit;
+}
+
+.delete-confirm-message {
+  font-size: 0.92rem;
+  color: var(--text-secondary, #6b7280);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.delete-confirm-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.delete-confirm-btn-cancel {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: 1px solid rgba(17, 103, 142, 0.18);
+  background: var(--bg-primary, #f8f9fa);
+  color: var(--text-secondary, #6b7280);
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+[data-theme="dark"] .delete-confirm-btn-cancel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.delete-confirm-btn-cancel:hover {
+  border-color: #11678E;
+  color: #11678E;
+}
+
+.delete-confirm-btn-confirm {
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  background: #dc2626;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: inherit;
+}
+
+.delete-confirm-btn-confirm:hover {
+  background: #b91c1c;
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.25);
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.admin-stat-card.card-purple::before {
+  background: #7c3aed;
+}
+
+.admin-stat-icon-wrap.purple {
+  background: rgba(124, 58, 237, 0.1);
+  color: #7c3aed;
+}
+
+.admin-stat-card.card-purple:hover {
+  box-shadow: 0 8px 25px rgba(124, 58, 237, 0.12);
+}
+
+.admin-stat-card.card-red::before {
+  background: #ef4444;
+}
+
+.admin-stat-icon-wrap.red {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+}
+
+.admin-stat-card.card-red:hover {
+  box-shadow: 0 8px 25px rgba(239, 68, 68, 0.12);
 }

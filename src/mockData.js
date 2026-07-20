@@ -425,9 +425,8 @@ export const testimonials = [
 ];
 export const companyInfo = {
   name: "Sian SmartTech",
-  tagline: "Your Trusted Computer Hardware Experts",
-  description:
-    "Professional computer repair and hardware services with over 15 years of experience. We specialize in hardware repair, upgrades, data recovery, and custom PC builds.",
+  tagline: "Your Trusted Laptop & Computer Service Center in Madurai",
+  description: "Sian SmartTech offers professional laptop service, computer repair, and chip-level hardware services with over 5 years of experience. We specialize in motherboard repair, device upgrades, data recovery, and custom PC builds in Anuppanadi, Madurai.",
   phone: "+91 93446 78135",
   email: "siansmarttech@gmail.com",
   address: "5/195, ponnu pillai thoppu, anuppanadi, madurai - 625009.",

@@ -11,7 +11,7 @@ const Footer = () => {
           <div className="footer-section">
             <h3 className="footer-brand">{companyInfo.name}</h3>
             <p className="footer-tagline">{companyInfo.tagline}</p>
-            <p className="footer-description">Professional computer repair and hardware services with over 15 years of experience.</p>
+            <p className="footer-description">{companyInfo.description}</p>
           </div>
           <div className="footer-section">
             <h4 className="footer-title">Quick Links</h4>

@@ -8,7 +8,7 @@ const Map = () => {
       <div className="map-bg-text">CONNECT</div>
       <div className="map-v2-wrapper">
         <div className="map-v2-header">
-          <p className="map-v2-subtitle">Locate Our Office</p>
+          <p className="map-v2-subtitle">Locate Our Shop</p>
           <h2 className="map-v2-title">Visit Our <span className="text-gradient">Workshop</span></h2>
           <p className="map-v2-desc">Laptop Service Center in Madurai</p>
         </div>

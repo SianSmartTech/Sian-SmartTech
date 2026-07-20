@@ -66,7 +66,7 @@ const Header = () => {
       <header className="header-fixed">
         <div className="header-container">
           <div className="header-logo" onClick={() => navigate('/')}>
-            <img src={logo} alt="Sian Smarttech" className="logo-img" />
+            <img src={logo} alt="Sian SmartTech - Laptop and Computer Service Center in Madurai" className="logo-img" />
           </div>
           <nav className="nav-desktop">
             {navItems.map((item) => (

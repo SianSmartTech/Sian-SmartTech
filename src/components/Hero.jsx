@@ -253,7 +253,7 @@ const Hero = () => {
             </div>
             <div ref={beat2Ref} className="hero-beat-overlay hero-beat-initial-hidden">
               <div className="hero-ss-left">
-                <h1 className="hero-ss-title">Technical<br />Workflow.</h1>
+                <h2 className="hero-ss-title">Technical<br />Workflow.</h2>
               </div>
               <div className="hero-ss-right">
                 <p className="hero-ss-subtitle">Comprehensive diagnostics, precision chip-level micro-soldering, and rigorous stress testing protocols to ensure your devices function flawlessly.</p>
@@ -261,7 +261,7 @@ const Hero = () => {
             </div>
             <div ref={beat3Ref} className="hero-beat-overlay hero-beat-initial-hidden">
               <div className="hero-ss-left">
-                <h1 className="hero-ss-title">Honest & Fair<br />Pricing.</h1>
+                <h2 className="hero-ss-title">Honest & Fair<br />Pricing.</h2>
               </div>
               <div className="hero-ss-right">
                 <p className="hero-ss-subtitle">Pay only for the actual repairs done. Premium technical support and chip-level servicing at rates significantly lower than third-party and authorized stores.</p>
@@ -269,7 +269,7 @@ const Hero = () => {
             </div>
             <div ref={beat4Ref} className="hero-beat-overlay hero-beat-initial-hidden">
               <div className="hero-ss-left">
-                <h1 className="hero-ss-title">Expert Repair.<br />Guaranteed Value.</h1>
+                <h2 className="hero-ss-title">Expert Repair.<br />Guaranteed Value.</h2>
               </div>
               <div className="hero-ss-right">
                 <p className="hero-ss-subtitle">Whether it is a laptop repair, CCTV installation, or custom website development, Sian SmartTech delivers high-quality service at unbeatable prices.</p>

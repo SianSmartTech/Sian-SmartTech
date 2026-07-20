@@ -2,10 +2,12 @@ const BOOKINGS_KEY = 'sian_bookings';
 const EMAIL_LOGS_KEY = 'sian_email_logs';
 let bookingsCache = [];
 let emailLogsCache = [];
+let otherBookingsCache = [];
 export const bookingStore = {
   initialize() {
     localStorage.removeItem(BOOKINGS_KEY);
     localStorage.removeItem(EMAIL_LOGS_KEY);
+    localStorage.removeItem('sian_other_service_sheets_url');
     const storedUrl = localStorage.getItem('sian_sheets_url');
     if (storedUrl && (
       storedUrl.includes('AKfycbzmJ8qfcRvNxyabOXSyIkTuZTd9XkDEwMXTPAoKjnc5kO3x2lkLRNpFCaBAP2cd8zVr') ||
@@ -21,8 +23,17 @@ export const bookingStore = {
   setSheetsUrl(url) {
     localStorage.setItem('sian_sheets_url', url ? url.trim() : '');
   },
+  getOtherBookingsSheetsUrl() {
+    return localStorage.getItem('sian_other_service_sheets_url') || process.env.REACT_APP_GOOGLE_OTHER_SERVICE_SHEETS_URL;
+  },
+  setOtherBookingsSheetsUrl(url) {
+    localStorage.setItem('sian_other_service_sheets_url', url ? url.trim() : '');
+  },
   isGoogleSheetsConfigured() {
     return !!this.getSheetsUrl();
+  },
+  isOtherBookingsConfigured() {
+    return !!this.getOtherBookingsSheetsUrl();
   },
   async testConnection(url) {
     if (!url) return { success: false, error: 'URL is empty' };
@@ -312,5 +323,139 @@ export const bookingStore = {
         redirect: 'follow'
       }).catch(err => console.error('Failed to sync email to Google Sheets:', err));
     }
+  },
+  getAllOtherBookings() {
+    return otherBookingsCache;
+  },
+  async fetchOtherBookings() {
+    const url = this.getOtherBookingsSheetsUrl();
+    if (!url) return otherBookingsCache;
+    try {
+      const response = await fetch(url, { method: 'GET', mode: 'cors', credentials: 'omit', redirect: 'follow' });
+      if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
+      const data = await response.json();
+      if (Array.isArray(data)) {
+        const normalized = data.map(b => ({
+          id: b.id || `osb-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+          createdAt: b.createdAt || new Date().toISOString(),
+          name: b.name || '',
+          email: b.email || '',
+          phone: b.phone || '',
+          address: b.address || '',
+          serviceType: b.serviceType || '',
+          issue: b.issue || '',
+          status: b.status || 'Pending',
+          estimatedCost: b.estimatedCost || '₹350+',
+          estimatedTurnaround: b.estimatedTurnaround || 'TBD',
+          notes: b.notes || 'Awaiting diagnostics.'
+        }));
+        otherBookingsCache = normalized;
+        return normalized;
+      }
+    } catch (e) {
+      console.error('Google Sheets fetch for other bookings failed, using in-memory cache:', e);
+    }
+    return otherBookingsCache;
+  },
+  async addOtherBooking(bookingData) {
+    const newBooking = {
+      id: bookingData.id || `osb-${Date.now()}`,
+      createdAt: bookingData.createdAt || new Date().toISOString(),
+      name: bookingData.name,
+      email: bookingData.email,
+      phone: bookingData.phone || '',
+      address: bookingData.address,
+      serviceType: bookingData.serviceType,
+      issue: bookingData.issue,
+      status: bookingData.status || 'Pending',
+      estimatedCost: bookingData.estimatedCost || '₹350+',
+      estimatedTurnaround: bookingData.estimatedTurnaround || 'TBD',
+      notes: bookingData.notes || 'Awaiting admin review & diagnostics.'
+    };
+    otherBookingsCache.unshift(newBooking);
+    const url = this.getOtherBookingsSheetsUrl();
+    if (url) {
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'text/plain'
+          },
+          body: JSON.stringify({
+            action: 'add',
+            data: newBooking
+          }),
+          redirect: 'follow'
+        });
+      } catch (err) {
+        console.error('Failed to write other booking to Google Sheets:', err);
+      }
+    }
+    return newBooking;
+  },
+  async updateOtherBooking(id, updatedFields) {
+    const bookings = this.getAllOtherBookings();
+    const index = bookings.findIndex(b => b.id === id);
+    if (index === -1) return null;
+    const oldBooking = bookings[index];
+    const newBooking = {
+      ...oldBooking,
+      ...updatedFields
+    };
+    otherBookingsCache[index] = newBooking;
+    const url = this.getOtherBookingsSheetsUrl();
+    if (url) {
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'text/plain'
+          },
+          body: JSON.stringify({
+            action: 'update',
+            data: {
+              id: newBooking.id,
+              status: newBooking.status,
+              notes: newBooking.notes,
+              estimatedCost: newBooking.estimatedCost,
+              estimatedTurnaround: newBooking.estimatedTurnaround,
+              phone: newBooking.phone
+            }
+          }),
+          redirect: 'follow'
+        });
+      } catch (err) {
+        console.error('Failed to update other booking in Google Sheets:', err);
+      }
+    }
+    return newBooking;
+  },
+  async deleteOtherBooking(id) {
+    const bookings = this.getAllOtherBookings();
+    const index = bookings.findIndex(b => b.id === id);
+    if (index === -1) return false;
+    otherBookingsCache.splice(index, 1);
+    const url = this.getOtherBookingsSheetsUrl();
+    if (url) {
+      try {
+        await fetch(url, {
+          method: 'POST',
+          mode: 'cors',
+          headers: {
+            'Content-Type': 'text/plain'
+          },
+          body: JSON.stringify({
+            action: 'delete',
+            id: id
+          }),
+          redirect: 'follow'
+        });
+      } catch (err) {
+        console.error('Failed to delete other booking in Google Sheets:', err);
+      }
+    }
+    return true;
   }
 };

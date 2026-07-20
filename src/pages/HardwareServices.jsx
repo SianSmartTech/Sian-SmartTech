@@ -82,7 +82,6 @@ const HardwareServices = () => {
             <div className="hw-premium-list">
               {displayServices.map((service, index) => {
                 const IconComponent = Icons[service.icon] || Icons.Cpu;
-                const isSelected = false;
                 return (
                   <div key={service.id} className="hw-premium-card reveal active">
                     <div className="hw-glow-orb orb-1"></div>
@@ -90,7 +89,7 @@ const HardwareServices = () => {
                     <div className="hw-card-image-section">
                       <div className="hw-img-overlay"></div>
                       <div className="hw-scanline"></div>
-                      <img src={service.image} alt={service.title} className="hw-service-img" />
+                      <img src={service.image} alt={`${service.title} - Sian SmartTech Madurai`} className="hw-service-img" loading="lazy" decoding="async" />
                       <div className="hw-card-icon-badge">
                         <IconComponent size={32} />
                       </div>

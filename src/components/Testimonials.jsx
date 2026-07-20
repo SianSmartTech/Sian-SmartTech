@@ -100,7 +100,7 @@ const Testimonials = () => {
           <p className="testimonials-v2-subtitle">What Our Clients Say</p>
           <h2 className="testimonials-v2-title">Customer <span className="text-gradient">Success Stories</span></h2>
           <p className="testimonials-v2-desc">
-            Building smart tech tools is rewarding — but what truly drives us is hearing how Sian SmartTech helps our clients grow, optimize their workflow, and build their success stories.
+            While delivering top-notch IT solutions and laptop repair services is our passion, what truly drives us is hearing how Sian SmartTech helps our clients in Madurai optimize their workflow, repair their devices, and build their success stories.
           </p>
         </div>
         <div className="sian-smart-tech-carousel-container">
@@ -118,7 +118,7 @@ const Testimonials = () => {
                 <div className="sian-smart-tech-card-profile">
                   <div className="sian-smart-tech-avatar-wrapper">
                     {testimonial.image ? (
-                      <img src={testimonial.image} alt={testimonial.name} className="sian-smart-tech-avatar-img" />
+                      <img src={testimonial.image} alt={`Client ${testimonial.name} - Sian SmartTech Madurai Customer`} className="sian-smart-tech-avatar-img" loading="lazy" decoding="async" />
                     ) : (
                       <div className="sian-smart-tech-avatar-fallback" style={{ background: getAvatarBg(testimonial.name) }}>
                         {testimonial.name.trim().charAt(0).toUpperCase()}
