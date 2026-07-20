@@ -1,9 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../css/HardwareServices.css";
-import { getResponsiveImage } from '../utils/imageHelpers';
-import { Cpu, Star, Globe, Briefcase, CheckCircle, ArrowRight } from 'lucide-react';
-const Icons = { Cpu, Star, Globe, Briefcase, CheckCircle, ArrowRight };
+import * as Icons from 'lucide-react';
 import { itServicesData } from '../mockData';
 const ITServices = () => {
   const navigate = useNavigate();
@@ -37,14 +35,7 @@ const ITServices = () => {
                     <div className="hw-card-image-section">
                       <div className="hw-img-overlay"></div>
                       <div className="hw-scanline"></div>
-                      <img
-                        src={service.image}
-                        {...getResponsiveImage(service.image)}
-                        alt={`${service.title} - Sian SmartTech Madurai`}
-                        className="hw-service-img"
-                        loading="lazy"
-                        decoding="async"
-                      />
+                      <img src={service.image} alt={`${service.title} - Sian SmartTech Madurai`} className="hw-service-img" loading="lazy" decoding="async" />
                       <div className="hw-card-icon-badge">
                         <IconComponent size={32} />
                       </div>

@@ -11,7 +11,9 @@ const TrackTicket = () => {
   const [loading, setLoading] = useState(false);
   const [ticketDetails, setTicketDetails] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
-  const statusSteps = ticketDetails?.status === 'Cancelled' ? ['Pending', 'Confirmed', 'In Progress', 'Cancelled'] : ['Pending', 'Confirmed', 'In Progress', 'Completed'];
+  const statusSteps = ticketDetails?.status === 'Cancelled'
+    ? ['Pending', 'Confirmed', 'In Progress', 'Cancelled']
+    : ['Pending', 'Confirmed', 'In Progress', 'Completed'];
   const getStatusIndex = (status) => {
     if (status === 'Cancelled') return 3;
     return statusSteps.indexOf(status);

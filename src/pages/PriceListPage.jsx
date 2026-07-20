@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Check, Star, Shield, Wrench, Globe, FileSearch, Search, Settings, Laptop, Monitor, HardDrive, Save, Cpu, Settings2, BarChart2 } from 'lucide-react';
-const Icons = { FileSearch, Search, Wrench, Settings, Laptop, Monitor, HardDrive, Save, Cpu, Settings2, Globe, BarChart2};
+import { Check, Star, Shield, Wrench, Globe } from 'lucide-react';
+import * as Icons from 'lucide-react';
 import { pricing, itPricing } from '../mockData';
 import "../css/App.css";
 const PriceListPage = () => {

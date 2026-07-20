@@ -789,7 +789,7 @@ const AdminDashboard = () => {
               <div>
                 <button type="submit" className="drawer-save-btn">Save Changes</button>
                 <button type="button" className="drawer-delete-btn" onClick={() => handleOtherDelete(selectedOtherBooking.id)}>
-                  <Trash2 size={16} />Delete Booking
+                  <Trash2 size={16} /> Delete Booking
                 </button>
               </div>
             </form>

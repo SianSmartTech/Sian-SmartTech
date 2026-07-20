@@ -312,7 +312,6 @@ h6,
 .nav-dropdown-link svg {
   margin-top: 2px;
 }
-
 .header-fixed {
   position: fixed;
   top: 16px;
@@ -1933,26 +1932,6 @@ h6,
 
 [data-theme="light"] .process-sticker::before {
   background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.75) 100%), var(--bg-img);
-}
-
-@media (max-width: 480px) {
-  .process-sticker::before {
-    background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.85) 100%), var(--bg-img-mobile, var(--bg-img));
-  }
-
-  [data-theme="light"] .process-sticker::before {
-    background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.75) 100%), var(--bg-img-mobile, var(--bg-img));
-  }
-}
-
-@media (min-width: 481px) and (max-width: 768px) {
-  .process-sticker::before {
-    background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.85) 100%), var(--bg-img-tablet, var(--bg-img));
-  }
-
-  [data-theme="light"] .process-sticker::before {
-    background-image: linear-gradient(135deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.75) 100%), var(--bg-img-tablet, var(--bg-img));
-  }
 }
 
 .sticker-pin {
@@ -4319,6 +4298,7 @@ img {
   -webkit-text-fill-color: transparent !important;
 }
 
+
 .btn-confirm,
 .btn-manage,
 .refresh-btn,
@@ -4338,6 +4318,7 @@ img {
   color: #ffffff !important;
 }
 
+
 .btn-confirm:hover,
 .btn-manage:hover,
 .refresh-btn:hover,
@@ -4355,6 +4336,7 @@ img {
   background: var(--accent-hover) !important;
   border-color: var(--accent-hover) !important;
 }
+
 
 [data-theme="dark"] .btn-confirm,
 [data-theme="dark"] .btn-manage,
@@ -5233,6 +5215,7 @@ img {
   }
 }
 
+/* Performance Optimizations Styles */
 .hero-mobile-bg {
   position: absolute;
   top: 0;
