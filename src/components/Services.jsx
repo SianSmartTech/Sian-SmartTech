@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import "../css/App.css";
 import { services, itServicesData } from '../mockData';
-import { Cpu, Code, Laptop, Monitor, Printer, Zap, Video, HardDrive, Settings, Wrench, RefreshCw, ShoppingBag, Keyboard, Globe, Briefcase, ArrowRight } from 'lucide-react';
-const Icons = { Cpu, Code, Laptop, Monitor, Printer, Zap, Video, HardDrive, Settings, Wrench, RefreshCw, ShoppingBag, Keyboard, Globe, Briefcase, ArrowRight };
+import * as Icons from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 const Services = () => {
   const navigate = useNavigate();

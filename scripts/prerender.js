@@ -72,6 +72,7 @@ server.listen(PORT, async () => {
     console.error('Error during pre-rendering:', err);
   } finally {
     server.close(() => {
+      console.log('Prerender server closed.');
       process.exit(0);
     });
   }
