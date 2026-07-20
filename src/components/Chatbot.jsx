@@ -198,7 +198,7 @@ const Chatbot = () => {
             <p><strong>Hardware Services Contact:</strong></p>
             <div className="chat-tracking-fields">
               <div>📞 <strong>Contact Number:</strong> {companyInfo.phone}</div>
-              <div>✉️ <strong>Email:</strong> <a href={`mailto:${companyInfo.email}`} className="chat-link">{companyInfo.email}</a></div>
+              <div>✉️ <strong>Email:</strong> <a href="#" onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:' + 'siansmarttech' + '@' + 'gmail.com'; }} className="chat-link">siansmarttech [at] gmail [dot] com</a></div>
               <div>📸 <strong>Instagram:</strong> <a href="https://www.instagram.com/sian_smart_tech?igsh=MTJ5Y3YybXl3aXBrYQ==" target="_blank" rel="noopener noreferrer" className="chat-link">@sian_smart_tech</a></div>
               <div>📍 <strong>Shop Location:</strong> {companyInfo.address}</div>
             </div>
@@ -214,7 +214,7 @@ const Chatbot = () => {
             <p><strong>IT Services Contact:</strong></p>
             <div className="chat-tracking-fields">
               <div>📞 <strong>Contact Number:</strong> 8056534429</div>
-              <div>✉️ <strong>Email:</strong> <a href="mailto:santhoshsandy81140@gmail.com" className="chat-link">santhoshsandy81140@gmail.com</a></div>
+              <div>✉️ <strong>Email:</strong> <a href="#" onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:' + 'santhoshsandy81140' + '@' + 'gmail.com'; }} className="chat-link">santhoshsandy81140 [at] gmail [dot] com</a></div>
             </div>
           </div>
         );

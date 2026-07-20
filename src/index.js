@@ -3,9 +3,13 @@ import ReactDOM from 'react-dom/client';
 import './css/App.css';
 import './css/fallback.css';
 import App from './App';
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const container = document.getElementById('root');
+if (container && container.hasChildNodes()) {
+  container.innerHTML = '';
+}
+const root = ReactDOM.createRoot(container);
 root.render(
-    <React.StrictMode>
-        <App />
-    </React.StrictMode>
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
 );

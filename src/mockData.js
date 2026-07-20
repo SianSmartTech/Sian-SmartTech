@@ -429,7 +429,7 @@ export const companyInfo = {
   description: "Sian SmartTech offers professional laptop service, computer repair, and chip-level hardware services with over 5 years of experience. We specialize in motherboard repair, device upgrades, data recovery, and custom PC builds in Anuppanadi, Madurai.",
   phone: "+91 93446 78135",
   email: "siansmarttech@gmail.com",
-  address: "5/195, ponnu pillai thoppu, anuppanadi, madurai - 625009.",
+  address: "5/195, Ponnu Pillai Thoppu, Anuppanadi, Madurai - 625009.",
   hours: "Mon-Fri: 9AM-6PM, Sat: 10AM-4PM",
   mapUrl:
     "https://maps.google.com/maps?q=5%2F195%2C%20ponnu%20pillai%20thoppu%2C%20anuppanadi%2C%20madurai%20-%20625009&t=&z=15&ie=UTF8&iwloc=&output=embed",

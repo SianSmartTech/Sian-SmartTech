@@ -313,9 +313,88 @@ h6,
   margin-top: 2px;
 }
 
+.header-top-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 36px;
+  background: rgba(10, 10, 10, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  z-index: 1010;
+  display: flex;
+  align-items: center;
+  font-family: 'Exo 2', sans-serif;
+}
+
+[data-theme="light"] .header-top-bar {
+  background: rgba(245, 247, 250, 0.9);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.header-top-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+}
+
+.header-top-left {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.header-top-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: rgba(255, 255, 255, 0.7);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+[data-theme="light"] .header-top-item {
+  color: #4a5568;
+}
+
+.header-top-item:hover {
+  color: #00f2ff;
+}
+
+[data-theme="light"] .header-top-item:hover {
+  color: #11678e;
+}
+
+.header-top-icon {
+  flex-shrink: 0;
+}
+
+.header-top-divider {
+  color: rgba(255, 255, 255, 0.2);
+}
+
+[data-theme="light"] .header-top-divider {
+  color: rgba(0, 0, 0, 0.1);
+}
+
+.header-top-right {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+[data-theme="light"] .header-top-right {
+  color: #718096;
+}
+
 .header-fixed {
   position: fixed;
-  top: 16px;
+  top: 52px;
   left: 50%;
   transform: translateX(-50%);
   width: auto;
@@ -326,8 +405,25 @@ h6,
   -webkit-backdrop-filter: blur(18px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 9999px;
-  transition: background 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease, top 0.3s ease;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
+}
+
+@media (max-width: 768px) {
+  .header-top-divider,
+  .header-top-right,
+  .header-top-left a[href^="https://maps.google.com"] {
+    display: none !important;
+  }
+  .header-top-bar {
+    height: 32px;
+  }
+  .header-fixed {
+    top: 44px;
+  }
+  .header-top-container {
+    justify-content: center;
+  }
 }
 
 .header-fixed:hover {

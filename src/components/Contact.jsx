@@ -62,16 +62,21 @@ const Contact = () => {
           <p className="contact-v2-desc"> Have questions or ready to transform your business with our tech solutions?
           </p>
           <div className="contact-v2-cards">
-            <a href={`mailto:${companyInfo.email}`} className="contact-v2-card accent-card">
+            <div 
+              onClick={() => window.location.href = 'mailto:' + 'siansmarttech' + '@' + 'gmail.com'}
+              className="contact-v2-card accent-card"
+              style={{ cursor: 'pointer' }}
+              title="Click to email us"
+            >
               <div className="contact-v2-card-icon"><Mail size={22} /></div>
               <div className="contact-v2-card-content">
                 <span className="contact-v2-card-label">Email us</span>
-                <span className="contact-v2-card-value">{companyInfo.email}</span>
+                <span className="contact-v2-card-value">siansmarttech [at] gmail [dot] com</span>
               </div>
               <div className="contact-v2-card-arrow">
                 <ArrowUpRight size={18} />
               </div>
-            </a>
+            </div>
             <a href={`tel:${companyInfo.phone}`} className="contact-v2-card accent-card">
               <div className="contact-v2-card-icon">
                 <Phone size={22} />
