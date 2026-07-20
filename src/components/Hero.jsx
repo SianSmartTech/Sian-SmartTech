@@ -51,8 +51,10 @@ const Hero = () => {
     if (firstImg.complete) {
       setCanvasLoaded(true);
     }
+    let preloadingStarted = false;
     const loadRemaining = () => {
-      if (isMobile) return;
+      if (isMobile || preloadingStarted) return;
+      preloadingStarted = true;
       let currentIndex = 1;
       const batchSize = 6;
       const delayBetweenBatches = 80;
@@ -70,12 +72,24 @@ const Hero = () => {
       };
       setTimeout(loadNextBatch, 200);
     };
-    if (document.readyState === 'complete') {
+    const startPreloading = () => {
       loadRemaining();
-    } else {
-      window.addEventListener('load', loadRemaining);
-      return () => window.removeEventListener('load', loadRemaining);
-    }
+      cleanupListeners();
+    };
+    const cleanupListeners = () => {
+      window.removeEventListener('scroll', startPreloading);
+      window.removeEventListener('mousemove', startPreloading);
+      window.removeEventListener('touchstart', startPreloading);
+    };
+    // Load remaining frames after 3 seconds of idle time or immediately on user interaction
+    const timerId = setTimeout(startPreloading, 3000);
+    window.addEventListener('scroll', startPreloading, { passive: true });
+    window.addEventListener('mousemove', startPreloading, { passive: true });
+    window.addEventListener('touchstart', startPreloading, { passive: true });
+    return () => {
+      clearTimeout(timerId);
+      cleanupListeners();
+    };
   }, []);
   const dimensionsRef = useRef({ width: 0, height: 0 });
   useEffect(() => {
@@ -100,11 +114,14 @@ const Hero = () => {
     };
   }, [canvasLoaded]);
   useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
     let animationFrameId;
+    let isIntersecting = false;
     const update = () => {
-      const section = sectionRef.current;
+      if (!isIntersecting) return;
       const canvas = canvasRef.current;
-      if (!section || !canvas) {
+      if (!canvas) {
         animationFrameId = requestAnimationFrame(update);
         return;
       }
@@ -219,9 +236,23 @@ const Hero = () => {
       applyStyle(beat4Ref, b4);
       animationFrameId = requestAnimationFrame(update);
     };
-    animationFrameId = requestAnimationFrame(update);
-    return () => cancelAnimationFrame(animationFrameId);
-  }, []);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        isIntersecting = entries[0].isIntersecting;
+        if (isIntersecting) {
+          animationFrameId = requestAnimationFrame(update);
+        } else {
+          cancelAnimationFrame(animationFrameId);
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(section);
+    return () => {
+      observer.disconnect();
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, [canvasLoaded]);
   return (
     <section ref={sectionRef} id="home" className={`hero-skill-stream ${canvasLoaded ? 'canvas-loaded' : ''}`}>
       <div className="hero-sticky-container">

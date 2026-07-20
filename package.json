@@ -13,7 +13,12 @@
     "sonner": "^2.0.7"
   },
   "scripts": {
-    "start": "react-scripts start"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "postbuild": "node scripts/prerender.js"
+  },
+  "devDependencies": {
+    "puppeteer": "^22.6.0"
   },
   "browserslist": {
     "production": [

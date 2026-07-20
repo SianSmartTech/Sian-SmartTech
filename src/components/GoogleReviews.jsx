@@ -87,9 +87,21 @@ const GoogleReviews = () => {
       }
       animationFrameId = requestAnimationFrame(animate);
     };
-    animationFrameId = requestAnimationFrame(animate);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          lastTime = performance.now();
+          animationFrameId = requestAnimationFrame(animate);
+        } else {
+          cancelAnimationFrame(animationFrameId);
+        }
+      },
+      { threshold: 0.01 }
+    );
+    observer.observe(container);
     return () => {
       clearTimeout(timer);
+      observer.disconnect();
       cancelAnimationFrame(animationFrameId);
     };
   }, []);

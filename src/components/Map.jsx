@@ -1,10 +1,31 @@
+import { useEffect, useRef, useState } from 'react';
 import "../css/App.css";
 import { companyInfo } from '../mockData';
 import { MapPin, Clock, Navigation } from 'lucide-react';
+
 const Map = () => {
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(companyInfo.address)}`;
+  const containerRef = useRef(null);
+  const [shouldRender, setShouldRender] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          setShouldRender(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: '300px' }
+    );
+    if (containerRef.current) {
+      observer.observe(containerRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="map" className="map-section-v2 reveal">
+    <section ref={containerRef} id="map" className="map-section-v2 reveal">
       <div className="map-bg-text">CONNECT</div>
       <div className="map-v2-wrapper">
         <div className="map-v2-header">
@@ -41,12 +62,19 @@ const Map = () => {
               <span>Get Directions</span>
             </a>
           </div>
-          <div className="map-v2-container">
-            <iframe src={companyInfo.mapUrl} width="100%" height="100%" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Sian SmartTech Location" className="map-v2-iframe map-v2-iframe-border0" style={{ minHeight: '400px', display: 'block' }}></iframe>
+          <div className="map-v2-container" style={{ position: 'relative', minHeight: '400px' }}>
+            {shouldRender ? (
+              <iframe src={companyInfo.mapUrl} width="100%" height="100%" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Sian SmartTech Location" className="map-v2-iframe map-v2-iframe-border0" style={{ minHeight: '400px', display: 'block' }}></iframe>
+            ) : (
+              <div style={{ position: 'absolute', inset: 0, background: 'var(--glass-bg)', backdropFilter: 'blur(5px)', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '400px', border: '1px solid var(--glass-border)', borderRadius: '12px' }}>
+                <span style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Loading Map...</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
     </section>
   );
 };
+
 export default Map;

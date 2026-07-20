@@ -1,39 +1,51 @@
 import "./css/App.css";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import HardwareServices from "./pages/HardwareServices";
-import ITServices from "./pages/ITServices";
-import PriceListPage from "./pages/PriceListPage";
-import FaqPage from "./pages/FaqPage";
-import AboutPage from "./pages/AboutPage";
-import AllFaqsPage from "./pages/AllFaqsPage";
 import ScrollToTop from "./components/ScrollToTop";
-import BookServicePage from "./pages/BookServicePage";
 import WhatsAppButton from "./components/WhatsAppButton";
-import Chatbot from "./components/Chatbot";
-import AdminDashboard from "./pages/AdminDashboard";
-import TrackTicket from "./pages/TrackTicket";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+
+// Lazy load page components
+const HardwareServices = lazy(() => import("./pages/HardwareServices"));
+const ITServices = lazy(() => import("./pages/ITServices"));
+const PriceListPage = lazy(() => import("./pages/PriceListPage"));
+const FaqPage = lazy(() => import("./pages/FaqPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const AllFaqsPage = lazy(() => import("./pages/AllFaqsPage"));
+const BookServicePage = lazy(() => import("./pages/BookServicePage"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const TrackTicket = lazy(() => import("./pages/TrackTicket"));
+
+// Lazy load Chatbot since it contains heavy Firebase SDK dependencies
+const Chatbot = lazy(() => import("./components/Chatbot"));
+
+function PageLoading() {
+  return (
+    <div className="page-loading-fallback">
+      <div className="page-loading-spinner"></div>
+    </div>
+  );
+}
 function AppContent() {
   const location = useLocation();
   useEffect(() => {
     const routeTitles = {
-      "/": "Home | Sian SmartTech",
-      "/hardware-services": "Hardware Repair Services | Sian SmartTech",
-      "/it-services": "IT Software Solutions | Sian SmartTech",
-      "/price-list": "Price List | Sian SmartTech",
-      "/about": "About Us | Sian SmartTech",
-      "/book-service": "Book a Service | Sian SmartTech",
-      "/faq": "Frequently Asked Questions | Sian SmartTech",
-      "/all-faqs": "All FAQs | Sian SmartTech",
+      "/": "Sian SmartTech | Premium Computer & Mobile Repair Services",
+      "/hardware-services": "Computer & Mobile Hardware Repairs | Sian SmartTech",
+      "/it-services": "IT Software & Web Development Services | Sian SmartTech",
+      "/price-list": "Computer & Mobile Repair Price List | Sian SmartTech",
+      "/about": "About Us - Tech Repair Experts in Madurai | Sian SmartTech",
+      "/book-service": "Book Computer & Mobile Repair Online | Sian SmartTech",
+      "/faq": "Tech Repair FAQs & Troubleshooting Tips | Sian SmartTech",
+      "/all-faqs": "Complete Tech Repair Guide & FAQs | Sian SmartTech",
       "/admin": "Admin Dashboard | Sian SmartTech",
-      "/track": "Track Ticket | Sian SmartTech"
+      "/track": "Track Your Tech Repair Ticket Online | Sian SmartTech"
     };
     const routeDescriptions = {
       "/": "Expert computer, laptop, and mobile repair services in Madurai. Sian SmartTech provides professional hardware diagnostics, IT solutions, and genuine parts.",
@@ -47,7 +59,7 @@ function AppContent() {
       "/admin": "Sian SmartTech Admin Dashboard.",
       "/track": "Track the real-time status of your computer or mobile repair ticket at Sian SmartTech."
     };
-    document.title = routeTitles[location.pathname] || "Sian SmartTech | Tech Experts";
+    document.title = routeTitles[location.pathname] || "Sian SmartTech | Premium Computer & Mobile Repair Services";
     let metaDescription = document.querySelector('meta[name="description"]');
     if (!metaDescription) {
       metaDescription = document.createElement('meta');
@@ -55,6 +67,14 @@ function AppContent() {
       document.head.appendChild(metaDescription);
     }
     metaDescription.content = routeDescriptions[location.pathname] || "Expert computer, laptop, and mobile repair services in Madurai. Professional hardware diagnostics and IT solutions.";
+
+    let canonicalLink = document.querySelector('link[rel="canonical"]');
+    if (!canonicalLink) {
+      canonicalLink = document.createElement('link');
+      canonicalLink.rel = "canonical";
+      document.head.appendChild(canonicalLink);
+    }
+    canonicalLink.href = `https://siansmarttech.com${location.pathname}`;
   }, [location.pathname]);
   useEffect(() => {
     if (location.state?.scrollTo) {
@@ -151,23 +171,29 @@ function AppContent() {
   return (
     <>
       {!isAdmin && <Header />}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/hardware-services" element={<HardwareServices />} />
-        <Route path="/it-services" element={<ITServices />} />
-        <Route path="/price-list" element={<PriceListPage />} />
-        <Route path="/faq" element={<FaqPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/all-faqs" element={<AllFaqsPage />} />
-        <Route path="/book-service" element={<BookServicePage />} />
-        <Route path="/admin" element={<ProtectedRoute> <AdminDashboard /> </ProtectedRoute>} />
-        <Route path="/track" element={<TrackTicket />} />
-        <Route path="/track/:ticketId" element={<TrackTicket />} />
-      </Routes>
+      <Suspense fallback={<PageLoading />}>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/hardware-services" element={<HardwareServices />} />
+          <Route path="/it-services" element={<ITServices />} />
+          <Route path="/price-list" element={<PriceListPage />} />
+          <Route path="/faq" element={<FaqPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/all-faqs" element={<AllFaqsPage />} />
+          <Route path="/book-service" element={<BookServicePage />} />
+          <Route path="/admin" element={<ProtectedRoute> <AdminDashboard /> </ProtectedRoute>} />
+          <Route path="/track" element={<TrackTicket />} />
+          <Route path="/track/:ticketId" element={<TrackTicket />} />
+        </Routes>
+      </Suspense>
       {!isAdmin && <Footer />}
       <ScrollToTop />
       {!isAdmin && <WhatsAppButton />}
-      {!isAdmin && <Chatbot />}
+      {!isAdmin && (
+        <Suspense fallback={null}>
+          <Chatbot />
+        </Suspense>
+      )}
     </>
   );
 }
