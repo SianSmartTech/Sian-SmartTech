@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../css/HardwareServices.css";
 import { getResponsiveImage } from '../utils/imageHelpers';
-import { Cpu, Star, Globe, Briefcase } from 'lucide-react';
-const Icons = { Cpu, Star, Globe, Briefcase };
+import { Cpu, Star, Globe, Briefcase, CheckCircle, ArrowRight } from 'lucide-react';
+const Icons = { Cpu, Star, Globe, Briefcase, CheckCircle, ArrowRight };
 import { itServicesData } from '../mockData';
 const ITServices = () => {
   const navigate = useNavigate();

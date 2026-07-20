@@ -53,6 +53,200 @@ function AppContent() {
       document.head.appendChild(metaDescription);
     }
     metaDescription.content = routeDescriptions[location.pathname] || "Expert computer, laptop, and mobile repair services in Madurai. Professional hardware diagnostics and IT solutions.";
+
+    let canonical = document.querySelector('link[rel="canonical"]');
+    if (!canonical) {
+      canonical = document.createElement('link');
+      canonical.rel = 'canonical';
+      document.head.appendChild(canonical);
+    }
+    const currentCanonicalUrl = `https://siansmarttech.com${location.pathname === '/' ? '' : location.pathname}`;
+    canonical.href = currentCanonicalUrl;
+
+    let amphtml = document.querySelector('link[rel="amphtml"]');
+    if (location.pathname === '/') {
+      if (!amphtml) {
+        amphtml = document.createElement('link');
+        amphtml.rel = 'amphtml';
+        document.head.appendChild(amphtml);
+      }
+      amphtml.href = 'https://siansmarttech.com/amp.html';
+    } else {
+      if (amphtml) {
+        amphtml.remove();
+      }
+    }
+
+    const schemaId = 'dynamic-jsonld-schema';
+    let script = document.getElementById(schemaId);
+    if (!script) {
+      script = document.createElement('script');
+      script.id = schemaId;
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+
+    const defaultSchemas = {
+      "/hardware-services": {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "Hardware Repair & Chip Level Service",
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "Sian SmartTech",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "5/195, Ponnu Pillai Thoppu, Anuppanadi, Madurai - 625009.",
+            "addressLocality": "Madurai",
+            "addressRegion": "Tamil Nadu",
+            "postalCode": "625009",
+            "addressCountry": "IN"
+          }
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "Hardware Services Catalog",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Laptop Repair & Service" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Computer Repair & Service" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Printer Repair & Service" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Drone Service" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Chip Level Motherboard Service" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "CCTV Installation & Setup" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Data Backup & File Recovery" } }
+          ]
+        }
+      },
+      "/it-services": {
+        "@context": "https://schema.org",
+        "@type": "Service",
+        "name": "IT Software Solutions & PC Set Up",
+        "provider": {
+          "@type": "LocalBusiness",
+          "name": "Sian SmartTech",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "5/195, Ponnu Pillai Thoppu, Anuppanadi, Madurai - 625009.",
+            "addressLocality": "Madurai",
+            "addressRegion": "Tamil Nadu",
+            "postalCode": "625009",
+            "addressCountry": "IN"
+          }
+        },
+        "hasOfferCatalog": {
+          "@type": "OfferCatalog",
+          "name": "IT Services Catalog",
+          "itemListElement": [
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Website Development & Design" } },
+            { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Freelancing IT Services" } }
+          ]
+        }
+      },
+      "/faq": {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "Can I change a component after confirming the configuration?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, you can change components as long as the build process hasn't started. Please contact our support team immediately if you need to make adjustments to your order."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Can I get my PC within 7 working days?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Standard builds typically take 5-7 business days. Express shipping options may be available depending on component availability and your location."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Do you preinstall games or software on custom PCs?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "We preinstall the operating system and all necessary drivers. We can also preinstall specific software or games upon request during the configuration process."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Laptop vs. PC: Which is better?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "It depends on your needs. Laptops offer portability, while PCs generally provide better performance, cooling, and upgradability for the same price point."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Why should I choose a custom PC over a prebuilt PC?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Custom PCs allow you to choose high-quality components tailored to your specific needs, often resulting in better performance, easier upgrades, and better value for money."
+            }
+          }
+        ]
+      },
+      "/all-faqs": {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          { "@type": "Question", "name": "Can I change a component after confirming the configuration?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, you can change components as long as the build process hasn't started. Please contact our support team immediately if you need to make adjustments to your order." } },
+          { "@type": "Question", "name": "Can I get my PC within 7 working days?", "acceptedAnswer": { "@type": "Answer", "text": "Standard builds typically take 5-7 business days. Express shipping options may be available depending on component availability and your location." } },
+          { "@type": "Question", "name": "Do you preinstall games or software on custom PCs?", "acceptedAnswer": { "@type": "Answer", "text": "We preinstall the operating system and all necessary drivers. We can also preinstall specific software or games upon request during the configuration process." } },
+          { "@type": "Question", "name": "Laptop vs. PC: Which is better?", "acceptedAnswer": { "@type": "Answer", "text": "It depends on your needs. Laptops offer portability, while PCs generally provide better performance, cooling, and upgradability for the same price point." } },
+          { "@type": "Question", "name": "Why should I choose a custom PC over a prebuilt PC?", "acceptedAnswer": { "@type": "Answer", "text": "Custom PCs allow you to choose high-quality components tailored to your specific needs, often resulting in better performance, easier upgrades, and better value for money." } },
+          { "@type": "Question", "name": "Do you provide a warranty for service and repairs?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, all our repairs come with a standard 30-day warranty. Extended warranties are available for premium subscribers and certain hardware installations." } },
+          { "@type": "Question", "name": "What brands of laptops do you service?", "acceptedAnswer": { "@type": "Answer", "text": "We service all major brands including Apple (MacBook), Dell, HP, Lenovo, ASUS, Acer, MSI, and others. We specialize in chip-level repairs for all these brands." } },
+          { "@type": "Question", "name": "How long does a typical chip-level repair take?", "acceptedAnswer": { "@type": "Answer", "text": "Chip-level repairs usually take between 3 to 5 business days depending on the complexity of the issue and the availability of specific components." } },
+          { "@type": "Question", "name": "Do you offer home pickup and delivery?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, we provide home pickup and delivery services for a small additional fee within a certain radius of our service centers." } },
+          { "@type": "Question", "name": "Can I track the status of my repair online?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, you can track the status of your repair online on our Track Ticket page by entering your Ticket ID." } },
+          { "@type": "Question", "name": "What payment methods do you accept?", "acceptedAnswer": { "@type": "Answer", "text": "We accept cash, all major credit/debit cards, UPI, and bank transfers." } },
+          { "@type": "Question", "name": "Do you sell refurbished laptops or PCs?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, we occasionally have certified refurbished laptops and PCs for sale. All refurbished units undergo rigorous testing and come with a 3-month warranty." } },
+          { "@type": "Question", "name": "Can you upgrade my old laptop's RAM and SSD?", "acceptedAnswer": { "@type": "Answer", "text": "Absolutely! Upgrading RAM and moving to an SSD is the best way to breathe new life into an old laptop. We can help you choose and install the right components." } },
+          { "@type": "Question", "name": "Do you provide data recovery from dead hard drives?", "acceptedAnswer": { "@type": "Answer", "text": "Yes, our data recovery team specializes in recovering files from failing, corrupted, or physically damaged hard drives and SSDs." } },
+          { "@type": "Question", "name": "What are your opening hours?", "acceptedAnswer": { "@type": "Answer", "text": "Our service centers are open Monday to Friday from 9:00 AM to 6:00 PM, and Saturday from 10:00 AM to 4:00 PM. We are closed on Sundays and public holidays." } }
+        ]
+      },
+      "/price-list": {
+        "@context": "https://schema.org",
+        "@type": "PriceSpecification",
+        "name": "Sian SmartTech Service Price List",
+        "priceCurrency": "INR",
+        "description": "Affordable and transparent price list for PC diagnostics, hardware servicing, operating system installation, website design, and custom building services."
+      },
+      "/about": {
+        "@context": "https://schema.org",
+        "@type": "AboutPage",
+        "mainEntity": {
+          "@type": "LocalBusiness",
+          "name": "Sian SmartTech",
+          "image": "https://siansmarttech.com/logo.png",
+          "telephone": "+91 93446 78135",
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "5/195, Ponnu Pillai Thoppu, Anuppanadi, Madurai - 625009.",
+            "addressLocality": "Madurai",
+            "addressRegion": "Tamil Nadu",
+            "postalCode": "625009",
+            "addressCountry": "IN"
+          },
+          "founder": {
+            "@type": "Person",
+            "name": "Sivakumar SG"
+          },
+          "description": "Founded by Sivakumar SG, ex-ARIES researcher, SiAn SmartTech bridges aerospace-grade technical precision with 5+ years of computer repair and motherboard chip-level servicing."
+        }
+      }
+    };
+
+    const currentSchema = defaultSchemas[location.pathname];
+    if (currentSchema) {
+      script.innerHTML = JSON.stringify(currentSchema);
+    } else {
+      script.innerHTML = '';
+    }
   }, [location.pathname]);
   useEffect(() => {
     if (location.state?.scrollTo) {
