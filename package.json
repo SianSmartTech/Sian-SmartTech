@@ -14,7 +14,8 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build && node scripts/prerender.js"
+    "build": "node scripts/optimize-images.js && react-scripts build && node scripts/inline-amp-css.js && node scripts/prerender.js",
+    "optimize-images": "node scripts/optimize-images.js"
   },
   "browserslist": {
     "production": [
@@ -29,6 +30,7 @@
     ]
   },
   "devDependencies": {
-    "puppeteer": "^25.3.0"
+    "puppeteer": "^25.3.0",
+    "sharp": "^0.35.3"
   }
 }

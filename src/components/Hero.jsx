@@ -14,7 +14,6 @@ const Hero = () => {
   const beat4Ref = useRef(null);
   const targetFrameRef = useRef(0);
   const currentFrameRef = useRef(0);
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
@@ -120,7 +119,6 @@ const Hero = () => {
         animationFrameId = requestAnimationFrame(update);
         return;
       }
-      
       let ctx = null;
       if (!isMobile) {
         ctx = canvas.getContext('2d');
@@ -129,7 +127,6 @@ const Hero = () => {
           return;
         }
       }
-      
       const { width, height } = dimensionsRef.current;
       const rect = section.getBoundingClientRect();
       const totalHeight = rect.height - window.innerHeight;
@@ -154,7 +151,6 @@ const Hero = () => {
       } else {
         currentFrameRef.current += diff * 0.12;
       }
-      
       if (!isMobile) {
         const renderFrame = Math.max(0, Math.min(239, Math.round(currentFrameRef.current)));
         const img = imagesRef.current[renderFrame];

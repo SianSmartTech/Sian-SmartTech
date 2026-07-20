@@ -1,49 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import "../css/HardwareServices.css";
-import {
-  Layers,
-  Wrench,
-  Laptop,
-  Monitor,
-  Printer,
-  Cctv,
-  Camera,
-  Plane,
-  Cpu,
-  Star,
-  Zap,
-  Video,
-  HardDrive,
-  Settings,
-  RefreshCw,
-  ShoppingBag,
-  Keyboard,
-  Globe,
-  Briefcase
-} from 'lucide-react';
-
-const Icons = {
-  Layers,
-  Wrench,
-  Laptop,
-  Monitor,
-  Printer,
-  Cctv,
-  Camera,
-  Plane,
-  Cpu,
-  Star,
-  Zap,
-  Video,
-  HardDrive,
-  Settings,
-  RefreshCw,
-  ShoppingBag,
-  Keyboard,
-  Globe,
-  Briefcase
-};
+import { getResponsiveImage } from '../utils/imageHelpers';
+import { Layers, Wrench, Laptop, Monitor, Printer, Cctv, Camera, Plane, Cpu, Star, Zap, Video, HardDrive, Settings, RefreshCw, ShoppingBag, Keyboard, Globe, Briefcase } from 'lucide-react';
+const Icons = { Layers, Wrench, Laptop, Monitor, Printer, Cctv, Camera, Plane, Cpu, Star, Zap, Video, HardDrive, Settings, RefreshCw, ShoppingBag, Keyboard, Globe, Briefcase };
 import { services } from '../mockData';
 const HardwareServices = () => {
   const location = useLocation();
@@ -58,7 +18,6 @@ const HardwareServices = () => {
       setActiveTab('all');
     }
   }, [location]);
-
   useEffect(() => {
     const timer = setTimeout(() => {
       const container = document.querySelector('.hw-tabs-container');
@@ -131,7 +90,14 @@ const HardwareServices = () => {
                     <div className="hw-card-image-section">
                       <div className="hw-img-overlay"></div>
                       <div className="hw-scanline"></div>
-                      <img src={service.image} alt={`${service.title} - Sian SmartTech Madurai`} className="hw-service-img" loading="lazy" decoding="async" />
+                      <img
+                        src={service.image}
+                        {...getResponsiveImage(service.image)}
+                        alt={`${service.title} - Sian SmartTech Madurai`}
+                        className="hw-service-img"
+                        loading="lazy"
+                        decoding="async"
+                      />
                       <div className="hw-card-icon-badge">
                         <IconComponent size={32} />
                       </div>

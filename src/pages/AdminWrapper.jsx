@@ -1,8 +1,6 @@
-import React from 'react';
 import { AuthProvider } from '../context/AuthContext';
 import ProtectedRoute from '../components/ProtectedRoute';
 import AdminDashboard from './AdminDashboard';
-
 const AdminWrapper = () => {
   return (
     <AuthProvider>
@@ -12,5 +10,4 @@ const AdminWrapper = () => {
     </AuthProvider>
   );
 };
-
 export default AdminWrapper;

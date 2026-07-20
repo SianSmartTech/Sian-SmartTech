@@ -101,15 +101,19 @@ const AboutPage = () => {
         <motion.section className="about-hero" initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <span className="about-hero-tag">Tech with Care</span>
           <h1>Behind <span>SiAn Smart Tech</span></h1>
-          <p className="about-hero-desc">
-            Combining rigorous aerospace-grade engineering knowledge with 5+ years of dedicated,
-            component-level computer servicing. Discover our history, custom toolkits, and commitment to transparency.
-          </p>
+          <p className="about-hero-desc"> Combining rigorous aerospace-grade engineering knowledge with 5+ years of dedicated, component-level computer servicing. Discover our history, custom toolkits, and commitment to transparency.</p>
         </motion.section>
         <motion.section className="founder-section" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
           <motion.div className="founder-img-wrapper" variants={itemVariants}>
             <div className="founder-img-card">
-              <img src="/images/about_repair.webp" alt="Sivakumar SG - Certified Chip Level Laptop Repair Specialist" loading="lazy" decoding="async" />
+              <img
+                src="/images/about_repair.webp"
+                srcSet="/images/about_repair-mobile.webp 480w, /images/about_repair-tablet.webp 768w, /images/about_repair.webp 1200w"
+                sizes="(max-width: 480px) 480px, (max-width: 768px) 768px, 1200px"
+                alt="Sivakumar SG - Certified Chip Level Laptop Repair Specialist"
+                loading="lazy"
+                decoding="async"
+              />
               <div className="founder-badge-floating">
                 <span className="badge-tagline">Founder</span>
                 <span className="badge-experience">Sivakumar SG</span>
@@ -119,19 +123,8 @@ const AboutPage = () => {
           <motion.div className="founder-content-wrapper" variants={itemVariants}>
             <span className="section-label">Our Story</span>
             <h2>Bridging Advanced Engineering & Tech Care</h2>
-            <p className="founder-bio-text">
-              I am Sivakumar SG, a technology service professional and the founder of SiAn Smart Tech.
-              My journey in hardware technology began with a strong foundation at <strong>ARIES</strong>
-              (Aerobot Research and Innovative Engineering Solutions), where I gained specialized knowledge in drone
-              engineering, avionics circuitry, and mechanical hardware assembly.
-            </p>
-            <p className="founder-bio-text">
-              Transitioning this aerospace-grade discipline into computer hardware, I have spent the last
-              5+ years troubleshooting, upgrading, and servicing digital hardware. SiAn Smart Tech was founded on
-              a simple yet powerful ethos: <strong>"Tech with Care"</strong>. We do not believe in quick fixes or shortcut
-              diagnostics. Whether it is identifying a single malfunctioning diode or deploying a custom DDR5 workstation,
-              we treat every device with the highest standard of technical care.
-            </p>
+            <p className="founder-bio-text"> I am Sivakumar SG, a technology service professional and the founder of SiAn Smart Tech. My journey in hardware technology began with a strong foundation at <strong>ARIES</strong> (Aerobot Research and Innovative Engineering Solutions), where I gained specialized knowledge in drone  engineering, avionics circuitry, and mechanical hardware assembly.</p>
+            <p className="founder-bio-text"> Transitioning this aerospace-grade discipline into computer hardware, I have spent the last 5+ years troubleshooting, upgrading, and servicing digital hardware. SiAn Smart Tech was founded on a simple yet powerful ethos: <strong>"Tech with Care"</strong>. We do not believe in quick fixes or shortcut diagnostics. Whether it is identifying a single malfunctioning diode or deploying a custom DDR5 workstation, we treat every device with the highest standard of technical care.</p>
             <div className="founder-meta-cards">
               <div className="meta-card">
                 <div className="meta-icon-box">
@@ -158,10 +151,7 @@ const AboutPage = () => {
           <div className="section-header-centered">
             <span className="section-label">Technical Toolkit</span>
             <h2>Our Specialized Expertise</h2>
-            <p>
-              We dive deeper than simple module swapping. From micro-soldering motherboard chips to custom cooling loops,
-              we ensure optimized compatibility and long-term reliability.
-            </p>
+            <p> We dive deeper than simple module swapping. From micro-soldering motherboard chips to custom cooling loops, we ensure optimized compatibility and long-term reliability.</p>
           </div>
           <div className="toolkit-grid">
             {toolkit.map((item, idx) => (
@@ -206,10 +196,7 @@ const AboutPage = () => {
           <div className="section-header-centered">
             <span className="section-label">Business Systems</span>
             <h2>Organized, Clear, Professional</h2>
-            <p>
-              We believe structured businesses build long-term trust. We've replaced confusing operations
-              with automated tracking and simplified billing.
-            </p>
+            <p> We believe structured businesses build long-term trust. We've replaced confusing operations  with automated tracking and simplified billing.</p>
           </div>
           <div className="systems-grid">
             {systems.map((system, idx) => (

@@ -8,8 +8,6 @@ import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
 import ScrollToTop from "./components/ScrollToTop";
 import WhatsAppButton from "./components/WhatsAppButton";
-
-
 const HardwareServices = lazy(() => import("./pages/HardwareServices"));
 const ITServices = lazy(() => import("./pages/ITServices"));
 const PriceListPage = lazy(() => import("./pages/PriceListPage"));
@@ -71,11 +69,9 @@ function AppContent() {
     const isMobile = window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 768;
     const cursor = document.querySelector('.custom-cursor');
     const glow = document.querySelector('.cursor-glow');
-    
     if (isMobile) {
       if (glow) glow.style.display = 'none';
       if (cursor) cursor.style.display = 'none';
-      
       const handleContextMenu = (e) => {
         if (e.target.tagName === 'IMG') {
           e.preventDefault();
@@ -86,7 +82,6 @@ function AppContent() {
         document.removeEventListener('contextmenu', handleContextMenu);
       };
     }
-    
     let ticking = false;
     const handleContextMenu = (e) => {
       if (e.target.tagName === 'IMG') {
