@@ -24,16 +24,16 @@ function AppContent() {
   const location = useLocation();
   useEffect(() => {
     const routeTitles = {
-      "/": "Home | Sian SmartTech",
-      "/hardware-services": "Hardware Repair Services | Sian SmartTech",
-      "/it-services": "IT Software Solutions | Sian SmartTech",
-      "/price-list": "Price List | Sian SmartTech",
-      "/about": "About Us | Sian SmartTech",
-      "/book-service": "Book a Service | Sian SmartTech",
-      "/faq": "Frequently Asked Questions | Sian SmartTech",
-      "/all-faqs": "All FAQs | Sian SmartTech",
-      "/admin": "Admin Dashboard | Sian SmartTech",
-      "/track": "Track Ticket | Sian SmartTech"
+      "/": "Sian SmartTech | Custom PC & Laptop Service, Madurai",
+      "/hardware-services": "Hardware Repair & Chip Level Service | Sian SmartTech",
+      "/it-services": "IT Software Solutions & PC Set Up | Sian SmartTech",
+      "/price-list": "Repair Service & Custom PC Price List | Sian SmartTech",
+      "/about": "About Sian SmartTech | Premium Tech Repair Experts",
+      "/book-service": "Book Laptop, PC & Drone Service | Sian SmartTech",
+      "/faq": "Frequently Asked Questions on Service | Sian SmartTech",
+      "/all-faqs": "All FAQs for Tech Repair Services | Sian SmartTech",
+      "/admin": "Admin Dashboard Control Panel | Sian SmartTech",
+      "/track": "Track Your Repair Service Ticket | Sian SmartTech"
     };
     const routeDescriptions = {
       "/": "Expert computer, laptop, and mobile repair services in Madurai. Sian SmartTech provides professional hardware diagnostics, IT solutions, and genuine parts.",
