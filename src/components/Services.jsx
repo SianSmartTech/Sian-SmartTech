@@ -47,7 +47,7 @@ const Services = () => {
             const IconComponent = Icons[service.icon] || Icons.Wrench;
             return (
               <div key={service.id} className="premium-service-card" onClick={() => handleExplore(service)}>
-                <div className="premium-card-bg" style={{ backgroundImage: `url(${service.image})` }}></div>
+                <div className="premium-card-bg" style={{ '--card-bg-img': `url(${service.image})` }}></div>
                 <div className="premium-card-overlay"></div>
                 <div className="premium-card-content">
                   <div className="premium-icon-wrapper">

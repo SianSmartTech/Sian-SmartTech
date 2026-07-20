@@ -2097,3 +2097,106 @@
 .admin-stat-card.card-red:hover {
   box-shadow: 0 8px 25px rgba(239, 68, 68, 0.12);
 }
+
+/* Extracted inline styles classes */
+.admin-header-spacer {
+  width: 22px;
+}
+
+.admin-page-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-section-heading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #11678E;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-section-heading.mt-28 {
+  margin-top: 28px;
+}
+
+.admin-heading-indicator {
+  width: 4px;
+  height: 16px;
+  background: #11678E;
+  border-radius: 2px;
+}
+
+.admin-stats-grid.mb-32 {
+  margin-bottom: 32px;
+}
+
+.service-bar-fill {
+  width: var(--fill-width, 0%);
+}
+
+.ledger-search-controls {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  min-width: 280px;
+  max-width: 520px;
+}
+
+.ledger-search-wrapper {
+  flex: 1;
+}
+
+.add-booking-btn {
+  border-color: #11678E;
+  color: #11678E;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.ledger-customer-phone {
+  font-style: normal;
+  color: var(--text-secondary);
+}
+
+.ledger-cell-address {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ledger-cell-semibold {
+  font-weight: 600;
+}
+
+.ledger-cell-issue {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.ledger-cell-cost {
+  font-weight: 700;
+  color: #11678E;
+}
+
+.drawer-info-row.mt-6 {
+  margin-top: 6px;
+}
+
+.drawer-edit-form.mt-10 {
+  margin-top: 10px;
+}
+
+.drawer-form-actions {
+  margin-top: 15px;
+}

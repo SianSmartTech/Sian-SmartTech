@@ -1,25 +1,26 @@
 import "./css/App.css";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
-import { useEffect } from "react";
+import { useEffect, lazy, Suspense } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
-import HardwareServices from "./pages/HardwareServices";
-import ITServices from "./pages/ITServices";
-import PriceListPage from "./pages/PriceListPage";
-import FaqPage from "./pages/FaqPage";
-import AboutPage from "./pages/AboutPage";
-import AllFaqsPage from "./pages/AllFaqsPage";
 import ScrollToTop from "./components/ScrollToTop";
-import BookServicePage from "./pages/BookServicePage";
 import WhatsAppButton from "./components/WhatsAppButton";
-import Chatbot from "./components/Chatbot";
-import AdminDashboard from "./pages/AdminDashboard";
-import TrackTicket from "./pages/TrackTicket";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
+
+const HardwareServices = lazy(() => import("./pages/HardwareServices"));
+const ITServices = lazy(() => import("./pages/ITServices"));
+const PriceListPage = lazy(() => import("./pages/PriceListPage"));
+const FaqPage = lazy(() => import("./pages/FaqPage"));
+const AboutPage = lazy(() => import("./pages/AboutPage"));
+const AllFaqsPage = lazy(() => import("./pages/AllFaqsPage"));
+const BookServicePage = lazy(() => import("./pages/BookServicePage"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const TrackTicket = lazy(() => import("./pages/TrackTicket"));
+const Chatbot = lazy(() => import("./components/Chatbot"));
 function AppContent() {
   const location = useLocation();
   useEffect(() => {
@@ -68,8 +69,25 @@ function AppContent() {
     }
   }, [location.state]);
   useEffect(() => {
+    const isMobile = window.matchMedia("(pointer: coarse)").matches || window.innerWidth < 768;
     const cursor = document.querySelector('.custom-cursor');
     const glow = document.querySelector('.cursor-glow');
+    
+    if (isMobile) {
+      if (glow) glow.style.display = 'none';
+      if (cursor) cursor.style.display = 'none';
+      
+      const handleContextMenu = (e) => {
+        if (e.target.tagName === 'IMG') {
+          e.preventDefault();
+        }
+      };
+      document.addEventListener('contextmenu', handleContextMenu);
+      return () => {
+        document.removeEventListener('contextmenu', handleContextMenu);
+      };
+    }
+    
     let ticking = false;
     const handleContextMenu = (e) => {
       if (e.target.tagName === 'IMG') {
@@ -151,23 +169,33 @@ function AppContent() {
   return (
     <>
       {!isAdmin && <Header />}
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/hardware-services" element={<HardwareServices />} />
-        <Route path="/it-services" element={<ITServices />} />
-        <Route path="/price-list" element={<PriceListPage />} />
-        <Route path="/faq" element={<FaqPage />} />
-        <Route path="/about" element={<AboutPage />} />
-        <Route path="/all-faqs" element={<AllFaqsPage />} />
-        <Route path="/book-service" element={<BookServicePage />} />
-        <Route path="/admin" element={<ProtectedRoute> <AdminDashboard /> </ProtectedRoute>} />
-        <Route path="/track" element={<TrackTicket />} />
-        <Route path="/track/:ticketId" element={<TrackTicket />} />
-      </Routes>
+      <Suspense fallback={
+        <div className="route-loading-fallback">
+          <div className="spinner-loader"></div>
+        </div>
+      }>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/hardware-services" element={<HardwareServices />} />
+          <Route path="/it-services" element={<ITServices />} />
+          <Route path="/price-list" element={<PriceListPage />} />
+          <Route path="/faq" element={<FaqPage />} />
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/all-faqs" element={<AllFaqsPage />} />
+          <Route path="/book-service" element={<BookServicePage />} />
+          <Route path="/admin" element={<ProtectedRoute> <AdminDashboard /> </ProtectedRoute>} />
+          <Route path="/track" element={<TrackTicket />} />
+          <Route path="/track/:ticketId" element={<TrackTicket />} />
+        </Routes>
+      </Suspense>
       {!isAdmin && <Footer />}
       <ScrollToTop />
       {!isAdmin && <WhatsAppButton />}
-      {!isAdmin && <Chatbot />}
+      {!isAdmin && (
+        <Suspense fallback={null}>
+          <Chatbot />
+        </Suspense>
+      )}
     </>
   );
 }

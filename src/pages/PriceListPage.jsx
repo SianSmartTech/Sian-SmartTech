@@ -69,7 +69,7 @@ const PriceListPage = () => {
                 {pricing.map((plan, index) => {
                   const HardwareIcon = getHardwareIcon(plan.id);
                   return (
-                    <div key={plan.id} className={`pricing-v2-card reveal ${plan.popular ? 'pricing-v2-popular' : ''}`} style={{ transitionDelay: `${index * 120}ms` }}>
+                    <div key={plan.id} className={`pricing-v2-card reveal ${plan.popular ? 'pricing-v2-popular' : ''}`} style={{ '--delay': `${index * 120}ms` }}>
                       {plan.popular && <div className="pricing-v2-badge">Most Popular</div>}
                       <div className="pricing-v2-card-header">
                         <div className="pricing-card-header-row">
@@ -114,7 +114,7 @@ const PriceListPage = () => {
                 {itPricing.map((plan, index) => {
                   const IconComp = Icons[plan.icon] || Icons.Globe;
                   return (
-                    <div key={plan.id} className={`pricing-v2-card reveal ${plan.popular ? 'pricing-v2-popular' : ''}`} style={{ transitionDelay: `${index * 150}ms` }}>
+                    <div key={plan.id} className={`pricing-v2-card reveal ${plan.popular ? 'pricing-v2-popular' : ''}`} style={{ '--delay': `${index * 150}ms` }}>
                       {plan.popular && <div className="pricing-v2-badge">Most Popular</div>}
                       <div className="pricing-v2-card-header">
                         <div className="pricing-card-header-row">
@@ -167,21 +167,21 @@ const PriceListPage = () => {
               <h2 className="services-v2-title">Why Choose Us?</h2>
             </div>
             <div className="process-v2-stats why-choose-grid">
-              <div className="why-choose-card reveal" style={{ transitionDelay: '0ms' }}>
+              <div className="why-choose-card reveal" style={{ '--delay': '0ms' }}>
                 <div className="process-v2-stat-icon"><Shield size={32} /></div>
                 <div className="process-v2-stat-info">
                   <h3>Warranty Guaranteed</h3>
                   <p>All repairs come with a minimum 30-day warranty for your peace of mind.</p>
                 </div>
               </div>
-              <div className="why-choose-card reveal" style={{ transitionDelay: '120ms' }}>
+              <div className="why-choose-card reveal" style={{ '--delay': '120ms' }}>
                 <div className="process-v2-stat-icon"><Star size={32} /></div>
                 <div className="process-v2-stat-info">
                   <h3>Genuine Parts</h3>
                   <p>We only use authentic, high-quality components in every repair job.</p>
                 </div>
               </div>
-              <div className="why-choose-card reveal" style={{ transitionDelay: '240ms' }}>
+              <div className="why-choose-card reveal" style={{ '--delay': '240ms' }}>
                 <div className="process-v2-stat-icon"><Check size={32} /></div>
                 <div className="process-v2-stat-info">
                   <h3>No Fix, No Fee</h3>

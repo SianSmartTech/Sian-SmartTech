@@ -7,12 +7,21 @@ const Hero = () => {
   const canvasRef = useRef(null);
   const imagesRef = useRef([]);
   const [canvasLoaded, setCanvasLoaded] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const beat1Ref = useRef(null);
   const beat2Ref = useRef(null);
   const beat3Ref = useRef(null);
   const beat4Ref = useRef(null);
   const targetFrameRef = useRef(0);
   const currentFrameRef = useRef(0);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
   const drawImageCover = (ctx, img, x, y, w, h, offsetX = 0.5, offsetY = 0.5) => {
     if (w <= 0 || h <= 0) return;
     const iw = img.width;
@@ -36,9 +45,12 @@ const Hero = () => {
     ctx.drawImage(img, cx, cy, cw, ch, x, y, w, h);
   };
   useEffect(() => {
+    if (isMobile) {
+      setCanvasLoaded(true);
+      return;
+    }
     const loadedImages = [];
-    const isMobile = window.innerWidth <= 768;
-    const totalFrames = isMobile ? 1 : 240;
+    const totalFrames = 240;
     for (let i = 1; i <= totalFrames; i++) {
       loadedImages.push(new Image());
     }
@@ -52,7 +64,6 @@ const Hero = () => {
       setCanvasLoaded(true);
     }
     const loadRemaining = () => {
-      if (isMobile) return;
       let currentIndex = 1;
       const batchSize = 6;
       const delayBetweenBatches = 80;
@@ -76,9 +87,10 @@ const Hero = () => {
       window.addEventListener('load', loadRemaining);
       return () => window.removeEventListener('load', loadRemaining);
     }
-  }, []);
+  }, [isMobile]);
   const dimensionsRef = useRef({ width: 0, height: 0 });
   useEffect(() => {
+    if (isMobile) return;
     const canvas = canvasRef.current;
     if (!canvas) return;
     const handleResize = () => {
@@ -98,28 +110,27 @@ const Hero = () => {
       window.removeEventListener('resize', handleResize);
       clearInterval(intervalId);
     };
-  }, [canvasLoaded]);
+  }, [canvasLoaded, isMobile]);
   useEffect(() => {
     let animationFrameId;
     const update = () => {
       const section = sectionRef.current;
       const canvas = canvasRef.current;
-      if (!section || !canvas) {
+      if (!section || (!isMobile && !canvas)) {
         animationFrameId = requestAnimationFrame(update);
         return;
       }
-      const ctx = canvas.getContext('2d');
-      if (!ctx) {
-        animationFrameId = requestAnimationFrame(update);
-        return;
+      
+      let ctx = null;
+      if (!isMobile) {
+        ctx = canvas.getContext('2d');
+        if (!ctx) {
+          animationFrameId = requestAnimationFrame(update);
+          return;
+        }
       }
+      
       const { width, height } = dimensionsRef.current;
-      if (width === 0 || height === 0) {
-        animationFrameId = requestAnimationFrame(update);
-        return;
-      }
-      ctx.imageSmoothingEnabled = true;
-      ctx.imageSmoothingQuality = 'high';
       const rect = section.getBoundingClientRect();
       const totalHeight = rect.height - window.innerHeight;
       let progress = 0;
@@ -143,35 +154,17 @@ const Hero = () => {
       } else {
         currentFrameRef.current += diff * 0.12;
       }
-      const isMobile = window.innerWidth <= 768;
-      const renderFrame = isMobile ? 0 : Math.max(0, Math.min(239, Math.round(currentFrameRef.current)));
-      const img = imagesRef.current[renderFrame];
-      if (img) {
-        if (!img.src || img.src === window.location.href) {
-          const frameNum = String(renderFrame + 1).padStart(3, '0');
-          img.src = `/cpuframes/ezgif-frame-${frameNum}.jpg`;
-        }
-        if (img.complete && img.naturalWidth > 0) {
-          ctx.clearRect(0, 0, width, height);
-          if (window.innerWidth <= 768) {
-            const imgAspect = img.width / img.height;
-            const canvasAspect = width / height;
-            let drawW, drawH;
-            if (canvasAspect < imgAspect) {
-              drawW = width * 1.5;
-              drawH = drawW / imgAspect;
-              if (drawH > height) {
-                drawH = height;
-                drawW = drawH * imgAspect;
-              }
-            } else {
-              drawW = width;
-              drawH = height;
-            }
-            const drawX = (width - drawW) / 2;
-            const drawY = (height - drawH) / 2;
-            ctx.drawImage(img, 0, 0, img.width, img.height, drawX, drawY, drawW, drawH);
-          } else {
+      
+      if (!isMobile) {
+        const renderFrame = Math.max(0, Math.min(239, Math.round(currentFrameRef.current)));
+        const img = imagesRef.current[renderFrame];
+        if (img) {
+          if (!img.src || img.src === window.location.href) {
+            const frameNum = String(renderFrame + 1).padStart(3, '0');
+            img.src = `/cpuframes/ezgif-frame-${frameNum}.jpg`;
+          }
+          if (img.complete && img.naturalWidth > 0) {
+            ctx.clearRect(0, 0, width, height);
             drawImageCover(ctx, img, 0, 0, width, height);
           }
         }
@@ -221,12 +214,16 @@ const Hero = () => {
     };
     animationFrameId = requestAnimationFrame(update);
     return () => cancelAnimationFrame(animationFrameId);
-  }, []);
+  }, [isMobile]);
   return (
     <section ref={sectionRef} id="home" className={`hero-skill-stream ${canvasLoaded ? 'canvas-loaded' : ''}`}>
       <div className="hero-sticky-container">
         <div className="hero-gradient-overlay" />
-        <canvas ref={canvasRef} className="hero-canvas" />
+        {isMobile ? (
+          <div className="hero-mobile-bg" style={{ backgroundImage: "url('/cpuframes/ezgif-frame-001.jpg')" }} />
+        ) : (
+          <canvas ref={canvasRef} className="hero-canvas" />
+        )}
         <div className="hero-ss-container">
           <div className="hero-ss-content">
             <div ref={beat1Ref} className="hero-beat-overlay">

@@ -116,7 +116,7 @@ const Contact = () => {
           <textarea name="message" value={formData.message} onChange={handleChange} required rows="6" placeholder="Message" className="contact-v2-input contact-v2-textarea" ></textarea>
           <button type="submit" className="contact-v2-submit" disabled={isSubmitting}>
             {isSubmitting ? (
-              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%' }}>
+              <span className="contact-submitting-text">
                 <Loader2 size={18} className="animate-spin" /> Sending...
               </span>
             ) : (
