@@ -16,18 +16,10 @@ const GoogleReviews = () => {
     baseReviews = [...baseReviews, ...baseReviews];
   }
   const duplicatedReviews = [...baseReviews, ...baseReviews];
-  const getAvatarBg = (name) => {
+  const getAvatarClass = (name) => {
     const char = name.trim().charAt(0).toUpperCase();
     const code = char.charCodeAt(0);
-    const gradients = [
-      'linear-gradient(135deg, #2563eb, #60a5fa)',
-      'linear-gradient(135deg, #059669, #34d399)',
-      'linear-gradient(135deg, #7c3aed, #a78bfa)',
-      'linear-gradient(135deg, #ea580c, #fb923c)',
-      'linear-gradient(135deg, #db2777, #f472b6)',
-      'linear-gradient(135deg, #0d9488, #2dd4bf)',
-    ];
-    return gradients[code % gradients.length];
+    return `avatar-gradient-${code % 6}`;
   };
   const handleStart = (clientX) => {
     const container = scrollRef.current;
@@ -153,7 +145,7 @@ const GoogleReviews = () => {
                 </div>
                 <div className="sian-smart-tech-card-profile">
                   <div className="sian-smart-tech-avatar-wrapper">
-                    <div className="sian-smart-tech-avatar-fallback" style={{ '--avatar-bg': getAvatarBg(review.authorName) }}>
+                    <div className={`sian-smart-tech-avatar-fallback ${getAvatarClass(review.authorName)}`}>
                       {review.authorName.trim().charAt(0).toUpperCase()}
                     </div>
                     <div className="sian-smart-tech-avatar-badge google-badge-blue">

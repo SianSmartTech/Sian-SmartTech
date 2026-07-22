@@ -1,8 +1,9 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import "../css/HardwareServices.css";
-import * as Icons from 'lucide-react';
+import { Layers, Laptop, Monitor, Printer, Cctv, Camera, Plane, Cpu, Zap, Video, HardDrive, Settings, Wrench, RefreshCw, ShoppingBag, Keyboard, Star, CheckCircle, ShieldCheck, ArrowRight } from 'lucide-react';
 import { services } from '../mockData';
+const SERVICE_ICONS = { Laptop, Monitor, Printer, Zap, Cpu, Video, HardDrive, Settings, Wrench, RefreshCw, ShoppingBag, Keyboard };
 const HardwareServices = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -16,7 +17,6 @@ const HardwareServices = () => {
       setActiveTab('all');
     }
   }, [location]);
-
   useEffect(() => {
     let animId;
     const timer = setTimeout(() => {
@@ -54,13 +54,13 @@ const HardwareServices = () => {
   };
   const getTabIcon = (cat) => {
     switch (cat) {
-      case 'all': return Icons.Layers || Icons.Wrench;
-      case 'laptop': return Icons.Laptop;
-      case 'computer': return Icons.Monitor;
-      case 'printer': return Icons.Printer;
-      case 'cctv': return Icons.Cctv || Icons.Camera;
-      case 'drone': return Icons.Plane || Icons.Cpu;
-      default: return Icons.Cpu;
+      case 'all': return Layers || Wrench;
+      case 'laptop': return Laptop;
+      case 'computer': return Monitor;
+      case 'printer': return Printer;
+      case 'cctv': return Cctv || Camera;
+      case 'drone': return Plane || Cpu;
+      default: return Cpu;
     }
   };
   return (
@@ -91,7 +91,7 @@ const HardwareServices = () => {
             </div>
             <div className="hw-premium-list">
               {displayServices.map((service, index) => {
-                const IconComponent = Icons[service.icon] || Icons.Cpu;
+                const IconComponent = SERVICE_ICONS[service.icon] || Cpu;
                 return (
                   <div key={service.id} className="hw-premium-card reveal active">
                     <div className="hw-glow-orb orb-1"></div>
@@ -108,7 +108,7 @@ const HardwareServices = () => {
                       <div className="hw-card-header">
                         <span className="hw-category">{service.category}</span>
                         <div className="hw-rating">
-                          <Icons.Star size={16} className="hw-rating-icon" />
+                          <Star size={16} className="hw-rating-icon" />
                           <span>{service.rating || '4.9'}</span>
                         </div>
                       </div>
@@ -130,20 +130,20 @@ const HardwareServices = () => {
                       </div>
                       <div className="hw-features-grid">
                         <div className="hw-feature-pill">
-                          <Icons.CheckCircle size={16} className="hw-feature-icon" />
+                          <CheckCircle size={16} className="hw-feature-icon" />
                           <span>{service.benefits?.[0] || 'Advanced Diagnostics'}</span>
                         </div>
                         <div className="hw-feature-pill">
-                          <Icons.ShieldCheck size={16} className="hw-feature-icon" />
+                          <ShieldCheck size={16} className="hw-feature-icon" />
                           <span>{service.benefits?.[1] || 'Warranty Covered'}</span>
                         </div>
                         <div className="hw-feature-pill">
-                          <Icons.Wrench size={16} className="hw-feature-icon" />
+                          <Wrench size={16} className="hw-feature-icon" />
                           <span>{service.benefits?.[2] || 'Quality Spares'}</span>
                         </div>
                       </div>
                       <button className="hw-book-btn" onClick={() => navigate('/book-service', { state: { selectedService: service.title } })}>
-                        <span>Book This Service</span> <Icons.ArrowRight size={18} />
+                        <span>Book This Service</span> <ArrowRight size={18} />
                       </button>
                     </div>
                   </div>

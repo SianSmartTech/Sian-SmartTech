@@ -4,7 +4,6 @@ import { companyInfo } from '../mockData';
 import { toast } from 'sonner';
 import "../css/App.css";
 import ProtectedEmail from './ProtectedEmail';
-
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);

@@ -1,7 +1,7 @@
 import "./css/App.css";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
-import { useEffect, lazy, Suspense } from "react";
+import { useEffect, Suspense, lazy } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Routes, Route } from "react-router-dom";
@@ -10,8 +10,6 @@ import ScrollToTop from "./components/ScrollToTop";
 import WhatsAppButton from "./components/WhatsAppButton";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-
-// Lazy load page components
 const HardwareServices = lazy(() => import("./pages/HardwareServices"));
 const ITServices = lazy(() => import("./pages/ITServices"));
 const PriceListPage = lazy(() => import("./pages/PriceListPage"));
@@ -21,10 +19,7 @@ const AllFaqsPage = lazy(() => import("./pages/AllFaqsPage"));
 const BookServicePage = lazy(() => import("./pages/BookServicePage"));
 const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 const TrackTicket = lazy(() => import("./pages/TrackTicket"));
-
-// Lazy load Chatbot since it contains heavy Firebase SDK dependencies
 const Chatbot = lazy(() => import("./components/Chatbot"));
-
 function PageLoading() {
   return (
     <div className="page-loading-fallback">
@@ -67,7 +62,6 @@ function AppContent() {
       document.head.appendChild(metaDescription);
     }
     metaDescription.content = routeDescriptions[location.pathname] || "Expert computer, laptop, and mobile repair services in Madurai. Professional hardware diagnostics and IT solutions.";
-
     let canonicalLink = document.querySelector('link[rel="canonical"]');
     if (!canonicalLink) {
       canonicalLink = document.createElement('link');
@@ -88,6 +82,7 @@ function AppContent() {
     }
   }, [location.state]);
   useEffect(() => {
+    const isTouchDevice = window.matchMedia('(pointer: coarse)').matches || 'ontouchstart' in window;
     const cursor = document.querySelector('.custom-cursor');
     const glow = document.querySelector('.cursor-glow');
     let ticking = false;
@@ -97,6 +92,13 @@ function AppContent() {
       }
     };
     document.addEventListener('contextmenu', handleContextMenu);
+    if (isTouchDevice) {
+      if (cursor) cursor.style.display = 'none';
+      if (glow) glow.style.display = 'none';
+      return () => {
+        document.removeEventListener('contextmenu', handleContextMenu);
+      };
+    }
     const handleMouseMove = (e) => {
       if (!ticking) {
         requestAnimationFrame(() => {
@@ -146,8 +148,16 @@ function AppContent() {
       const images = document.querySelectorAll('img:not(.img-processed)');
       images.forEach(img => {
         img.classList.add('img-reveal', 'img-processed');
-        if (!img.hasAttribute('loading')) {
+        const isHero = img.classList.contains('hero-img') || 
+                       img.closest('.hero-section') || 
+                       img.closest('.hero-container') || 
+                       img.getAttribute('fetchpriority') === 'high' ||
+                       img.getAttribute('loading') === 'eager';
+        if (!img.hasAttribute('loading') && !isHero) {
           img.setAttribute('loading', 'lazy');
+        }
+        if (isHero && !img.hasAttribute('fetchpriority')) {
+          img.setAttribute('fetchpriority', 'high');
         }
         if (img.complete) {
           img.classList.add('loaded');

@@ -1976,11 +1976,17 @@ h6,
   transform: rotate(-3deg);
   margin-left: 1rem;
 }
+.sticker-1::before {
+  --bg-img: url('../../public/images/process/define.webp');
+}
 
 .sticker-2 {
   grid-column: span 2;
   transform: rotate(2deg);
   margin-top: 2rem;
+}
+.sticker-2::before {
+  --bg-img: url('../../public/images/process/design.webp');
 }
 
 .sticker-3 {
@@ -1988,17 +1994,26 @@ h6,
   transform: rotate(-2deg);
   margin-left: -1rem;
 }
+.sticker-3::before {
+  --bg-img: url('../../public/images/process/build.webp');
+}
 
 .sticker-4 {
   grid-column: 2 / span 2;
   transform: rotate(3deg);
   margin-top: 3rem;
 }
+.sticker-4::before {
+  --bg-img: url('../../public/images/process/launch.webp');
+}
 
 .sticker-5 {
   grid-column: 4 / span 2;
   transform: rotate(-1deg);
   margin-top: 4rem;
+}
+.sticker-5::before {
+  --bg-img: url('../../public/images/process/handover.webp');
 }
 
 .process-sticker:hover {
@@ -4286,7 +4301,6 @@ img {
   -webkit-text-fill-color: transparent !important;
 }
 
-
 .btn-confirm,
 .btn-manage,
 .refresh-btn,
@@ -4306,7 +4320,6 @@ img {
   color: #ffffff !important;
 }
 
-
 .btn-confirm:hover,
 .btn-manage:hover,
 .refresh-btn:hover,
@@ -4324,7 +4337,6 @@ img {
   background: var(--accent-hover) !important;
   border-color: var(--accent-hover) !important;
 }
-
 
 [data-theme="dark"] .btn-confirm,
 [data-theme="dark"] .btn-manage,
@@ -5203,7 +5215,6 @@ img {
   }
 }
 
-/* Page Loading Fallback Spinner */
 .page-loading-fallback {
   display: flex;
   align-items: center;
@@ -5231,7 +5242,6 @@ img {
   }
 }
 
-/* Map Component Helper Classes */
 .map-hours-list {
   display: flex;
   flex-direction: column;

@@ -52,7 +52,6 @@ const Header = () => {
           }, 100);
         }
       } catch (e) {
-        // Ignore invalid CSS selector in URL hash
       }
     }
   }, [location]);

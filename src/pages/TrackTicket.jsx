@@ -106,7 +106,7 @@ const TrackTicket = () => {
             </div>
             <div className="stepper-container">
               <div className="stepper-progress-bar">
-                <div className={`stepper-progress-fill ${ticketDetails.status === 'Cancelled' ? 'cancelled' : ''}`} style={{ '--progress-width': `${(currentStatusIndex / (statusSteps.length - 1)) * 90 + 5}%` }}></div>
+                <div className={`stepper-progress-fill step-progress-${currentStatusIndex} ${ticketDetails.status === 'Cancelled' ? 'cancelled' : ''}`}></div>
               </div>
               <div className="stepper-steps">
                 {statusSteps.map((step, idx) => {

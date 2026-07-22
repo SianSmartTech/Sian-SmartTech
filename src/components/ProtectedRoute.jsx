@@ -3,8 +3,6 @@ import { ShieldAlert, Lock, LogOut, Key, AlertTriangle } from "lucide-react";
 import "../css/AuthStyles.css";
 const ProtectedRoute = ({ children }) => {
   const { user, loading, loginWithGoogle, logout, isAuthorized, allowedEmailsConfigured } = useAuth();
-  
-  // Dev-only Auth Bypass for automated verification / browser subagent testing
   if (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('mockAuth') === 'true') {
     return children;
   }

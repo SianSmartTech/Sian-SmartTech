@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../css/HardwareServices.css";
-import * as Icons from 'lucide-react';
+import { Star, CheckCircle, ArrowRight, Globe, Briefcase, Cpu } from 'lucide-react';
 import { itServicesData } from '../mockData';
+const IT_SERVICE_ICONS = { Globe, Briefcase, Cpu};
 const ITServices = () => {
   const navigate = useNavigate();
   const [displayServices] = useState(itServicesData);
@@ -21,7 +22,7 @@ const ITServices = () => {
           <div className="container hw-premium-container">
             <div className="hw-premium-list">
               {displayServices.map((service, index) => {
-                const IconComponent = Icons[service.icon] || Icons.Cpu;
+                const IconComponent = IT_SERVICE_ICONS[service.icon] || Cpu;
                 const isSelected = false;
                 return (
                   <div key={service.id} className={`hw-premium-card reveal active ${isSelected ? 'hw-selected-card' : ''}`}>
@@ -29,7 +30,7 @@ const ITServices = () => {
                     <div className="hw-glow-orb orb-2"></div>
                     {isSelected && (
                       <div className="hw-selected-badge">
-                        <Icons.Star size={14} className="hw-star-icon" />Selected Service
+                        <Star size={14} className="hw-star-icon" />Selected Service
                       </div>
                     )}
                     <div className="hw-card-image-section">
@@ -44,7 +45,7 @@ const ITServices = () => {
                       <div className="hw-card-header">
                         <span className="hw-category">{service.category}</span>
                         <div className="hw-rating">
-                          <Icons.Star size={16} className="hw-rating-icon" />
+                          <Star size={16} className="hw-rating-icon" />
                           <span>{service.rating}</span>
                         </div>
                       </div>
@@ -67,13 +68,13 @@ const ITServices = () => {
                       <div className="hw-features-grid">
                         {service.benefits.map((benefit, i) => (
                           <div key={i} className="hw-feature-pill">
-                            <Icons.CheckCircle size={16} className="hw-feature-icon" />
+                            <CheckCircle size={16} className="hw-feature-icon" />
                             <span>{benefit}</span>
                           </div>
                         ))}
                       </div>
                       <button className="hw-book-btn" onClick={() => navigate('/book-service', { state: { selectedService: service.title } })}>
-                        <span>Book This Service</span> <Icons.ArrowRight size={18} />
+                        <span>Book This Service</span> <ArrowRight size={18} />
                       </button>
                     </div>
                   </div>

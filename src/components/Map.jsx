@@ -2,12 +2,10 @@ import { useEffect, useRef, useState } from 'react';
 import "../css/App.css";
 import { companyInfo } from '../mockData';
 import { MapPin, Clock, Navigation } from 'lucide-react';
-
 const Map = () => {
   const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(companyInfo.address)}`;
   const containerRef = useRef(null);
   const [shouldRender, setShouldRender] = useState(false);
-
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -23,7 +21,6 @@ const Map = () => {
     }
     return () => observer.disconnect();
   }, []);
-
   return (
     <section ref={containerRef} id="map" className="map-section-v2 reveal">
       <div className="map-bg-text">CONNECT</div>
@@ -76,5 +73,4 @@ const Map = () => {
     </section>
   );
 };
-
 export default Map;

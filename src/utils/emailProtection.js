@@ -1,7 +1,3 @@
-/**
- * Utility functions for obfuscating and protecting email addresses against automated web scraping bots.
- */
-
 export function encodeEmail(email) {
   if (!email) return '';
   try {
@@ -10,7 +6,6 @@ export function encodeEmail(email) {
     return email;
   }
 }
-
 export function decodeEmail(encoded) {
   if (!encoded) return '';
   try {
@@ -19,7 +14,6 @@ export function decodeEmail(encoded) {
     return encoded;
   }
 }
-
 export function formatObfuscatedText(email) {
   if (!email) return '';
   return email.replace('@', ' [at] ').replace(/\./g, ' [dot] ');

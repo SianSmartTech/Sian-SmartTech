@@ -211,9 +211,9 @@ const Chatbot = () => {
         (lowerText.includes("contact") && lowerText.includes("it"))
       ) {
         botResponse = (
-          <div className="chat-contact-info" style={{ textAlign: 'left', lineHeight: '1.4' }}>
-            <p style={{ margin: '0 0 8px 0' }}><strong>IT Services Contact:</strong></p>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
+          <div className="chat-contact-info chat-it-contact">
+            <p className="chat-it-contact-title"><strong>IT Services Contact:</strong></p>
+            <div className="chat-it-contact-list">
               <div>📞 <strong>Contact Number:</strong> 8056534429</div>
               <div>✉️ <strong>Email:</strong> <ProtectedEmail email="santhoshsandy81140@gmail.com" className="chat-link" /></div>
             </div>

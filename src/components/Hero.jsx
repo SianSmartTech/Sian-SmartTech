@@ -81,7 +81,6 @@ const Hero = () => {
       window.removeEventListener('mousemove', startPreloading);
       window.removeEventListener('touchstart', startPreloading);
     };
-    // Load remaining frames after 3 seconds of idle time or immediately on user interaction
     const timerId = setTimeout(startPreloading, 3000);
     window.addEventListener('scroll', startPreloading, { passive: true });
     window.addEventListener('mousemove', startPreloading, { passive: true });

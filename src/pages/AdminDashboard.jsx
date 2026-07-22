@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Users, Clock, CheckCircle2, ClipboardList, Search, Edit3, X, Mail, TrendingUp, RefreshCw, Send, Check, AlertCircle, BarChart2, LogOut, Menu, Database, Plus, Sun, Moon, ChevronLeft, Trash2, FileText, Printer, Copy } from 'lucide-react';
+import { Users, Clock, CheckCircle2, ClipboardList, Search, Edit3, X, Mail, TrendingUp, RefreshCw, Send, Check, AlertCircle, BarChart2, LogOut, Menu, Database, Plus, Sun, Moon, ChevronLeft, Trash2, FileText } from 'lucide-react';
 import { toast, Toaster } from 'sonner';
 import { bookingStore } from '../utils/bookingStore';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import InvoiceGenerator from '../components/InvoiceGenerator';
 import "../css/AdminDashboard.css";
-
 const AdminDashboard = () => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
@@ -21,10 +20,7 @@ const AdminDashboard = () => {
   const [selectedOtherBooking, setSelectedOtherBooking] = useState(null);
   const [isOtherDrawerOpen, setIsOtherDrawerOpen] = useState(false);
   const [isAddOtherOpen, setIsAddOtherOpen] = useState(false);
-  
-  // Invoice Generator State
   const [invoices, setInvoices] = useState([]);
-
   const [newOtherBooking, setNewOtherBooking] = useState({
     name: '',
     email: '',

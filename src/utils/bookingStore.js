@@ -12,7 +12,6 @@ const setItemSafe = (key, val) => {
 const removeItemSafe = (key) => {
   try { localStorage.removeItem(key); } catch (e) {}
 };
-
 export const bookingStore = {
   initialize() {
     removeItemSafe(BOOKINGS_KEY);

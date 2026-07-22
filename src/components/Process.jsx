@@ -26,7 +26,7 @@ const Process = () => {
           </svg>
           <div className="stickers-grid">
             {steps.map((step, index) => (
-              <div key={step.id} className={`process-sticker sticker-${index + 1}`} style={{ '--bg-img': `url(${step.image})` }}>
+              <div key={step.id} className={`process-sticker sticker-${index + 1}`}>
                 <div className="sticker-pin"></div>
                 <div className="sticker-content">
                   <span className="sticker-number">{step.id}</span>

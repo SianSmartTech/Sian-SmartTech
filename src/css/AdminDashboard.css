@@ -2098,7 +2098,6 @@
   box-shadow: 0 8px 25px rgba(239, 68, 68, 0.12);
 }
 
-/* Admin Dashboard Helper Utility Classes */
 .admin-mobile-spacer {
   width: 22px;
 }
@@ -2201,4 +2200,3 @@
 .admin-drawer-submit-wrapper {
   margin-top: 15px;
 }
-

@@ -157,7 +157,31 @@
   font-size: 1.1rem;
   font-weight: 700;
   border: 2px solid #ffffff;
-  background: var(--avatar-bg, #11678E);
+  background: #11678E;
+}
+
+.avatar-gradient-0 {
+  background: linear-gradient(135deg, #2563eb, #60a5fa) !important;
+}
+
+.avatar-gradient-1 {
+  background: linear-gradient(135deg, #059669, #34d399) !important;
+}
+
+.avatar-gradient-2 {
+  background: linear-gradient(135deg, #7c3aed, #a78bfa) !important;
+}
+
+.avatar-gradient-3 {
+  background: linear-gradient(135deg, #ea580c, #fb923c) !important;
+}
+
+.avatar-gradient-4 {
+  background: linear-gradient(135deg, #db2777, #f472b6) !important;
+}
+
+.avatar-gradient-5 {
+  background: linear-gradient(135deg, #0d9488, #2dd4bf) !important;
 }
 
 [data-theme="dark"] .sian-smart-tech-avatar-fallback {

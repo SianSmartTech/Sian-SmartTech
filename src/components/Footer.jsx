@@ -3,7 +3,6 @@ import { Mail, Phone, MapPin, Facebook, Instagram } from 'lucide-react';
 import { companyInfo } from '../mockData';
 import { Link } from 'react-router-dom';
 import ProtectedEmail from './ProtectedEmail';
-
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   return (

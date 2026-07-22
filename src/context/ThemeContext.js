@@ -8,19 +8,20 @@ export const useTheme = () => {
   return context;
 };
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState(() => {
+  const [theme, setTheme] = useState('light');
+  useEffect(() => {
     try {
       const savedTheme = localStorage.getItem('theme');
-      return savedTheme || 'light';
+      if (savedTheme && (savedTheme === 'light' || savedTheme === 'dark')) {
+        setTheme(savedTheme);
+      }
     } catch (e) {
-      return 'light';
     }
-  });
+  }, []);
   useEffect(() => {
     try {
       localStorage.setItem('theme', theme);
     } catch (e) {
-      // localStorage disabled or restricted
     }
     if (document && document.documentElement) {
       document.documentElement.setAttribute('data-theme', theme);

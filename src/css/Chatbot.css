@@ -248,6 +248,21 @@
   color: var(--text-primary);
 }
 
+.chat-it-contact {
+  text-align: left;
+  line-height: 1.4;
+}
+
+.chat-it-contact-title {
+  margin: 0 0 8px 0;
+}
+
+.chat-it-contact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
 [data-theme="light"] .chatbot-toggle {
   background-color: var(--text-primary);
   color: #ffffff;
@@ -353,7 +368,6 @@
   color: #11678e;
 }
 
-/* Helper classes replacing inline styles */
 .chat-tracking-title {
   margin: 0 0 8px 0;
   font-size: 0.95rem;

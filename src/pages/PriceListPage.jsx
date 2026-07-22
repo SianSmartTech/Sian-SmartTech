@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { Check, Star, Shield, Wrench, Globe } from 'lucide-react';
-import * as Icons from 'lucide-react';
+import { Check, Star, Shield, Wrench, Globe, FileSearch, Search, Settings, Laptop, Monitor, HardDrive, Save, Cpu, Settings2, BarChart2 } from 'lucide-react';
 import { pricing, itPricing } from '../mockData';
 import "../css/App.css";
+const IT_ICONS = { Globe, BarChart2 };
 const PriceListPage = () => {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('hardware');
@@ -25,12 +25,12 @@ const PriceListPage = () => {
   };
   const getHardwareIcon = (planId) => {
     switch (planId) {
-      case 1: return Icons.FileSearch || Icons.Search;
-      case 2: return Icons.Wrench || Icons.Settings;
-      case 3: return Icons.Laptop || Icons.Monitor;
-      case 4: return Icons.HardDrive || Icons.Save;
-      case 5: return Icons.Cpu || Icons.Settings2;
-      default: return Icons.Settings;
+      case 1: return FileSearch || Search;
+      case 2: return Wrench || Settings;
+      case 3: return Laptop || Monitor;
+      case 4: return HardDrive || Save;
+      case 5: return Cpu || Settings2;
+      default: return Settings;
     }
   };
   return (
@@ -69,7 +69,7 @@ const PriceListPage = () => {
                 {pricing.map((plan, index) => {
                   const HardwareIcon = getHardwareIcon(plan.id);
                   return (
-                    <div key={plan.id} className={`pricing-v2-card reveal ${plan.popular ? 'pricing-v2-popular' : ''}`} style={{ '--delay': `${index * 120}ms` }}>
+                    <div key={plan.id} className={`pricing-v2-card reveal ${plan.popular ? 'pricing-v2-popular' : ''}`}>
                       {plan.popular && <div className="pricing-v2-badge">Most Popular</div>}
                       <div className="pricing-v2-card-header">
                         <div className="pricing-card-header-row">
@@ -112,9 +112,9 @@ const PriceListPage = () => {
               </div>
               <div className="pricing-v2-grid">
                 {itPricing.map((plan, index) => {
-                  const IconComp = Icons[plan.icon] || Icons.Globe;
+                  const IconComp = IT_ICONS[plan.icon] || Globe;
                   return (
-                    <div key={plan.id} className={`pricing-v2-card reveal ${plan.popular ? 'pricing-v2-popular' : ''}`} style={{ '--delay': `${index * 150}ms` }}>
+                    <div key={plan.id} className={`pricing-v2-card reveal ${plan.popular ? 'pricing-v2-popular' : ''}`}>
                       {plan.popular && <div className="pricing-v2-badge">Most Popular</div>}
                       <div className="pricing-v2-card-header">
                         <div className="pricing-card-header-row">
@@ -167,21 +167,21 @@ const PriceListPage = () => {
               <h2 className="services-v2-title">Why Choose Us?</h2>
             </div>
             <div className="process-v2-stats why-choose-grid">
-              <div className="why-choose-card reveal" style={{ '--delay': '0ms' }}>
+              <div className="why-choose-card reveal">
                 <div className="process-v2-stat-icon"><Shield size={32} /></div>
                 <div className="process-v2-stat-info">
                   <h3>Warranty Guaranteed</h3>
                   <p>All repairs come with a minimum 30-day warranty for your peace of mind.</p>
                 </div>
               </div>
-              <div className="why-choose-card reveal" style={{ '--delay': '120ms' }}>
+              <div className="why-choose-card reveal">
                 <div className="process-v2-stat-icon"><Star size={32} /></div>
                 <div className="process-v2-stat-info">
                   <h3>Genuine Parts</h3>
                   <p>We only use authentic, high-quality components in every repair job.</p>
                 </div>
               </div>
-              <div className="why-choose-card reveal" style={{ '--delay': '240ms' }}>
+              <div className="why-choose-card reveal">
                 <div className="process-v2-stat-icon"><Check size={32} /></div>
                 <div className="process-v2-stat-info">
                   <h3>No Fix, No Fee</h3>
