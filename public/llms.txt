@@ -1,0 +1,20 @@
+# Sian SmartTech
+
+> Sian SmartTech is a tech repair center and IT service provider based in Madurai, Tamil Nadu, India. Sian SmartTech offers laptop servicing, computer repair, chip-level motherboard soldering, printer maintenance, CCTV camera installation, drone assembly, and custom website development.
+
+## Core Services
+
+- [Hardware Repair Services](https://siansmarttech.com/hardware-services): Laptop repair, desktop PC servicing, printer maintenance, CCTV installation, drone assembly, and chip-level micro-soldering.
+- [IT & Digital Solutions](https://siansmarttech.com/it-services): Custom website development, web application design, and software configuration.
+
+## Pricing & Service Booking
+
+- [Service Price List](https://siansmarttech.com/price-list): Transparent pricing breakdown for computer, laptop, printer, and IT service packages.
+- [Book Service Online](https://siansmarttech.com/book-service): Online booking portal for scheduling computer repair and technician visits.
+- [Track Repair Ticket](https://siansmarttech.com/track): Real-time repair status tracking for active service tickets.
+
+## Company & Support
+
+- [About Us](https://siansmarttech.com/about): Overview of Sian SmartTech, workshop location in Anuppanadi, Madurai, and 30-day repair warranty policy.
+- [Frequently Asked Questions](https://siansmarttech.com/faq): Answers to common questions regarding repair turnaround, diagnostics, and component replacement.
+- [Complete FAQ & Technical Guide](https://siansmarttech.com/all-faqs): Comprehensive guide covering hardware diagnostics, maintenance tips, and troubleshooting.

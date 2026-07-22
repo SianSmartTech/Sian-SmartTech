@@ -113,7 +113,9 @@ function AppContent() {
     };
     const handleMouseOver = (e) => {
       const target = e.target;
-      const isInteractive = target.closest('a, button, .dropdown-trigger, .theme-toggle, .btn-primary, .accent-card-action');
+      const isInteractive = target && typeof target.closest === 'function' 
+        ? target.closest('a, button, .dropdown-trigger, .theme-toggle, .btn-primary, .accent-card-action') 
+        : null;
       if (isInteractive) {
         cursor?.classList.add('cursor-hover');
       } else {

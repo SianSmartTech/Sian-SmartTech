@@ -4,7 +4,7 @@ export const mainCategories = [
     title: "Laptop Services",
     description: "New laptop sales, certified refurbished resale, chip-level micro-soldering, and general hardware repair services.",
     icon: "Laptop",
-    image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=480&q=70",
     category: "LAPTOPS"
   },
   {
@@ -12,7 +12,7 @@ export const mainCategories = [
     title: "Computer & PC Services",
     description: "Desktop repairs, system assembly, custom gaming/workstation building, OS setup, software installation, and backup.",
     icon: "Monitor",
-    image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=480&q=70",
     category: "COMPUTERS"
   },
   {
@@ -20,7 +20,7 @@ export const mainCategories = [
     title: "Printer Services",
     description: "Laser & inkjet printer maintenance, paper jam fixes, cartridge refilling, printhead cleaning, and servicing.",
     icon: "Printer",
-    image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&w=480&q=70",
     category: "PRINTERS"
   },
   {
@@ -28,7 +28,7 @@ export const mainCategories = [
     title: "CCTV Installation & Setup",
     description: "Indoor & outdoor security camera wiring, DVR/NVR configuration, cable laying, and remote viewing feed setup.",
     icon: "Video",
-    image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=480&q=70",
     category: "CCTV"
   },
   {
@@ -36,7 +36,7 @@ export const mainCategories = [
     title: "Drone Assembly & Service",
     description: "Custom drone assembly, flight controller tuning, motor mounting, calibration testing, and crash damage repairs.",
     icon: "Zap",
-    image: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=480&q=70",
     category: "DRONE TECH"
   },
   {
@@ -55,7 +55,7 @@ export const services = [
     title: "Laptop Repair & Service",
     description: "Complete hardware diagnostics, screen replacement, keyboard repair, battery replacements, and cooling system cleaning for all laptop brands.",
     icon: "Laptop",
-    image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=480&q=70",
     category: "LAPTOPS",
     rating: 4.9,
     turnaround: "1-2 Days",
@@ -69,7 +69,7 @@ export const services = [
     title: "Computer Repair & Service",
     description: "Professional desktop computer repair, power supply replacement, motherboard servicing, hardware troubleshooting, and general servicing.",
     icon: "Monitor",
-    image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1547082299-de196ea013d6?auto=format&fit=crop&w=480&q=70",
     category: "COMPUTERS",
     rating: 4.8,
     turnaround: "Same Day",
@@ -83,7 +83,7 @@ export const services = [
     title: "Printer Repair & Service",
     description: "Laser & inkjet printer maintenance, paper jam resolution, printhead cleaning, cartridge refilling, and printer network setup.",
     icon: "Printer",
-    image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&w=480&q=70",
     category: "PRINTERS",
     rating: 4.7,
     turnaround: "2-3 Days",
@@ -97,7 +97,7 @@ export const services = [
     title: "Drone Service",
     description: "Custom drone assembly, flight controller tuning, motor mounting, propeller calibration, battery diagnostics, and crash repair.",
     icon: "Zap",
-    image: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1508614589041-895b88991e3e?auto=format&fit=crop&w=480&q=70",
     category: "DRONES",
     rating: 4.9,
     turnaround: "3-5 Days",
@@ -111,7 +111,7 @@ export const services = [
     title: "Chip Level Service (Laptop, Computer, Printer, Drone)",
     description: "Advanced microscopic soldering, BGA rework, bios reprogramming, motherboard short-circuit troubleshooting, and component IC replacements.",
     icon: "Cpu",
-    image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?auto=format&fit=crop&w=480&q=70",
     category: "CHIP LEVEL",
     rating: 4.9,
     turnaround: "2-4 Days",
@@ -125,7 +125,7 @@ export const services = [
     title: "CCTV Installation",
     description: "Secure indoor and outdoor CCTV camera setup, DVR/NVR network configuration, cable laying, and remote viewing setup on smartphones.",
     icon: "Video",
-    image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1557597774-9d273605dfa9?auto=format&fit=crop&w=480&q=70",
     category: "CCTV",
     rating: 4.8,
     turnaround: "1-2 Days",
@@ -139,7 +139,7 @@ export const services = [
     title: "Data Backup Service",
     description: "Secure data backup setup, lost file recovery from hard drives or SSDs, forensic disk imaging, and regular backup automation.",
     icon: "HardDrive",
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=480&q=70",
     category: "DATA BACKUP",
     rating: 4.8,
     turnaround: "1-2 Days",
@@ -153,7 +153,7 @@ export const services = [
     title: "Software Installation",
     description: "Operating system installations (Windows/Linux), driver configuration, office suite setup, antivirus licenses, and system speed optimization.",
     icon: "Settings",
-    image: "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?auto=format&fit=crop&w=480&q=70",
     category: "SOFTWARE",
     rating: 4.8,
     turnaround: "2-4 Hours",
@@ -167,7 +167,7 @@ export const services = [
     title: "System Assembly & Custom PC Build",
     description: "Professional assembly of high-end gaming rigs, workstation setups, rendering PCs, custom cooling systems, and cable routing.",
     icon: "Wrench",
-    image: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=480&q=70",
     category: "CUSTOM BUILD",
     rating: 5.0,
     turnaround: "1-2 Days",
@@ -181,7 +181,7 @@ export const services = [
     title: "Refurbished Laptops & Resale",
     description: "Factory-certified refurbished laptops with full testing checklists, ready-to-use setup, and company backup warranties at great rates.",
     icon: "RefreshCw",
-    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80",
+    image: "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=480&q=70",
     category: "REFURBISHED",
     rating: 4.8,
     turnaround: "Same Day",
@@ -225,7 +225,7 @@ export const portfolio = [
     title: "Corporate Office Network",
     description: "Complete network infrastructure setup for 50+ workstations.",
     image:
-      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&q=80",
+      "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=480&q=70",
     category: "Network",
   },
   {
@@ -233,7 +233,7 @@ export const portfolio = [
     title: "Gaming PC Build",
     description: "High-performance custom gaming rig with RGB lighting.",
     image:
-      "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=800&q=80",
+      "https://images.unsplash.com/photo-1587202372634-32705e3bf49c?auto=format&fit=crop&w=480&q=70",
     category: "Custom Build",
   },
   {
@@ -241,7 +241,7 @@ export const portfolio = [
     title: "Data Center Upgrade",
     description: "Server hardware upgrade and optimization for a local business.",
     image:
-      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=800&q=80",
+      "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=480&q=70",
     category: "Enterprise",
   },
   {
@@ -249,7 +249,7 @@ export const portfolio = [
     title: "Laptop Repair Service",
     description: "Screen replacement and motherboard repair for MacBook Pro.",
     image:
-      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=800&q=80",
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?auto=format&fit=crop&w=480&q=70",
     category: "Repair",
   },
   {
@@ -257,7 +257,7 @@ export const portfolio = [
     title: "Smart Home Setup",
     description: "IoT device integration and home automation system installation.",
     image:
-      "https://images.unsplash.com/photo-1558002038-1055907df827?w=800&q=80",
+      "https://images.unsplash.com/photo-1558002038-1055907df827?auto=format&fit=crop&w=480&q=70",
     category: "Smart Home",
   },
   {
@@ -265,7 +265,7 @@ export const portfolio = [
     title: "Workstation Assembly",
     description: "Professional video editing workstation with dual monitors.",
     image:
-      "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=800&q=80",
+      "https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?auto=format&fit=crop&w=480&q=70",
     category: "Custom Build",
   },
 ];

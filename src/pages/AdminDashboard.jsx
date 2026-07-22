@@ -275,7 +275,7 @@ const AdminDashboard = () => {
           </div>
           <span className="admin-mobile-title">Admin Panel</span>
         </div>
-        <div style={{ width: 22 }} />
+        <div className="admin-mobile-spacer" />
       </header>
       {isSidebarOpen && (
         <div className="admin-sidebar-backdrop" onClick={() => setIsSidebarOpen(false)} />
@@ -344,7 +344,7 @@ const AdminDashboard = () => {
         </aside>
         <main className="admin-main-content">
           <div className="admin-page-header">
-            <div className="admin-page-header-left" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+            <div className="admin-page-header-left admin-header-left-flex">
               {isSidebarCollapsed && (
                 <button className="admin-sidebar-toggle-desktop" onClick={() => setIsSidebarCollapsed(false)} aria-label="Open Sidebar">
                   <Menu size={18} />
@@ -365,8 +365,8 @@ const AdminDashboard = () => {
           </div>
           {activeTab === 'dashboard' && (
             <>
-              <h2 style={{ fontSize: '1.05rem', fontWeight: '700', color: '#11678E', marginBottom: '14px', textTransform: 'uppercase', letterSpacing: '0.6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ width: '4px', height: '16px', background: '#11678E', borderRadius: '2px' }}></span>
+              <h2 className="admin-section-heading">
+                <span className="admin-section-pill"></span>
                 Website Services Ledger
               </h2>
               <div className="admin-stats-grid">
@@ -406,11 +406,11 @@ const AdminDashboard = () => {
                   </div>
                 </div>
               </div>
-              <h2 style={{ fontSize: '1.05rem', fontWeight: '700', color: '#11678E', marginTop: '28px', marginBottom: '14px', textTransform: 'uppercase', letterSpacing: '0.6px', display: 'flex', alignItems: 'center', gap: '8px' }}>
-                <span style={{ width: '4px', height: '16px', background: '#11678E', borderRadius: '2px' }}></span>
+              <h2 className="admin-section-heading mt-section">
+                <span className="admin-section-pill"></span>
                 Other Services Ledger
               </h2>
-              <div className="admin-stats-grid" style={{ marginBottom: '32px' }}>
+              <div className="admin-stats-grid admin-stats-grid-mb">
                 <div className="admin-stat-card card-blue">
                   <div className="admin-stat-icon-wrap blue"><Users size={22} /></div>
                   <div className="admin-stat-info">
@@ -574,12 +574,12 @@ const AdminDashboard = () => {
           {activeTab === 'other-bookings' && (
             <>
               <div className="ledger-controls">
-                <div style={{ display: 'flex', gap: '12px', flex: 1, minWidth: '280px', maxWidth: '520px' }}>
-                  <div className="ledger-search-wrapper" style={{ flex: 1 }}>
+                <div className="admin-search-btn-group">
+                  <div className="ledger-search-wrapper admin-search-wrapper-flex">
                     <Search size={16} className="ledger-search-icon" />
                     <input type="text" placeholder="Search name, email, phone, service type..." value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="ledger-search-input" />
                   </div>
-                  <button className="refresh-btn" style={{ borderColor: '#11678E', color: '#11678E', display: 'inline-flex', alignItems: 'center', gap: '6px', whiteSpace: 'nowrap' }} onClick={() => setIsAddOtherOpen(true)}>
+                  <button className="refresh-btn admin-add-booking-btn" onClick={() => setIsAddOtherOpen(true)}>
                     <Plus size={14} /> Add Booking
                   </button>
                 </div>
@@ -613,16 +613,16 @@ const AdminDashboard = () => {
                           <td>
                             <div className="ledger-customer-name">{booking.name}</div>
                             <div className="ledger-customer-email">{booking.email}</div>
-                            <div className="ledger-customer-email" style={{ fontStyle: 'normal', color: 'var(--text-secondary)' }}>{booking.phone}</div>
+                            <div className="ledger-customer-email admin-customer-phone">{booking.phone}</div>
                           </td>
-                          <td style={{ maxWidth: '160px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={booking.address}>
+                          <td className="admin-td-address" title={booking.address}>
                             {booking.address}
                           </td>
-                          <td style={{ fontWeight: '600' }}>{booking.serviceType}</td>
-                          <td style={{ maxWidth: '200px', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }} title={booking.issue}>
+                          <td className="admin-td-font600">{booking.serviceType}</td>
+                          <td className="admin-td-issue" title={booking.issue}>
                             {booking.issue}
                           </td>
-                          <td style={{ fontWeight: '700', color: '#11678E' }}>{booking.estimatedCost}</td>
+                          <td className="admin-td-cost">{booking.estimatedCost}</td>
                           <td>
                             <span className={`status-badge ${booking.status.toLowerCase().replace(/\s+/g, '_')}`}>{booking.status}</span>
                           </td>
@@ -782,7 +782,7 @@ const AdminDashboard = () => {
               <span className="drawer-section-label">Service Type & Issue</span>
               <div className="drawer-info-block">
                 <div className="drawer-info-row"><strong>Service Type:</strong> {selectedOtherBooking.serviceType}</div>
-                <div className="drawer-info-row" style={{ marginTop: '6px' }}><strong>Reported Issue:</strong></div>
+                <div className="drawer-info-row admin-drawer-row-mt"><strong>Reported Issue:</strong></div>
                 <div className="drawer-issue-block">"{selectedOtherBooking.issue}"</div>
               </div>
             </div>
@@ -834,7 +834,7 @@ const AdminDashboard = () => {
                 <X size={18} />
               </button>
             </div>
-            <form onSubmit={handleAddOtherBooking} className="drawer-edit-form" style={{ marginTop: '10px' }}>
+            <form onSubmit={handleAddOtherBooking} className="drawer-edit-form admin-drawer-form-mt">
               <span className="drawer-section-label">Customer Information</span>
               <div className="drawer-form-group">
                 <label className="drawer-label">Full Name *</label>
@@ -843,7 +843,7 @@ const AdminDashboard = () => {
               </div>
               <div className="drawer-form-group">
                 <label className="drawer-label">Email Address *</label>
-                <input type="email" className="drawer-input" value={newOtherBooking.email} onChange={e => setNewOtherBooking({ ...newOtherBooking, email: e.target.value })} placeholder="e.g. client@example.com" required />
+                <input type="email" className="drawer-input" value={newOtherBooking.email} onChange={e => setNewOtherBooking({ ...newOtherBooking, email: e.target.value })} placeholder="e.g. client [at] domain.com" required />
               </div>
               <div className="drawer-form-group">
                 <label className="drawer-label">Mobile Number</label>
@@ -900,7 +900,7 @@ const AdminDashboard = () => {
                 <label className="drawer-label">Technician Note</label>
                 <textarea rows={2} className="drawer-textarea" value={newOtherBooking.notes} onChange={e => setNewOtherBooking({ ...newOtherBooking, notes: e.target.value })} placeholder="Technician diagnostics or initial comment..." />
               </div>
-              <div style={{ marginTop: '15px' }}>
+              <div className="admin-drawer-submit-wrapper">
                 <button type="submit" className="drawer-save-btn">Log Service Booking</button>
               </div>
             </form>

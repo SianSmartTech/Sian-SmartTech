@@ -2,6 +2,8 @@ import "../css/App.css";
 import { Mail, Phone, MapPin, Facebook, Instagram } from 'lucide-react';
 import { companyInfo } from '../mockData';
 import { Link } from 'react-router-dom';
+import ProtectedEmail from './ProtectedEmail';
+
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   return (
@@ -32,7 +34,7 @@ const Footer = () => {
               </li>
               <li>
                 <Mail size={16} />
-                <span>{companyInfo.email}</span>
+                <ProtectedEmail email={companyInfo.email} className="footer-email-link" />
               </li>
               <li>
                 <MapPin size={16} />

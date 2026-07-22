@@ -18,18 +18,28 @@ const HardwareServices = () => {
   }, [location]);
 
   useEffect(() => {
+    let animId;
     const timer = setTimeout(() => {
-      const container = document.querySelector('.hw-tabs-container');
-      const activeTabEl = document.querySelector('.hw-tab-btn.active');
-      if (container && activeTabEl) {
-        const containerWidth = container.clientWidth;
-        const activeTabOffsetLeft = activeTabEl.offsetLeft;
-        const activeTabWidth = activeTabEl.offsetWidth;
-        const scrollLeft = activeTabOffsetLeft + (activeTabWidth / 2) - (containerWidth / 2);
-        container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
-      }
+      animId = requestAnimationFrame(() => {
+        const container = document.querySelector('.hw-tabs-container');
+        const activeTabEl = document.querySelector('.hw-tab-btn.active');
+        if (container && activeTabEl) {
+          const containerWidth = container.clientWidth;
+          const activeTabOffsetLeft = activeTabEl.offsetLeft;
+          const activeTabWidth = activeTabEl.offsetWidth;
+          const scrollLeft = activeTabOffsetLeft + (activeTabWidth / 2) - (containerWidth / 2);
+          if (typeof container.scrollTo === 'function') {
+            container.scrollTo({ left: scrollLeft, behavior: 'smooth' });
+          } else {
+            container.scrollLeft = scrollLeft;
+          }
+        }
+      });
     }, 100);
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+      if (animId) cancelAnimationFrame(animId);
+    };
   }, [activeTab]);
   const displayServices = activeTab === 'all' ? services : services.filter(s => s.categories.includes(activeTab));
   const handleTabClick = (tab) => {
@@ -89,7 +99,7 @@ const HardwareServices = () => {
                     <div className="hw-card-image-section">
                       <div className="hw-img-overlay"></div>
                       <div className="hw-scanline"></div>
-                      <img src={service.image} alt={`${service.title} - Sian SmartTech Madurai`} className="hw-service-img" loading="lazy" decoding="async" />
+                      <img src={service.image} alt={`${service.title} - Sian SmartTech Madurai`} className="hw-service-img" loading="lazy" decoding="async" width="480" height="320" />
                       <div className="hw-card-icon-badge">
                         <IconComponent size={32} />
                       </div>

@@ -157,6 +157,7 @@
   font-size: 1.1rem;
   font-weight: 700;
   border: 2px solid #ffffff;
+  background: var(--avatar-bg, #11678E);
 }
 
 [data-theme="dark"] .sian-smart-tech-avatar-fallback {

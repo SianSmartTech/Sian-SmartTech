@@ -1228,3 +1228,65 @@
     width: 100% !important;
   }
 }
+
+/* Utility classes replacing inline styles */
+.inv-td-num {
+  font-weight: 700;
+}
+
+.inv-td-cost {
+  font-weight: 700;
+  color: #11678E;
+}
+
+.inv-ledger-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.inv-actions-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  padding-bottom: 12px;
+  margin-bottom: 8px;
+}
+
+.inv-actions-title {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.inv-cancel-btn {
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  color: var(--text-secondary);
+}
+
+.inv-span-2 {
+  grid-column: span 2;
+}
+
+.inv-mb-12 {
+  margin-bottom: 12px;
+}
+
+.inv-bank-subhead {
+  margin-top: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.inv-grid-7col {
+  grid-template-columns: 2fr 0.8fr 1fr 0.8fr 0.8fr 1fr 40px;
+}
+
+.inv-text-right {
+  text-align: right;
+}
+
+.inv-input-padded {
+  padding: 6px 8px;
+}

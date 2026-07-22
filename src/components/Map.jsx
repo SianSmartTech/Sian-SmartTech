@@ -50,10 +50,10 @@ const Map = () => {
               </div>
               <div className="map-info-text">
                 <h3>Open Hours</h3>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.95rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>
+                <div className="map-hours-list">
                   <span><strong>Mon - Fri:</strong> 9:00 AM - 6:00 PM</span>
                   <span><strong>Saturday:</strong> 10:00 AM - 4:00 PM</span>
-                  <span style={{ color: 'rgba(239, 68, 68, 0.95)', fontWeight: '600' }}><strong>Sunday:</strong> Holiday (Leave)</span>
+                  <span className="map-sunday-leave"><strong>Sunday:</strong> Holiday (Leave)</span>
                 </div>
               </div>
             </div>
@@ -62,12 +62,12 @@ const Map = () => {
               <span>Get Directions</span>
             </a>
           </div>
-          <div className="map-v2-container" style={{ position: 'relative', minHeight: '400px' }}>
+          <div className="map-v2-container">
             {shouldRender ? (
-              <iframe src={companyInfo.mapUrl} width="100%" height="100%" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Sian SmartTech Location" className="map-v2-iframe map-v2-iframe-border0" style={{ minHeight: '400px', display: 'block' }}></iframe>
+              <iframe src={companyInfo.mapUrl} width="100%" height="100%" allowFullScreen="" loading="lazy" referrerPolicy="no-referrer-when-downgrade" title="Sian SmartTech Location" className="map-v2-iframe map-v2-iframe-border0 map-v2-iframe-styled"></iframe>
             ) : (
-              <div style={{ position: 'absolute', inset: 0, background: 'var(--glass-bg)', backdropFilter: 'blur(5px)', display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '400px', border: '1px solid var(--glass-border)', borderRadius: '12px' }}>
-                <span style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>Loading Map...</span>
+              <div className="map-loading-placeholder">
+                <span className="map-loading-text">Loading Map...</span>
               </div>
             )}
           </div>

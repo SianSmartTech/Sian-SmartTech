@@ -2098,3 +2098,107 @@
   box-shadow: 0 8px 25px rgba(239, 68, 68, 0.12);
 }
 
+/* Admin Dashboard Helper Utility Classes */
+.admin-mobile-spacer {
+  width: 22px;
+}
+
+.admin-header-left-flex {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-section-heading {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #11678E;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.admin-section-heading.mt-section {
+  margin-top: 28px;
+}
+
+.admin-section-pill {
+  width: 4px;
+  height: 16px;
+  background: #11678E;
+  border-radius: 2px;
+}
+
+.admin-stats-grid-mb {
+  margin-bottom: 32px;
+}
+
+.admin-service-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.admin-search-btn-group {
+  display: flex;
+  gap: 12px;
+  flex: 1;
+  min-width: 280px;
+  max-width: 520px;
+}
+
+.admin-search-wrapper-flex {
+  flex: 1;
+}
+
+.admin-add-booking-btn {
+  border-color: #11678E;
+  color: #11678E;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.admin-customer-phone {
+  font-style: normal;
+  color: var(--text-secondary);
+}
+
+.admin-td-address {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-td-font600 {
+  font-weight: 600;
+}
+
+.admin-td-issue {
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-td-cost {
+  font-weight: 700;
+  color: #11678E;
+}
+
+.admin-drawer-row-mt {
+  margin-top: 6px;
+}
+
+.admin-drawer-form-mt {
+  margin-top: 10px;
+}
+
+.admin-drawer-submit-wrapper {
+  margin-top: 15px;
+}
+

@@ -44,11 +44,15 @@ const Header = () => {
   };
   useEffect(() => {
     if (location.hash && location.pathname === '/') {
-      const element = document.querySelector(location.hash);
-      if (element) {
-        setTimeout(() => {
-          element.scrollIntoView({ behavior: 'smooth' });
-        }, 100);
+      try {
+        const element = document.querySelector(location.hash);
+        if (element) {
+          setTimeout(() => {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }, 100);
+        }
+      } catch (e) {
+        // Ignore invalid CSS selector in URL hash
       }
     }
   }, [location]);
@@ -66,7 +70,7 @@ const Header = () => {
       <header className="header-fixed">
         <div className="header-container">
           <div className="header-logo" onClick={() => navigate('/')}>
-            <img src={logo} alt="Sian SmartTech - Laptop and Computer Service Center in Madurai" className="logo-img" />
+            <img src={logo} alt="Sian SmartTech - Laptop and Computer Service Center in Madurai" className="logo-img" width="180" height="50" />
           </div>
           <nav className="nav-desktop">
             {navItems.map((item) => (

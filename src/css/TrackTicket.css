@@ -199,6 +199,7 @@
 }
 
 .stepper-progress-fill {
+  width: var(--progress-width, 0%);
   height: 100%;
   background: linear-gradient(90deg, #11678E 0%, #10b981 100%);
   border-radius: 2px;
@@ -209,6 +210,11 @@
 .stepper-progress-fill.cancelled {
   background: linear-gradient(90deg, #11678E 0%, #dc2626 100%);
   box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
+}
+
+.track-cancelled-box {
+  margin-top: -10px;
+  margin-bottom: 30px;
 }
 
 .stepper-steps {

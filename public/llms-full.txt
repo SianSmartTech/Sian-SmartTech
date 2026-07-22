@@ -1,0 +1,34 @@
+# Sian SmartTech Full Information & Service Manual
+
+> Complete details regarding Sian SmartTech computer & mobile repair operations, chip-level hardware diagnostics, IT solutions, shop location, pricing, and warranty policies in Madurai, Tamil Nadu.
+
+## Business Details
+
+- **Business Name**: Sian SmartTech
+- **Tagline**: Premium Tech Repair Experts & IT Solutions
+- **Primary Address**: 5/195, Ponnu Pillai Thoppu, Anuppanadi, Madurai, Tamil Nadu - 625009, India
+- **Phone**: +91 93446 78135
+- **Operating Hours**: Monday – Friday: 09:00 AM – 06:00 PM, Saturday: 10:00 AM – 04:00 PM, Sunday: Closed
+
+## Hardware Repair Services
+
+- [Laptop Repair & Service](https://siansmarttech.com/hardware-services): Complete hardware diagnostics, display replacement, keyboard repair, battery replacement, cooling fan cleaning, and thermal repasting.
+- [Computer & Desktop PC Repair](https://siansmarttech.com/hardware-services): Desktop computer repair, power supply unit (PSU) replacement, motherboard servicing, and hardware upgrades.
+- [Printer Repair & Maintenance](https://siansmarttech.com/hardware-services): Laser & inkjet printer servicing, paper jam fixes, cartridge refilling, printhead cleaning, and network printer setup.
+- [Chip-Level Micro-Soldering](https://siansmarttech.com/hardware-services): Advanced motherboard BGA rework, IC replacement, BIOS reprogramming, and short-circuit repair.
+- [CCTV Camera Installation](https://siansmarttech.com/hardware-services): Indoor & outdoor security camera wiring, DVR/NVR configuration, cable laying, and smartphone remote viewing setup.
+- [Drone Assembly & Servicing](https://siansmarttech.com/hardware-services): Custom drone building, flight controller tuning, motor calibration, and crash repair.
+- [Data Backup & Recovery](https://siansmarttech.com/hardware-services): Hard drive and SSD data recovery, backup automation, and system disk cloning.
+- [Custom System Assembly](https://siansmarttech.com/hardware-services): Custom gaming rig assembly, workstation setup, and video rendering PCs.
+
+## Digital & IT Services
+
+- [Website Development](https://siansmarttech.com/it-services): Custom responsive website design, React/Next.js web applications, e-commerce stores, and WordPress setup.
+- [Software Setup & Support](https://siansmarttech.com/it-services): OS installation (Windows/Linux), driver configuration, office suite licensing, and malware removal.
+
+## Customer Portals & Tools
+
+- [Service Price List](https://siansmarttech.com/price-list): Full pricing breakdown for hardware repairs and IT service plans.
+- [Book a Repair Service](https://siansmarttech.com/book-service): Online booking portal for repair requests.
+- [Track Repair Status](https://siansmarttech.com/track): Real-time ticket tracking portal using assigned service IDs.
+- [FAQs & Knowledge Base](https://siansmarttech.com/faq): Troubleshooting guides, warranty terms (30-day minimum guarantee), and repair turnaround estimates.

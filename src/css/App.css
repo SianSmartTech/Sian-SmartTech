@@ -1070,6 +1070,7 @@ h6,
   opacity: 0;
   transform: translateY(50px);
   transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  transition-delay: var(--delay, 0ms);
 }
 
 .reveal.active {
@@ -3209,6 +3210,17 @@ h6,
   font-size: 0.938rem;
 }
 
+.footer-email-link {
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.footer-email-link:hover {
+  color: var(--accent-primary, #00f2ff);
+  text-decoration: underline;
+}
+
 .footer-contact svg {
   flex-shrink: 0;
   margin-top: 2px;
@@ -5210,6 +5222,64 @@ img {
 }
 
 @keyframes page-spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Map Component Helper Classes */
+.map-hours-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.4;
+}
+
+.map-sunday-leave {
+  color: rgba(239, 68, 68, 0.95);
+  font-weight: 600;
+}
+
+.map-v2-container {
+  position: relative;
+  min-height: 400px;
+}
+
+.map-v2-iframe-styled {
+  min-height: 400px;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.map-loading-placeholder {
+  position: absolute;
+  inset: 0;
+  background: var(--glass-bg);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+}
+
+.map-loading-text {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.btn-spinner-inner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
 }

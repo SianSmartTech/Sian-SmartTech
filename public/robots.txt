@@ -29,3 +29,7 @@ Allow: /
 Disallow: /admin
 
 Sitemap: https://siansmarttech.com/sitemap.xml
+# LLM & AI Context
+# https://llmstxt.org
+# https://siansmarttech.com/llms.txt
+# https://siansmarttech.com/llms-full.txt

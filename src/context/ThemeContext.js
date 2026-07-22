@@ -9,12 +9,22 @@ export const useTheme = () => {
 };
 export const ThemeProvider = ({ children }) => {
   const [theme, setTheme] = useState(() => {
-    const savedTheme = localStorage.getItem('theme');
-    return savedTheme || 'light';
+    try {
+      const savedTheme = localStorage.getItem('theme');
+      return savedTheme || 'light';
+    } catch (e) {
+      return 'light';
+    }
   });
   useEffect(() => {
-    localStorage.setItem('theme', theme);
-    document.documentElement.setAttribute('data-theme', theme);
+    try {
+      localStorage.setItem('theme', theme);
+    } catch (e) {
+      // localStorage disabled or restricted
+    }
+    if (document && document.documentElement) {
+      document.documentElement.setAttribute('data-theme', theme);
+    }
   }, [theme]);
   const toggleTheme = () => {
     setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');

@@ -3,31 +3,41 @@ const EMAIL_LOGS_KEY = 'sian_email_logs';
 let bookingsCache = [];
 let emailLogsCache = [];
 let otherBookingsCache = [];
+const getItemSafe = (key) => {
+  try { return localStorage.getItem(key); } catch (e) { return null; }
+};
+const setItemSafe = (key, val) => {
+  try { localStorage.setItem(key, val); } catch (e) {}
+};
+const removeItemSafe = (key) => {
+  try { localStorage.removeItem(key); } catch (e) {}
+};
+
 export const bookingStore = {
   initialize() {
-    localStorage.removeItem(BOOKINGS_KEY);
-    localStorage.removeItem(EMAIL_LOGS_KEY);
-    localStorage.removeItem('sian_other_service_sheets_url');
-    const storedUrl = localStorage.getItem('sian_sheets_url');
+    removeItemSafe(BOOKINGS_KEY);
+    removeItemSafe(EMAIL_LOGS_KEY);
+    removeItemSafe('sian_other_service_sheets_url');
+    const storedUrl = getItemSafe('sian_sheets_url');
     if (storedUrl && (
       storedUrl.includes('AKfycbzmJ8qfcRvNxyabOXSyIkTuZTd9XkDEwMXTPAoKjnc5kO3x2lkLRNpFCaBAP2cd8zVr') ||
       storedUrl.includes('AKfycbzArusSl-EWhyizx3gjh2FuLA348ZGBVanw63XF8xbyDke-XCBRrvbdZwsBDZi5rg1T') ||
       storedUrl.includes('AKfycbzoSrQSG-fMUSnJPucqMnDasDaFCxOAng1YoCHaf7Sez9BYj3n9I1o3bL4Sco2VH7YN')
     )) {
-      localStorage.removeItem('sian_sheets_url');
+      removeItemSafe('sian_sheets_url');
     }
   },
   getSheetsUrl() {
-    return localStorage.getItem('sian_sheets_url') || process.env.REACT_APP_GOOGLE_SHEETS_URL;
+    return getItemSafe('sian_sheets_url') || process.env.REACT_APP_GOOGLE_SHEETS_URL;
   },
   setSheetsUrl(url) {
-    localStorage.setItem('sian_sheets_url', url ? url.trim() : '');
+    setItemSafe('sian_sheets_url', url ? url.trim() : '');
   },
   getOtherBookingsSheetsUrl() {
-    return localStorage.getItem('sian_other_service_sheets_url') || process.env.REACT_APP_GOOGLE_OTHER_SERVICE_SHEETS_URL;
+    return getItemSafe('sian_other_service_sheets_url') || process.env.REACT_APP_GOOGLE_OTHER_SERVICE_SHEETS_URL;
   },
   setOtherBookingsSheetsUrl(url) {
-    localStorage.setItem('sian_other_service_sheets_url', url ? url.trim() : '');
+    setItemSafe('sian_other_service_sheets_url', url ? url.trim() : '');
   },
   isGoogleSheetsConfigured() {
     return !!this.getSheetsUrl();
@@ -459,10 +469,10 @@ export const bookingStore = {
     return true;
   },
   getInvoiceSheetsUrl() {
-    return localStorage.getItem('sian_invoice_sheets_url') || process.env.REACT_APP_GOOGLE_INVOICE_TEMPLATE_URL;
+    return getItemSafe('sian_invoice_sheets_url') || process.env.REACT_APP_GOOGLE_INVOICE_TEMPLATE_URL;
   },
   setInvoiceSheetsUrl(url) {
-    localStorage.setItem('sian_invoice_sheets_url', url ? url.trim() : '');
+    setItemSafe('sian_invoice_sheets_url', url ? url.trim() : '');
   },
   isInvoiceConfigured() {
     return !!this.getInvoiceSheetsUrl();

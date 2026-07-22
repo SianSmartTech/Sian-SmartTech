@@ -350,20 +350,20 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                     const { grandTotal } = calculateFinancials(invoice.items, invoice.discount);
                     return (
                       <tr key={invoice.id}>
-                        <td className="ledger-ticket" style={{ fontWeight: '700' }}>{invoice.invoiceNumber}</td>
+                        <td className="ledger-ticket inv-td-num">{invoice.invoiceNumber}</td>
                         <td>{fmtDate(invoice.date)}</td>
                         <td>
                           <div className="ledger-customer-name">{invoice.toName}</div>
                           <div className="ledger-customer-email">{invoice.toEmail}</div>
                         </td>
-                        <td style={{ fontWeight: '700', color: '#11678E' }}>₹{grandTotal}</td>
+                        <td className="inv-td-cost">₹{grandTotal}</td>
                         <td>
                           <span className={`invoice-badge ${invoice.status.toLowerCase()}`}>
                             {invoice.status}
                           </span>
                         </td>
                         <td>
-                          <div className="ledger-actions" style={{ display: 'flex', gap: '8px' }}>
+                          <div className="ledger-actions inv-ledger-actions">
                             <button
                               className="invoice-view-btn"
                               onClick={() => {
@@ -408,14 +408,13 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
         <div className="invoice-manager-grid">
           {/* Left Column: Form Editor */}
           <form onSubmit={handleSaveInvoice} className="invoice-editor-panel">
-            <div className="invoice-actions-row" style={{ borderBottom: '1px solid rgba(0,0,0,0.06)', paddingBottom: '12px', marginBottom: '8px' }}>
-              <h3 style={{ margin: 0, fontSize: '1.1rem', fontWeight: '700', color: 'var(--text-primary)' }}>
+            <div className="invoice-actions-row inv-actions-header">
+              <h3 className="inv-actions-title">
                 {invoiceForm.id && invoices.some(inv => inv.id === invoiceForm.id) ? 'Edit Invoice' : 'New Invoice'}
               </h3>
               <button
                 type="button"
-                className="refresh-btn"
-                style={{ border: '1px solid rgba(0,0,0,0.15)', color: 'var(--text-secondary)' }}
+                className="refresh-btn inv-cancel-btn"
                 onClick={() => setIsEditingInvoice(false)}
               >
                 Cancel
@@ -454,7 +453,7 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                 <FileText size={14} /> Invoice Settings
               </h4>
               <div className="invoice-form-row-2">
-                <div className="invoice-form-group" style={{ gridColumn: 'span 2' }}>
+                <div className="invoice-form-group inv-span-2">
                   <label className="invoice-label">Invoice Number *</label>
                   <input
                     type="text"
@@ -585,14 +584,14 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                   />
                 </div>
               </div>
-              <div className="invoice-form-group" style={{ marginBottom: '12px' }}>
+              <div className="invoice-form-group inv-mb-12">
                 <label className="invoice-label">Email Address</label>
                 <input
                   type="email"
                   className="invoice-input"
                   value={invoiceForm.toEmail}
                   onChange={e => setInvoiceForm({ ...invoiceForm, toEmail: e.target.value })}
-                  placeholder="e.g. customer@example.com"
+                  placeholder="e.g. customer [at] domain.com"
                 />
               </div>
               <div className="invoice-form-group">
@@ -637,7 +636,7 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                 </div>
               </div>
               
-              <div style={{ marginTop: '10px', fontSize: '0.8rem', fontWeight: '700', color: 'var(--text-secondary)', textTransform: 'uppercase', marginBottom: '8px' }}>
+              <div className="inv-bank-subhead">
                 Bank Details
               </div>
               <div className="invoice-form-row-2">
@@ -708,23 +707,22 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                 Services & Line Items
               </h4>
               <div className="invoice-items-editor-wrap">
-                <div className="items-list-header" style={{ gridTemplateColumns: '2fr 0.8fr 1fr 0.8fr 0.8fr 1fr 40px' }}>
+                <div className="items-list-header inv-grid-7col">
                   <span>Item Description</span>
                   <span>Qty</span>
                   <span>Unit Price</span>
                   <span>per</span>
                   <span>Tax %</span>
-                  <span style={{ textAlign: 'right' }}>Total</span>
+                  <span className="inv-text-right">Total</span>
                   <span></span>
                 </div>
                 
                 {invoiceForm.items.map((item, idx) => (
-                  <div key={idx} className="item-row" style={{ gridTemplateColumns: '2fr 0.8fr 1fr 0.8fr 0.8fr 1fr 40px' }}>
+                  <div key={idx} className="item-row inv-grid-7col">
                     <input
                       type="text"
                       required
-                      className="invoice-input"
-                      style={{ padding: '6px 8px' }}
+                      className="invoice-input inv-input-padded"
                       value={item.description}
                       onChange={e => {
                         const updatedItems = [...invoiceForm.items];
@@ -737,8 +735,7 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                       type="number"
                       required
                       min="1"
-                      className="invoice-input"
-                      style={{ padding: '6px 8px' }}
+                      className="invoice-input inv-input-padded"
                       value={item.quantity}
                       onChange={e => {
                         const updatedItems = [...invoiceForm.items];
@@ -750,8 +747,7 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                       type="number"
                       required
                       min="0"
-                      className="invoice-input"
-                      style={{ padding: '6px 8px' }}
+                      className="invoice-input inv-input-padded"
                       value={item.unitPrice}
                       onChange={e => {
                         const updatedItems = [...invoiceForm.items];
@@ -761,8 +757,7 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                     />
                     <input
                       type="text"
-                      className="invoice-input"
-                      style={{ padding: '6px 8px' }}
+                      className="invoice-input inv-input-padded"
                       value={item.per || 'Nos'}
                       onChange={e => {
                         const updatedItems = [...invoiceForm.items];
@@ -776,8 +771,7 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                       required
                       min="0"
                       max="100"
-                      className="invoice-input"
-                      style={{ padding: '6px 8px' }}
+                      className="invoice-input inv-input-padded"
                       value={item.taxRate}
                       onChange={e => {
                         const updatedItems = [...invoiceForm.items];
@@ -785,7 +779,7 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                         setInvoiceForm({ ...invoiceForm, items: updatedItems });
                       }}
                     />
-                    <span style={{ textAlign: 'right', fontWeight: '600', fontSize: '0.84rem' }}>
+                    <span className="inv-text-right inv-td-font600">
                       ₹{(item.quantity * item.unitPrice).toFixed(2)}
                     </span>
                     <button

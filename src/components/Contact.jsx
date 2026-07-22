@@ -3,6 +3,8 @@ import { Mail, Phone, MapPin, ArrowUpRight, Loader2, Instagram } from 'lucide-re
 import { companyInfo } from '../mockData';
 import { toast } from 'sonner';
 import "../css/App.css";
+import ProtectedEmail from './ProtectedEmail';
+
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -62,16 +64,16 @@ const Contact = () => {
           <p className="contact-v2-desc"> Have questions or ready to transform your business with our tech solutions?
           </p>
           <div className="contact-v2-cards">
-            <a href={`mailto:${companyInfo.email}`} className="contact-v2-card accent-card">
+            <ProtectedEmail email={companyInfo.email} className="contact-v2-card accent-card">
               <div className="contact-v2-card-icon"><Mail size={22} /></div>
               <div className="contact-v2-card-content">
                 <span className="contact-v2-card-label">Email us</span>
-                <span className="contact-v2-card-value">{companyInfo.email}</span>
+                <span className="contact-v2-card-value">{companyInfo.email.replace('@', ' [at] ')}</span>
               </div>
               <div className="contact-v2-card-arrow">
                 <ArrowUpRight size={18} />
               </div>
-            </a>
+            </ProtectedEmail>
             <a href={`tel:${companyInfo.phone}`} className="contact-v2-card accent-card">
               <div className="contact-v2-card-icon">
                 <Phone size={22} />
@@ -116,7 +118,7 @@ const Contact = () => {
           <textarea name="message" value={formData.message} onChange={handleChange} required rows="6" placeholder="Message" className="contact-v2-input contact-v2-textarea" ></textarea>
           <button type="submit" className="contact-v2-submit" disabled={isSubmitting}>
             {isSubmitting ? (
-              <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', width: '100%' }}>
+              <span className="btn-spinner-inner">
                 <Loader2 size={18} className="animate-spin" /> Sending...
               </span>
             ) : (

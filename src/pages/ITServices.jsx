@@ -35,7 +35,7 @@ const ITServices = () => {
                     <div className="hw-card-image-section">
                       <div className="hw-img-overlay"></div>
                       <div className="hw-scanline"></div>
-                      <img src={service.image} alt={`${service.title} - Sian SmartTech Madurai`} className="hw-service-img" loading="lazy" decoding="async" />
+                      <img src={service.image} alt={`${service.title} - Sian SmartTech Madurai`} className="hw-service-img" loading="lazy" decoding="async" width="480" height="320" />
                       <div className="hw-card-icon-badge">
                         <IconComponent size={32} />
                       </div>
