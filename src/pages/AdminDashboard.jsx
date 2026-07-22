@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
-import { Users, Clock, CheckCircle2, ClipboardList, Search, Edit3, X, Mail, TrendingUp, RefreshCw, Send, Check, AlertCircle, BarChart2, LogOut, Menu, Database, Plus, Sun, Moon, ChevronLeft, Trash2 } from 'lucide-react';
+import { Users, Clock, CheckCircle2, ClipboardList, Search, Edit3, X, Mail, TrendingUp, RefreshCw, Send, Check, AlertCircle, BarChart2, LogOut, Menu, Database, Plus, Sun, Moon, ChevronLeft, Trash2, FileText, Printer, Copy } from 'lucide-react';
 import { toast, Toaster } from 'sonner';
 import { bookingStore } from '../utils/bookingStore';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import InvoiceGenerator from '../components/InvoiceGenerator';
 import "../css/AdminDashboard.css";
+
 const AdminDashboard = () => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
@@ -19,6 +21,10 @@ const AdminDashboard = () => {
   const [selectedOtherBooking, setSelectedOtherBooking] = useState(null);
   const [isOtherDrawerOpen, setIsOtherDrawerOpen] = useState(false);
   const [isAddOtherOpen, setIsAddOtherOpen] = useState(false);
+  
+  // Invoice Generator State
+  const [invoices, setInvoices] = useState([]);
+
   const [newOtherBooking, setNewOtherBooking] = useState({
     name: '',
     email: '',
@@ -63,6 +69,12 @@ const AdminDashboard = () => {
         const freshOther = await bookingStore.fetchOtherBookings();
         setOtherBookings(freshOther);
       }
+      if (bookingStore.isInvoiceConfigured()) {
+        const freshInvoices = await bookingStore.fetchInvoices();
+        setInvoices(freshInvoices);
+      } else {
+        setInvoices([]);
+      }
       const freshLogs = await bookingStore.fetchEmailLogs();
       setEmailLogs(freshLogs);
     } catch (err) {
@@ -95,6 +107,8 @@ const AdminDashboard = () => {
     const matchStatus = statusFilter === 'ALL' || b.status === statusFilter;
     return matchSearch && matchStatus;
   });
+
+
   const openOtherDrawer = (booking) => {
     setSelectedOtherBooking(booking);
     setEditStatus(booking.status);
@@ -290,6 +304,7 @@ const AdminDashboard = () => {
                 { key: 'dashboard', icon: <BarChart2 size={17} />, label: 'Dashboard Overview' },
                 { key: 'ledger', icon: <ClipboardList size={17} />, label: 'Website Service Ledger' },
                 { key: 'other-bookings', icon: <Database size={17} />, label: 'Other Service Bookings' },
+                { key: 'invoices', icon: <FileText size={17} />, label: 'Invoice Generator' },
                 { key: 'outbox', icon: <Mail size={17} />, label: 'Email Outbox' },
               ].map(({ key, icon, label }) => (
                 <li key={key} className="admin-menu-item">
@@ -339,6 +354,7 @@ const AdminDashboard = () => {
                 {activeTab === 'dashboard' && 'Operations Dashboard'}
                 {activeTab === 'ledger' && 'Website Service Bookings Ledger'}
                 {activeTab === 'other-bookings' && 'Other Service Bookings Ledger'}
+                {activeTab === 'invoices' && 'Invoice Generator & Templates'}
                 {activeTab === 'outbox' && 'Simulated Email Outbox'}
               </h1>
             </div>
@@ -658,6 +674,16 @@ const AdminDashboard = () => {
                 )}
               </div>
             </>
+          )}
+          {activeTab === 'invoices' && (
+            <InvoiceGenerator
+              invoices={invoices}
+              setInvoices={setInvoices}
+              bookings={bookings}
+              otherBookings={otherBookings}
+              isSyncing={isSyncing}
+              setIsSyncing={setIsSyncing}
+            />
           )}
         </main>
       </div>
