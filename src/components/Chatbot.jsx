@@ -214,7 +214,7 @@ const Chatbot = () => {
             <p style={{ margin: '0 0 8px 0' }}><strong>IT Services Contact:</strong></p>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
               <div>📞 <strong>Contact Number:</strong> 8056534429</div>
-              <div>✉️ <strong>Email:</strong> <a href="#contact" onClick={(e) => { e.preventDefault(); window.location.href = 'mailto:' + 'santhoshsandy81140' + '@' + 'gmail.com'; }} className="chat-link">santhoshsandy81140 [at] gmail [dot] com</a></div>
+              <div>✉️ <strong>Email:</strong> <a href="mailto:santhoshsandy81140@gmail.com" className="chat-link">santhoshsandy81140@gmail.com</a></div>
             </div>
           </div>
         );

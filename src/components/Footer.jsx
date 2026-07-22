@@ -32,16 +32,7 @@ const Footer = () => {
               </li>
               <li>
                 <Mail size={16} />
-                <a
-                  href="#contact"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    window.location.href = 'mailto:' + 'siansmarttech' + '@' + 'gmail.com';
-                  }}
-                  style={{ color: 'inherit', textDecoration: 'none' }}
-                >
-                  {companyInfo.email}
-                </a>
+                <span>{companyInfo.email}</span>
               </li>
               <li>
                 <MapPin size={16} />

@@ -63,7 +63,7 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
     status: 'Pending',
     template: 'challan',
     fromName: 'SiAn Smart Tech',
-    fromEmail: 'siansmarttech [at] gmail [dot] com',
+    fromEmail: 'siansmarttech@gmail.com',
     fromPhone: '9344678135',
     fromAddress: '5/195, Ponnu pillai thoppu, Anuppanadi, Madurai - 625009.',
     fromGst: '',

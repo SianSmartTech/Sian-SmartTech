@@ -92,7 +92,6 @@ const Hero = () => {
     };
   }, []);
   const dimensionsRef = useRef({ width: 0, height: 0 });
-  const progressRef = useRef(0);
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -107,30 +106,16 @@ const Hero = () => {
       }
     };
     handleResize();
-    window.addEventListener('resize', handleResize, { passive: true });
+    window.addEventListener('resize', handleResize);
+    const intervalId = setInterval(handleResize, 500);
     return () => {
       window.removeEventListener('resize', handleResize);
+      clearInterval(intervalId);
     };
   }, [canvasLoaded]);
   useEffect(() => {
     const section = sectionRef.current;
     if (!section) return;
-    const updateProgress = () => {
-      const rect = section.getBoundingClientRect();
-      const totalHeight = rect.height - window.innerHeight;
-      let progress = 0;
-      if (rect.top <= 0 && rect.bottom >= window.innerHeight) {
-        progress = -rect.top / totalHeight;
-      } else if (rect.top > 0) {
-        progress = 0;
-      } else {
-        progress = 1;
-      }
-      progressRef.current = progress;
-    };
-    updateProgress();
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', updateProgress, { passive: true });
     let animationFrameId;
     let isIntersecting = false;
     const update = () => {
@@ -152,7 +137,16 @@ const Hero = () => {
       }
       ctx.imageSmoothingEnabled = true;
       ctx.imageSmoothingQuality = 'high';
-      const progress = progressRef.current;
+      const rect = section.getBoundingClientRect();
+      const totalHeight = rect.height - window.innerHeight;
+      let progress = 0;
+      if (rect.top <= 0 && rect.bottom >= window.innerHeight) {
+        progress = -rect.top / totalHeight;
+      } else if (rect.top > 0) {
+        progress = 0;
+      } else {
+        progress = 1;
+      }
       let targetFrame = 0;
       if (progress <= 0.5) {
         targetFrame = (progress / 0.5) * 239;
@@ -184,12 +178,12 @@ const Hero = () => {
               drawW = width * 1.5;
               drawH = drawW / imgAspect;
               if (drawH > height) {
-                drawH = height * 1.2;
+                drawH = height;
                 drawW = drawH * imgAspect;
               }
             } else {
-              drawH = height * 1.2;
-              drawW = drawH * imgAspect;
+              drawW = width;
+              drawH = height;
             }
             const drawX = (width - drawW) / 2;
             const drawY = (height - drawH) / 2;
@@ -246,7 +240,6 @@ const Hero = () => {
       (entries) => {
         isIntersecting = entries[0].isIntersecting;
         if (isIntersecting) {
-          updateProgress();
           animationFrameId = requestAnimationFrame(update);
         } else {
           cancelAnimationFrame(animationFrameId);
@@ -256,8 +249,6 @@ const Hero = () => {
     );
     observer.observe(section);
     return () => {
-      window.removeEventListener('scroll', updateProgress);
-      window.removeEventListener('resize', updateProgress);
       observer.disconnect();
       cancelAnimationFrame(animationFrameId);
     };

@@ -54,9 +54,6 @@ const Testimonials = () => {
   const handleScroll = () => {
     const container = scrollRef.current;
     if (!container) return;
-    if (isDown.current || isHovered.current) {
-      scrollAccumulator.current = container.scrollLeft;
-    }
     const halfWidth = container.scrollWidth / 2;
     const maxScroll = container.scrollWidth - container.clientWidth;
     if (container.scrollLeft >= maxScroll - 10) {
@@ -84,6 +81,8 @@ const Testimonials = () => {
       if (!isDown.current && !isHovered.current) {
         scrollAccumulator.current += speed * delta;
         container.scrollLeft = scrollAccumulator.current;
+      } else {
+        scrollAccumulator.current = container.scrollLeft;
       }
       animationFrameId = requestAnimationFrame(animate);
     };
