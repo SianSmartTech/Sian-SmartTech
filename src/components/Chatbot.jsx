@@ -2,12 +2,10 @@ import { useState, useEffect, useRef } from 'react';
 import { MessageSquare, Minus, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import '../css/Chatbot.css';
-import { companyInfo, services, itServicesData } from '../mockData';
+import { companyInfo, services, itServicesData, itPricing } from '../mockData';
 import { bookingStore } from '../utils/bookingStore';
 import ProtectedEmail from './ProtectedEmail';
-const initialMessages = [
-  { sender: 'bot', text: `Hi there! Welcome to ${companyInfo.name}. How can I help you today?` }
-];
+const initialMessages = [{ sender: 'bot', text: `Hi there! Welcome to ${companyInfo.name}. How can I help you today?`}];
 const DEFAULT_QUICK_REPLIES = ["Book a service", "Track my ticket", "What are your services?", "Pricing info", "Contact details"];
 const hardwareMap = services.map(s => {
   let label = s.title;
@@ -23,11 +21,18 @@ const hardwareMap = services.map(s => {
   else if (s.title.includes("Accessories")) label = "Accessories Sales";
   return { label, title: s.title, price: s.priceRange };
 });
-const itMap = itServicesData.map(s => {
-  let label = s.title;
-  if (s.title.includes("Website Development")) label = "Website Development";
-  return { label, title: s.title, price: s.priceRange };
-});
+const itMap = [
+  ...itPricing.map(p => ({
+    label: p.name,
+    title: p.name,
+    price: p.price
+  })),
+  ...itServicesData.map(s => ({
+    label: s.title,
+    title: s.title,
+    price: s.priceRange
+  }))
+];
 const Chatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState(initialMessages);
@@ -72,8 +77,10 @@ const Chatbot = () => {
       const matchedIT = itMap.find(i =>
         lowerText === i.label.toLowerCase() ||
         lowerText === i.title.toLowerCase() ||
-        (lowerText.includes("web") && i.label === "Website Development") ||
-        (lowerText.includes("freelance") && i.label === "Freelancing IT Services")
+        (lowerText.includes("starter") && i.label.includes("Starter")) ||
+        (lowerText.includes("business") && i.label.includes("Business")) ||
+        ((lowerText.includes("e-commerce") || lowerText.includes("ecommerce") || lowerText.includes("e commerce")) && i.label.includes("E-Commerce")) ||
+        (lowerText.includes("freelance") && i.label.includes("Freelancing"))
       );
       if (lowerText === "main menu" || lowerText === "back to main") {
         botResponse = "How else can I assist you today?";
@@ -105,9 +112,7 @@ const Chatbot = () => {
             setIsWaitingForTicket(false);
           } else {
             botResponse = (
-              <span>
-                I couldn't find any service record for Ticket ID <strong>{text}</strong>. Please check the ID and try again, or type <strong>Main Menu</strong> to exit.
-              </span>
+              <span>I couldn't find any service record for Ticket ID <strong>{text}</strong>. Please check the ID and try again, or type <strong>Main Menu</strong> to exit.</span>
             );
             nextReplies = ["Main Menu"];
             setIsWaitingForTicket(true);
@@ -178,15 +183,14 @@ const Chatbot = () => {
                 <li key={s.id}>{s.title}</li>
               ))}
             </ul>
-            <strong className="chat-services-heading">IT Services:</strong>
+            <strong className="chat-services-heading">IT Services & Packages:</strong>
             <ul className="chat-services-ul-sm">
-              {itServicesData.map((s) => (
-                <li key={s.id}>{s.title}</li>
-              ))}
+              <li>Starter Website (₹3,999)</li>
+              <li>Business Website (₹8,999)</li>
+              <li>E-Commerce Website (Based on requirement)</li>
+              <li>Freelancing IT Services (Based on requirement)</li>
             </ul>
-            <p className="chat-services-note">
-              Click on <strong>Pricing info</strong> or ask about any service to see details.
-            </p>
+            <p className="chat-services-note">Click on <strong>Pricing info</strong> or ask about any service to see details.</p>
           </div>
         );
         nextReplies = DEFAULT_QUICK_REPLIES;

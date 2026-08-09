@@ -27,69 +27,69 @@ const AboutPage = () => {
   };
   const toolkit = [
     {
-      title: "Motherboard & Chip-Level",
-      desc: "Component-level diagnosis and micro-soldering. Identifying faulty MOSFETs, diodes, capacitors, and SMD components with precision multimeters to restore systems from board-level failures.",
+      title: "Chip-Level & Board Repair",
+      desc: "Fixing power failures, short circuits, and dead laptop motherboards at the circuit level so you don't have to spend on expensive full-board replacements.",
       icon: <Cpu size={28} />,
-      tags: ["MOSFETs", "SMD Repair", "Diodes", "Diagnostics"],
+      tags: ["Board Repair", "Power Fix", "Chip Repair", "Dead Laptop Restore"],
     },
     {
-      title: "Custom Hardware Builds",
-      desc: "Designing and assembling high-performance rigs, such as AMD Ryzen 5 7000-series DDR5 gaming computers with built-in high-speed WiFi, tailored for raw performance and reliability.",
+      title: "Custom PC Builds",
+      desc: "Designing and assembling fast, reliable computers tailored to your exact needs — for gaming, office work, video editing, or everyday tasks.",
       icon: <Laptop size={28} />,
-      tags: ["Ryzen 7000", "DDR5", "Gaming Rigs", "Workstations"],
+      tags: ["Gaming PCs", "Workstations", "Office PCs", "Custom Rigs"],
     },
     {
       title: "Printers & Projectors",
-      desc: "Specialized servicing and repair for mechanical and electronic hardware. Professional troubleshooting for systems like Epson L3255 printers and Panasonic PT-LB423D projectors.",
+      desc: "Complete repair and maintenance for home and office equipment, including ink tank printers, paper jam issues, laser printers, and projectors.",
       icon: <Printer size={28} />,
-      tags: ["Epson L3255", "Panasonic Projectors", "Office Systems"],
+      tags: ["Printer Service", "Paper Jam Fix", "Inkjet & Laser", "Projector Repair"],
     },
     {
-      title: "System Diagnostics",
-      desc: "Resolving compatibility bottlenecks, RAM timing conflicts, and performance degradation. Expert upgrade paths utilizing high-speed SSDs and optimal thermal management solutions.",
+      title: "Speed & Performance Boost",
+      desc: "Speeding up slow computers, fixing heating issues, adding fast SSD storage, upgrading memory (RAM), and making old laptops work like new.",
       icon: <Wrench size={28} />,
-      tags: ["Lenovo T480", "RAM Compatibility", "SSD Upgrades", "Thermal Paste"],
+      tags: ["SSD Upgrade", "RAM Boost", "Overheating Fix", "Speed Cleaning"],
     }
   ];
   const milestones = [
     {
-      year: "2021",
-      title: "Drone Research at ARIES",
-      desc: "Began journey at ARIES (Aerobot Research and Innovative Engineering Solutions). Gained deep, specialized drone hardware mechanics, avionics integration, and electronic soldering knowledge."
+      year: "7+ Years Exp",
+      title: "Hardware Masterclass & Service",
+      desc: "Built deep real-world experience in troubleshooting computer hardware, micro-soldering, power repairs, and servicing all major computer brands."
     },
     {
-      year: "2022 - 2024",
-      title: "Hardware Masterclass & Service",
-      desc: "Accumulated 5+ years of real-world troubleshooting experience. Mastered micro-soldering, schematic diagnostic paths, and system architectures, handling complex board-level electronics repair."
+      year: "2021",
+      title: "Drone Research at ARIES",
+      desc: "Gained foundational experience at ARIES (Aerobot Research and Innovative Engineering Solutions), working on precision circuitry and drone hardware assembly."
     },
     {
       year: "2025",
       title: "Founding SiAn Smart Tech",
-      desc: "Established the brand with a core tagline: 'Tech with Care'. Built on the principles of honest diagnosis, meticulous assembly, and providing care-oriented, transparent services to the community."
+      desc: "Established the business with a clear tagline: 'Tech with Care'. Focused on honest advice, transparent pricing, and treating every device with high care."
     },
     {
       year: "2026",
       title: "Professional Systems & Scale",
-      desc: "Integrated structured systems: MSME registered, current account set up, active on platforms like Just Dial and Amazon, with automated sheets dashboards and clean, practical billing software."
+      desc: "Expanded into an officially registered MSME business, offering clear digital invoicing, easy service updates, and verified online customer support."
     }
   ];
   const systems = [
     {
-      title: "Structured Operations",
-      desc: "Operating with professional credibility and broad reach. Fully registered as an MSME, operating with a corporate current account, and listed on top service and retail marketplaces.",
-      features: ["MSME Registered", "Just Dial Verified", "Google Business Profile", "Amazon Seller Platform Ready"],
+      title: "Registered & Verified Business",
+      desc: "Fully government registered (MSME) and verified across Google and local platforms, ensuring complete peace of mind when giving us your devices.",
+      features: ["MSME Registered", "Google Maps Verified", "JustDial Verified Partner", "Direct Customer Support"],
       icon: <Shield size={24} />
     },
     {
-      title: "Data-Driven Decisions",
-      desc: "Employing custom analytical dashboards in Google Sheets and Excel to monitor business health. Tracking income/expense statements, shop metrics, and automated service turnaround charts.",
-      features: ["Income & Expense Logs", "Shop Growth Tables", "Automated Turnaround Charts", "Resource Auditing"],
+      title: "Organized Job Tracking",
+      desc: "Using clear tracking for every service ticket so your device repair status is updated, organized, and completed on time.",
+      features: ["Live Job Tracking", "Transparent Status", "On-Time Service", "Detailed Service Logs"],
       icon: <BarChart3 size={24} />
     },
     {
-      title: "Simplified Invoicing",
-      desc: "Designed custom, customer-first invoices. Removed complex tax jargon like GST, HSN/SAC, CGST, and SGST for micro-services, leaving clear itemized services, footer branding, and digital signatures.",
-      features: ["No Unnecessary GST Jargon", "Itemized Care Actions", "Official Footer Branding", "Clear Digital Signatures"],
+      title: "Simple & Clear Bills",
+      desc: "Straightforward invoices without confusing technical terms or unexpected extra costs. You see line-by-line what work was done.",
+      features: ["No Hidden Charges", "Clear Itemized Bill", "Digital Receipts", "Transparent Warranty"],
       icon: <FileText size={24} />
     }
   ];
@@ -102,8 +102,7 @@ const AboutPage = () => {
           <span className="about-hero-tag">Tech with Care</span>
           <h1>Behind <span>SiAn Smart Tech</span></h1>
           <p className="about-hero-desc">
-            Combining rigorous aerospace-grade engineering knowledge with 5+ years of dedicated,
-            component-level computer servicing. Discover our history, custom toolkits, and commitment to transparency.
+            Combining drone engineering precision with 7+ years of dedicated computer and laptop repair experience. Discover our story, honest service promise, and customer-first approach.
           </p>
         </motion.section>
         <motion.section className="founder-section" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
@@ -118,19 +117,12 @@ const AboutPage = () => {
           </motion.div>
           <motion.div className="founder-content-wrapper" variants={itemVariants}>
             <span className="section-label">Our Story</span>
-            <h2>Bridging Advanced Engineering & Tech Care</h2>
+            <h2>Expert Tech Repair Made Simple & Honest</h2>
             <p className="founder-bio-text">
-              I am Sivakumar SG, a technology service professional and the founder of SiAn Smart Tech.
-              My journey in hardware technology began with a strong foundation at <strong>ARIES</strong>
-              (Aerobot Research and Innovative Engineering Solutions), where I gained specialized knowledge in drone
-              engineering, avionics circuitry, and mechanical hardware assembly.
+              Hello! I am Sivakumar SG, founder of SiAn Smart Tech. My journey in technology started with drone engineering at <strong>ARIES</strong> (Aerobot Research and Innovative Engineering Solutions), where I learned how electronic components work together at a circuit level.
             </p>
             <p className="founder-bio-text">
-              Transitioning this aerospace-grade discipline into computer hardware, I have spent the last
-              5+ years troubleshooting, upgrading, and servicing digital hardware. SiAn Smart Tech was founded on
-              a simple yet powerful ethos: <strong>"Tech with Care"</strong>. We do not believe in quick fixes or shortcut
-              diagnostics. Whether it is identifying a single malfunctioning diode or deploying a custom DDR5 workstation,
-              we treat every device with the highest standard of technical care.
+              Over the last 7+ years, I have applied that same careful precision to repairing laptops, desktop PCs, printers, and custom hardware. At SiAn Smart Tech, our core philosophy is <strong>"Tech with Care"</strong>. We don't believe in quick shortcuts or confusing jargon. We explain what's wrong in plain language, offer transparent pricing, and fix your devices with standard-setting quality.
             </p>
             <div className="founder-meta-cards">
               <div className="meta-card">
@@ -138,8 +130,8 @@ const AboutPage = () => {
                   <Award size={24} />
                 </div>
                 <div className="meta-info">
-                  <h4>5+ Years</h4>
-                  <p>Tech Repair Service</p>
+                  <h4>7+ Years</h4>
+                  <p>Tech Repair Experience</p>
                 </div>
               </div>
               <div className="meta-card">
@@ -147,8 +139,8 @@ const AboutPage = () => {
                   <Briefcase size={24} />
                 </div>
                 <div className="meta-info">
-                  <h4>Ex-ARIES</h4>
-                  <p>Drone Hardware Knowledge</p>
+                  <h4>Drone Engineering</h4>
+                  <p>ARIES Research Background</p>
                 </div>
               </div>
             </div>
@@ -156,11 +148,10 @@ const AboutPage = () => {
         </motion.section>
         <motion.section className="technical-strengths-section" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
           <div className="section-header-centered">
-            <span className="section-label">Technical Toolkit</span>
-            <h2>Our Specialized Expertise</h2>
+            <span className="section-label">Our Services</span>
+            <h2>What We Do Best</h2>
             <p>
-              We dive deeper than simple module swapping. From micro-soldering motherboard chips to custom cooling loops,
-              we ensure optimized compatibility and long-term reliability.
+              From chip-level laptop repairs to speed upgrades and custom PC builds, we take care of all your device needs.
             </p>
           </div>
           <div className="toolkit-grid">
@@ -182,7 +173,7 @@ const AboutPage = () => {
           <div className="section-header-centered">
             <span className="section-label">Our Journey</span>
             <h2>Milestones & Growth</h2>
-            <p>From drone research to custom billing ecosystems, here is how SiAn Smart Tech has evolved.</p>
+            <p>How SiAn Smart Tech grew from hands-on repair experience into a trusted technology service provider.</p>
           </div>
           <div className="timeline-container">
             <div className="timeline-line"></div>
@@ -204,11 +195,10 @@ const AboutPage = () => {
         </motion.section>
         <motion.section className="systems-section" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
           <div className="section-header-centered">
-            <span className="section-label">Business Systems</span>
-            <h2>Organized, Clear, Professional</h2>
+            <span className="section-label">Our Standards</span>
+            <h2>Simple, Honest & Professional</h2>
             <p>
-              We believe structured businesses build long-term trust. We've replaced confusing operations
-              with automated tracking and simplified billing.
+              We keep operations transparent with easy tracking, verified business listings, and jargon-free receipts.
             </p>
           </div>
           <div className="systems-grid">
@@ -233,20 +223,20 @@ const AboutPage = () => {
         </motion.section>
         <motion.section className="stats-banner" initial={{ opacity: 0, scale: 0.95 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
           <div className="stat-item">
-            <span className="stat-num">5+</span>
+            <span className="stat-num">7+</span>
             <span className="stat-name">Years Experience</span>
           </div>
           <div className="stat-item">
             <span className="stat-num">150+</span>
-            <span className="stat-name">Happy Clients</span>
+            <span className="stat-name">Satisfied Customers</span>
           </div>
           <div className="stat-item">
             <span className="stat-num">100%</span>
-            <span className="stat-name">Care Tagline Guarantee</span>
+            <span className="stat-name">Tech With Care</span>
           </div>
           <div className="stat-item">
             <span className="stat-num">0%</span>
-            <span className="stat-name">Hidden Taxes/Fees</span>
+            <span className="stat-name">Hidden Fees</span>
           </div>
         </motion.section>
       </div>

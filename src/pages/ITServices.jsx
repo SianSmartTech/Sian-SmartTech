@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "../css/HardwareServices.css";
-import { Star, CheckCircle, ArrowRight, Globe, Briefcase, Cpu } from 'lucide-react';
+import { CheckCircle, ArrowRight, Globe, Briefcase, Cpu, ShoppingCart } from 'lucide-react';
 import { itServicesData } from '../mockData';
-const IT_SERVICE_ICONS = { Globe, Briefcase, Cpu};
+const IT_SERVICE_ICONS = { Globe, Briefcase, Cpu, ShoppingCart };
 const ITServices = () => {
   const navigate = useNavigate();
   const [displayServices] = useState(itServicesData);
@@ -44,10 +44,6 @@ const ITServices = () => {
                     <div className="hw-card-content-section">
                       <div className="hw-card-header">
                         <span className="hw-category">{service.category}</span>
-                        <div className="hw-rating">
-                          <Star size={16} className="hw-rating-icon" />
-                          <span>{service.rating}</span>
-                        </div>
                       </div>
                       <h3 className="hw-card-title">{service.title}</h3>
                       <p className="hw-card-desc">{service.description}</p>

@@ -218,7 +218,6 @@ export const services = [
     benefits: ["100% Genuine", "Exchange Options", "Official Spares"]
   }
 ];
-
 export const portfolio = [
   {
     id: 1,
@@ -341,13 +340,12 @@ export const pricing = [
     popular: false,
   }
 ];
-
 export const itPricing = [
   {
     id: 1,
     name: "Starter Website",
     icon: "Globe",
-    price: "₹2,999",
+    price: "₹3,999",
     period: "one-time",
     subtitle: null,
     features: [
@@ -364,7 +362,7 @@ export const itPricing = [
     id: 2,
     name: "Business Website",
     icon: "BarChart2",
-    price: "₹5,999",
+    price: "₹8,999",
     period: "one-time",
     hostingNote: null,
     subtitle: null,
@@ -377,6 +375,25 @@ export const itPricing = [
       "60 days priority support"
     ],
     popular: true,
+    buttonText: "Get started",
+  },
+  {
+    id: 3,
+    name: "E-Commerce Website",
+    icon: "ShoppingCart",
+    price: "Based on Requirement",
+    period: "custom",
+    hostingNote: null,
+    subtitle: null,
+    features: [
+      "Custom product catalog",
+      "Payment gateway integration",
+      "Order & inventory management",
+      "Mobile responsive & fast speed",
+      "WhatsApp & email alerts",
+      "Dedicated priority support"
+    ],
+    popular: false,
     buttonText: "Get started",
   }
 ];
@@ -426,7 +443,7 @@ export const testimonials = [
 export const companyInfo = {
   name: "Sian SmartTech",
   tagline: "Your Trusted Laptop & Computer Service Center in Madurai",
-  description: "Sian SmartTech offers professional laptop service, computer repair, and chip-level hardware services with over 5 years of experience. We specialize in motherboard repair, device upgrades, data recovery, and custom PC builds in Anuppanadi, Madurai.",
+  description: "Sian SmartTech offers professional laptop service, computer repair, and chip-level hardware services with over 7 years of experience. We specialize in motherboard repair, device upgrades, data recovery, and custom PC builds in Anuppanadi, Madurai.",
   phone: "+91 93446 78135",
   email: "siansmarttech@gmail.com",
   address: "5/195, ponnu pillai thoppu, anuppanadi, madurai - 625009.",
@@ -479,7 +496,7 @@ export const itServicesData = [
     rating: 5.0,
     turnaround: "1-2 Weeks",
     warranty: "30 Days Support",
-    priceRange: "Started at ₹2,999",
+    priceRange: "Started at ₹3,999",
     benefits: ["Responsive Design", "SEO Optimized", "Free Setup & Deployment"]
   },
   {
@@ -492,7 +509,20 @@ export const itServicesData = [
     rating: 4.9,
     turnaround: "Project-based",
     warranty: "Support Included",
-    priceRange: "Based on task",
+    priceRange: "Based on requirement",
     benefits: ["Custom Coding", "Expert Consultants", "On-Time Delivery"]
+  },
+  {
+    id: 3,
+    title: "E-Commerce Website Development",
+    description: "Custom online store solutions featuring secure payment gateways, inventory management, product catalogs, and automated order notifications.",
+    icon: "ShoppingCart",
+    image: "/images/web_development.webp",
+    category: "E-COMMERCE",
+    rating: 5.0,
+    turnaround: "1-3 Weeks",
+    warranty: "60 Days Support",
+    priceRange: "Based on requirement",
+    benefits: ["Payment Gateway", "Product Catalog", "Order & Stock Manager"]
   }
 ];

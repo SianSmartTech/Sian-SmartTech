@@ -59,8 +59,8 @@
 }
 
 .admin-brand-logo-img {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 30px;
   object-fit: contain;
 }
 
@@ -2199,4 +2199,59 @@
 
 .admin-drawer-submit-wrapper {
   margin-top: 15px;
+}
+
+/* Operations Dashboard Sub-Tabs */
+.admin-dash-subtabs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid rgba(17, 103, 142, 0.15);
+  padding-bottom: 14px;
+  flex-wrap: wrap;
+}
+
+.admin-subtab-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--text-secondary, #6b7280);
+  background: rgba(17, 103, 142, 0.06);
+  border: 1px solid rgba(17, 103, 142, 0.12);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.admin-subtab-btn:hover {
+  background: rgba(17, 103, 142, 0.12);
+  color: #11678E;
+  transform: translateY(-1px);
+}
+
+.admin-subtab-btn.active {
+  background: linear-gradient(135deg, #11678E 0%, #0d4e6c 100%);
+  color: #ffffff;
+  border-color: transparent;
+  box-shadow: 0 4px 14px rgba(17, 103, 142, 0.3);
+}
+
+[data-theme="dark"] .admin-subtab-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+  color: #a1a1aa;
+}
+
+[data-theme="dark"] .admin-subtab-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #67bed9;
+}
+
+[data-theme="dark"] .admin-subtab-btn.active {
+  background: linear-gradient(135deg, #11678E 0%, #0d4e6c 100%);
+  color: #ffffff;
 }

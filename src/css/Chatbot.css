@@ -264,7 +264,7 @@
 }
 
 [data-theme="light"] .chatbot-toggle {
-  background-color: var(--text-primary);
+  background-color: var(--accent-primary);
   color: #ffffff;
 }
 
@@ -279,7 +279,7 @@
 }
 
 [data-theme="light"] .chatbot-header {
-  background-color: var(--text-primary);
+  background-color: var(--accent-primary);
   color: #ffffff;
 }
 
@@ -309,7 +309,7 @@
 }
 
 [data-theme="light"] .send-btn {
-  background-color: var(--text-primary);
+  background-color: var(--accent-primary);
   color: #ffffff;
 }
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Users, Clock, CheckCircle2, ClipboardList, Search, Edit3, X, Mail, TrendingUp, RefreshCw, Send, Check, AlertCircle, BarChart2, LogOut, Menu, Database, Plus, Sun, Moon, ChevronLeft, Trash2, FileText } from 'lucide-react';
+import { Users, Clock, CheckCircle2, Search, Edit3, X, Mail, TrendingUp, RefreshCw, Send, Check, AlertCircle, BarChart2, LogOut, Menu, Database, Plus, Sun, Moon, ChevronLeft, Trash2, FileText, Wrench, Globe, Laptop } from 'lucide-react';
 import { toast, Toaster } from 'sonner';
 import { bookingStore } from '../utils/bookingStore';
 import { useAuth } from '../context/AuthContext';
@@ -10,7 +10,9 @@ const AdminDashboard = () => {
   const { user, logout } = useAuth();
   const { theme, toggleTheme } = useTheme();
   const [activeTab, setActiveTab] = useState('dashboard');
+  const [dashSubTab, setDashSubTab] = useState('hardware');
   const [bookings, setBookings] = useState([]);
+  const [itBookings, setITBookings] = useState([]);
   const [otherBookings, setOtherBookings] = useState([]);
   const [emailLogs, setEmailLogs] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -20,6 +22,7 @@ const AdminDashboard = () => {
   const [selectedOtherBooking, setSelectedOtherBooking] = useState(null);
   const [isOtherDrawerOpen, setIsOtherDrawerOpen] = useState(false);
   const [isAddOtherOpen, setIsAddOtherOpen] = useState(false);
+  const [isAddITOpen, setIsAddITOpen] = useState(false);
   const [invoices, setInvoices] = useState([]);
   const [newOtherBooking, setNewOtherBooking] = useState({
     name: '',
@@ -32,6 +35,18 @@ const AdminDashboard = () => {
     estimatedTurnaround: 'TBD',
     status: 'Pending',
     notes: 'Awaiting admin review.'
+  });
+  const [newITBooking, setNewITBooking] = useState({
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    service: 'Website Development & Design',
+    issue: '',
+    estimatedCost: 'Based on Project',
+    estimatedDelivery: '1-2 Weeks',
+    status: 'Pending',
+    notes: 'Awaiting IT consultation.'
   });
   const [selectedEmail, setSelectedEmail] = useState(null);
   const [editStatus, setEditStatus] = useState('');
@@ -52,14 +67,19 @@ const AdminDashboard = () => {
     }
   };
   const refreshData = async () => {
-    setBookings(bookingStore.getAllBookings());
+    setBookings(bookingStore.getAllHardwareBookings());
+    setITBookings(bookingStore.getAllITBookings());
     setOtherBookings(bookingStore.getAllOtherBookings());
     setEmailLogs(bookingStore.getEmailLogs());
     setIsSyncing(true);
     try {
-      if (bookingStore.isGoogleSheetsConfigured()) {
-        const fresh = await bookingStore.fetchBookings();
-        setBookings(fresh);
+      if (bookingStore.isHardwareGoogleSheetsConfigured()) {
+        const freshHw = await bookingStore.fetchHardwareBookings();
+        setBookings(freshHw);
+      }
+      if (bookingStore.isITGoogleSheetsConfigured()) {
+        const freshIt = await bookingStore.fetchITBookings();
+        setITBookings(freshIt);
       }
       if (bookingStore.isOtherBookingsConfigured()) {
         const freshOther = await bookingStore.fetchOtherBookings();
@@ -84,27 +104,158 @@ const AdminDashboard = () => {
   }, []);
   const filteredBookings = bookings.filter(b => {
     const q = searchTerm.toLowerCase();
-    const matchSearch =
-      b.name.toLowerCase().includes(q) ||
-      b.email.toLowerCase().includes(q) ||
-      b.ticketId.toLowerCase().includes(q);
+    const matchSearch = (b.name || '').toLowerCase().includes(q) || (b.email || '').toLowerCase().includes(q) || (b.ticketId || '').toLowerCase().includes(q);
+    const matchStatus = statusFilter === 'ALL' || b.status === statusFilter;
+    return matchSearch && matchStatus;
+  });
+  const filteredITBookings = itBookings.filter(b => {
+    const q = searchTerm.toLowerCase();
+    const matchSearch = (b.name || '').toLowerCase().includes(q) || (b.email || '').toLowerCase().includes(q) || (b.ticketId || '').toLowerCase().includes(q) || (b.service || '').toLowerCase().includes(q);
     const matchStatus = statusFilter === 'ALL' || b.status === statusFilter;
     return matchSearch && matchStatus;
   });
   const filteredOtherBookings = otherBookings.filter(b => {
     const q = searchTerm.toLowerCase();
-    const matchSearch =
-      b.name.toLowerCase().includes(q) ||
-      b.email.toLowerCase().includes(q) ||
-      b.phone.toLowerCase().includes(q) ||
-      b.address.toLowerCase().includes(q) ||
-      (b.serviceType && b.serviceType.toLowerCase().includes(q)) ||
-      (b.issue && b.issue.toLowerCase().includes(q));
+    const matchSearch = (b.name || '').toLowerCase().includes(q) || (b.email || '').toLowerCase().includes(q) || (b.phone || '').toLowerCase().includes(q) || (b.address || '').toLowerCase().includes(q) || (b.serviceType && b.serviceType.toLowerCase().includes(q)) || (b.issue && b.issue.toLowerCase().includes(q));
     const matchStatus = statusFilter === 'ALL' || b.status === statusFilter;
     return matchSearch && matchStatus;
   });
-
-
+  const totalHardwareBookings = bookings.length;
+  const pendingHardwareCount = bookings.filter(b => b.status === 'Pending').length;
+  const activeHardwareCount = bookings.filter(b => b.status === 'Confirmed' || b.status === 'In Progress').length;
+  const completedHardwareCount = bookings.filter(b => b.status === 'Completed').length;
+  const cancelledHardwareCount = bookings.filter(b => b.status === 'Cancelled').length;
+  const totalITBookings = itBookings.length;
+  const pendingITCount = itBookings.filter(b => b.status === 'Pending').length;
+  const activeITCount = itBookings.filter(b => b.status === 'Confirmed' || b.status === 'In Progress').length;
+  const completedITCount = itBookings.filter(b => b.status === 'Completed').length;
+  const cancelledITCount = itBookings.filter(b => b.status === 'Cancelled').length;
+  const totalOtherBookings = otherBookings.length;
+  const pendingOtherCount = otherBookings.filter(b => b.status === 'Pending').length;
+  const activeOtherCount = otherBookings.filter(b => b.status === 'Confirmed' || b.status === 'In Progress').length;
+  const completedOtherCount = otherBookings.filter(b => b.status === 'Completed').length;
+  const cancelledOtherCount = otherBookings.filter(b => b.status === 'Cancelled').length;
+  const cleanServiceName = (serviceStr, addressStr, defaultName = 'General Service') => {
+    if (!serviceStr || typeof serviceStr !== 'string') return defaultName;
+    const s = serviceStr.trim();
+    const a = (addressStr || '').trim();
+    if (!s || (a && s.toLowerCase() === a.toLowerCase())) return defaultName;
+    if (/\b(madurai|thoppu|street|nagar|road|625\d{3})\b/i.test(s) || /^\d+\/\d+/.test(s)) {
+      return defaultName;
+    }
+    return s;
+  };
+  const hardwareCategoryCounts = (() => {
+    const counts = {};
+    bookings.forEach(b => {
+      const name = cleanServiceName(b.service, b.address, 'Hardware Service');
+      counts[name] = (counts[name] || 0) + 1;
+    });
+    return Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  })();
+  const itCategoryCounts = (() => {
+    const counts = {};
+    itBookings.forEach(b => {
+      const name = cleanServiceName(b.service || b.serviceType, b.address, 'IT Service');
+      counts[name] = (counts[name] || 0) + 1;
+    });
+    return Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  })();
+  const otherCategoryCounts = (() => {
+    const counts = {};
+    otherBookings.forEach(b => {
+      const name = cleanServiceName(b.serviceType || b.service, b.address, 'Other Service');
+      counts[name] = (counts[name] || 0) + 1;
+    });
+    return Object.entries(counts).sort((a, b) => b[1] - a[1]);
+  })();
+  const openDrawer = (booking) => {
+    setSelectedBooking(booking);
+    setEditStatus(booking.status);
+    setEditNotes(booking.notes || '');
+    setEditCost(booking.estimatedCost || '');
+    setEditDelivery(booking.estimatedDelivery || booking.estimatedTurnaround || '');
+    setIsDrawerOpen(true);
+  };
+  const handleSave = async (e) => {
+    e.preventDefault();
+    if (!selectedBooking) return;
+    const toastId = toast.loading("Updating booking in Google Sheets...");
+    try {
+      const isIT = selectedBooking.type === 'IT' || (selectedBooking.id || '').startsWith('it-bk-');
+      const updated = isIT
+        ? await bookingStore.updateITBooking(selectedBooking.id, { status: editStatus, notes: editNotes, estimatedCost: editCost, estimatedDelivery: editDelivery })
+        : await bookingStore.updateBooking(selectedBooking.id, { status: editStatus, notes: editNotes, estimatedCost: editCost, estimatedDelivery: editDelivery });
+      if (updated) {
+        toast.success(`Booking ${updated.ticketId} updated!`, { id: toastId });
+        if (editStatus !== selectedBooking.status) {
+          toast.info(`Email dispatched to ${updated.email}`);
+        }
+        setIsDrawerOpen(false);
+        refreshData();
+      } else {
+        toast.error('Update failed.', { id: toastId });
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to sync changes with Google Sheets.', { id: toastId });
+    }
+  };
+  const quickConfirm = async (booking) => {
+    const toastId = toast.loading("Confirming booking in Google Sheets...");
+    try {
+      const isIT = booking.type === 'IT' || (booking.id || '').startsWith('it-bk-');
+      const updated = isIT ? await bookingStore.updateITBooking(booking.id, { status: 'Confirmed', notes: 'IT booking confirmed. Assigning consultant.', estimatedDelivery: '1 Week' }) : await bookingStore.updateBooking(booking.id, { status: 'Confirmed', notes: 'Booking confirmed. Scheduling technician.', estimatedDelivery: 'Within 2 days' });
+      if (updated) {
+        toast.success(`${updated.ticketId} Confirmed!`, { id: toastId });
+        toast.info(`Email dispatched to ${updated.email}`);
+        refreshData();
+      } else {
+        toast.error('Confirmation failed.', { id: toastId });
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error('Failed to communicate with Google Sheets.', { id: toastId });
+    }
+  };
+  const handleAddITBooking = async (e) => {
+    e.preventDefault();
+    if (!newITBooking.name.trim() || !newITBooking.email.trim() || !newITBooking.service.trim()) {
+      toast.error("Please fill in Name, Email and Service Type!");
+      return;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(newITBooking.email.trim())) {
+      toast.error("Email invalid!");
+      return;
+    }
+    const toastId = toast.loading("Adding IT Service booking to Google Sheets...");
+    try {
+      const added = await bookingStore.addITBooking(newITBooking);
+      if (added) {
+        toast.success("IT Service booking logged successfully!", { id: toastId });
+        setIsAddITOpen(false);
+        setNewITBooking({
+          name: '',
+          email: '',
+          phone: '',
+          address: '',
+          service: 'Website Development & Design',
+          issue: '',
+          estimatedCost: 'Based on Project',
+          estimatedDelivery: '1-2 Weeks',
+          status: 'Pending',
+          notes: 'Awaiting IT consultation.'
+        });
+        refreshData();
+      } else {
+        toast.error("Failed to add IT booking.", { id: toastId });
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to write to Google Sheets: " + err.message, { id: toastId });
+    }
+  };
   const openOtherDrawer = (booking) => {
     setSelectedOtherBooking(booking);
     setEditStatus(booking.status);
@@ -136,8 +287,15 @@ const AdminDashboard = () => {
       toast.error('Failed to sync changes with Google Sheets.', { id: toastId });
     }
   };
+  const [itBookingToDelete, setITBookingToDelete] = useState(null);
   const handleOtherDelete = (id) => {
     setOtherBookingToDelete(id);
+    setITBookingToDelete(null);
+    setShowDeleteConfirm(true);
+  };
+  const handleITDelete = (id) => {
+    setITBookingToDelete(id);
+    setOtherBookingToDelete(null);
     setShowDeleteConfirm(true);
   };
   const confirmOtherDelete = async (id) => {
@@ -154,6 +312,22 @@ const AdminDashboard = () => {
     } catch (err) {
       console.error(err);
       toast.error("Failed to delete booking: " + err.message, { id: toastId });
+    }
+  };
+  const confirmITDelete = async (id) => {
+    const toastId = toast.loading("Deleting IT booking from Google Sheets...");
+    try {
+      const success = await bookingStore.deleteITBooking(id);
+      if (success) {
+        toast.success("IT Service booking deleted successfully!", { id: toastId });
+        setIsDrawerOpen(false);
+        refreshData();
+      } else {
+        toast.error("Failed to delete IT booking.", { id: toastId });
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete IT booking: " + err.message, { id: toastId });
     }
   };
   const handleAddOtherBooking = async (e) => {
@@ -192,66 +366,6 @@ const AdminDashboard = () => {
     } catch (err) {
       console.error(err);
       toast.error("Failed to write to Google Sheets: " + err.message, { id: toastId });
-    }
-  };
-  const totalBookings = bookings.length;
-  const pendingCount = bookings.filter(b => b.status === 'Pending').length;
-  const activeCount = bookings.filter(b => b.status === 'Confirmed' || b.status === 'In Progress').length;
-  const completedCount = bookings.filter(b => b.status === 'Completed').length;
-  const cancelledCount = bookings.filter(b => b.status === 'Cancelled').length;
-  const totalOtherBookings = otherBookings.length;
-  const pendingOtherCount = otherBookings.filter(b => b.status === 'Pending').length;
-  const activeOtherCount = otherBookings.filter(b => b.status === 'Confirmed' || b.status === 'In Progress').length;
-  const completedOtherCount = otherBookings.filter(b => b.status === 'Completed').length;
-  const cancelledOtherCount = otherBookings.filter(b => b.status === 'Cancelled').length;
-  const categoryCounts = (() => {
-    const counts = {};
-    bookings.forEach(b => { counts[b.service] = (counts[b.service] || 0) + 1; });
-    return Object.entries(counts).sort((a, b) => b[1] - a[1]);
-  })();
-  const openDrawer = (booking) => {
-    setSelectedBooking(booking);
-    setEditStatus(booking.status);
-    setEditNotes(booking.notes || '');
-    setEditCost(booking.estimatedCost || '');
-    setEditDelivery(booking.estimatedDelivery || '');
-    setIsDrawerOpen(true);
-  };
-  const handleSave = async (e) => {
-    e.preventDefault();
-    if (!selectedBooking) return;
-    const toastId = toast.loading("Updating booking in Google Sheets...");
-    try {
-      const updated = await bookingStore.updateBooking(selectedBooking.id, { status: editStatus, notes: editNotes, estimatedCost: editCost, estimatedDelivery: editDelivery });
-      if (updated) {
-        toast.success(`Booking ${updated.ticketId} updated!`, { id: toastId });
-        if (editStatus !== selectedBooking.status) {
-          toast.info(`Email dispatched to ${updated.email}`);
-        }
-        setIsDrawerOpen(false);
-        refreshData();
-      } else {
-        toast.error('Update failed.', { id: toastId });
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error('Failed to sync changes with Google Sheets.', { id: toastId });
-    }
-  };
-  const quickConfirm = async (booking) => {
-    const toastId = toast.loading("Confirming booking in Google Sheets...");
-    try {
-      const updated = await bookingStore.updateBooking(booking.id, { status: 'Confirmed', notes: 'Booking confirmed. Scheduling technician.', estimatedDelivery: 'Within 2 days', });
-      if (updated) {
-        toast.success(`${updated.ticketId} Confirmed!`, { id: toastId });
-        toast.info(`Email dispatched to ${updated.email}`);
-        refreshData();
-      } else {
-        toast.error('Confirmation failed.', { id: toastId });
-      }
-    } catch (err) {
-      console.error(err);
-      toast.error('Failed to communicate with Google Sheets.', { id: toastId });
     }
   };
   const fmtDate = (iso) => {
@@ -298,13 +412,16 @@ const AdminDashboard = () => {
             <ul className="admin-menu-list admin-menu-list-margin">
               {[
                 { key: 'dashboard', icon: <BarChart2 size={17} />, label: 'Dashboard Overview' },
-                { key: 'ledger', icon: <ClipboardList size={17} />, label: 'Website Service Ledger' },
+                { key: 'ledger', icon: <Wrench size={17} />, label: 'Hardware Services Ledger' },
                 { key: 'other-bookings', icon: <Database size={17} />, label: 'Other Service Bookings' },
                 { key: 'invoices', icon: <FileText size={17} />, label: 'Invoice Generator' },
                 { key: 'outbox', icon: <Mail size={17} />, label: 'Email Outbox' },
+                { key: 'it-ledger', icon: <Globe size={17} />, label: 'IT Services Ledger' },
               ].map(({ key, icon, label }) => (
                 <li key={key} className="admin-menu-item">
-                  <button className={`admin-menu-btn ${activeTab === key ? 'active' : ''}`} onClick={() => { setActiveTab(key); setIsSidebarOpen(false); }}><span className="admin-menu-icon">{icon}</span>{label}</button>
+                  <button className={`admin-menu-btn ${activeTab === key ? 'active' : ''}`} onClick={() => { setActiveTab(key); setIsSidebarOpen(false); }}>
+                    <span className="admin-menu-icon">{icon}</span>{label}
+                  </button>
                 </li>
               ))}
               <li className="admin-menu-item">
@@ -348,7 +465,8 @@ const AdminDashboard = () => {
               )}
               <h1 className="admin-page-title">
                 {activeTab === 'dashboard' && 'Operations Dashboard'}
-                {activeTab === 'ledger' && 'Website Service Bookings Ledger'}
+                {activeTab === 'ledger' && 'Hardware Services Bookings Ledger'}
+                {activeTab === 'it-ledger' && 'IT Services Bookings Ledger'}
                 {activeTab === 'other-bookings' && 'Other Service Bookings Ledger'}
                 {activeTab === 'invoices' && 'Invoice Generator & Templates'}
                 {activeTab === 'outbox' && 'Simulated Email Outbox'}
@@ -361,143 +479,314 @@ const AdminDashboard = () => {
           </div>
           {activeTab === 'dashboard' && (
             <>
-              <h2 className="admin-section-heading">
-                <span className="admin-section-pill"></span>
-                Website Services Ledger
-              </h2>
-              <div className="admin-stats-grid">
-                <div className="admin-stat-card card-blue">
-                  <div className="admin-stat-icon-wrap blue"><Users size={22} /></div>
-                  <div className="admin-stat-info">
-                    <span className="admin-stat-label">Total Booked</span>
-                    <span className="admin-stat-value">{totalBookings}</span>
-                  </div>
-                </div>
-                <div className="admin-stat-card card-blue">
-                  <div className="admin-stat-icon-wrap blue"><Clock size={22} /></div>
-                  <div className="admin-stat-info">
-                    <span className="admin-stat-label">Pending</span>
-                    <span className="admin-stat-value">{pendingCount}</span>
-                  </div>
-                </div>
-                <div className="admin-stat-card card-blue">
-                  <div className="admin-stat-icon-wrap blue"><TrendingUp size={22} /></div>
-                  <div className="admin-stat-info">
-                    <span className="admin-stat-label">Active Jobs</span>
-                    <span className="admin-stat-value">{activeCount}</span>
-                  </div>
-                </div>
-                <div className="admin-stat-card card-blue">
-                  <div className="admin-stat-icon-wrap blue"><CheckCircle2 size={22} /></div>
-                  <div className="admin-stat-info">
-                    <span className="admin-stat-label">Completed</span>
-                    <span className="admin-stat-value">{completedCount}</span>
-                  </div>
-                </div>
-                <div className="admin-stat-card card-red">
-                  <div className="admin-stat-icon-wrap red"><AlertCircle size={22} /></div>
-                  <div className="admin-stat-info">
-                    <span className="admin-stat-label">Cancelled</span>
-                    <span className="admin-stat-value">{cancelledCount}</span>
-                  </div>
-                </div>
+              <div className="admin-dash-subtabs">
+                <button className={`admin-subtab-btn ${dashSubTab === 'hardware' ? 'active' : ''}`} onClick={() => setDashSubTab('hardware')}>
+                  <Wrench size={16} /> Hardware Services
+                </button>
+                <button className={`admin-subtab-btn ${dashSubTab === 'it' ? 'active' : ''}`} onClick={() => setDashSubTab('it')}>
+                  <Globe size={16} /> IT Services
+                </button>
+                <button className={`admin-subtab-btn ${dashSubTab === 'other' ? 'active' : ''}`} onClick={() => setDashSubTab('other')}>
+                  <Database size={16} /> Other Services
+                </button>
               </div>
-              <h2 className="admin-section-heading mt-section">
-                <span className="admin-section-pill"></span>
-                Other Services Ledger
-              </h2>
-              <div className="admin-stats-grid admin-stats-grid-mb">
-                <div className="admin-stat-card card-blue">
-                  <div className="admin-stat-icon-wrap blue"><Users size={22} /></div>
-                  <div className="admin-stat-info">
-                    <span className="admin-stat-label">Total Booked</span>
-                    <span className="admin-stat-value">{totalOtherBookings}</span>
-                  </div>
-                </div>
-                <div className="admin-stat-card card-blue">
-                  <div className="admin-stat-icon-wrap blue"><Clock size={22} /></div>
-                  <div className="admin-stat-info">
-                    <span className="admin-stat-label">Pending Review</span>
-                    <span className="admin-stat-value">{pendingOtherCount}</span>
-                  </div>
-                </div>
-                <div className="admin-stat-card card-blue">
-                  <div className="admin-stat-icon-wrap blue"><TrendingUp size={22} /></div>
-                  <div className="admin-stat-info">
-                    <span className="admin-stat-label">Active Jobs</span>
-                    <span className="admin-stat-value">{activeOtherCount}</span>
-                  </div>
-                </div>
-                <div className="admin-stat-card card-blue">
-                  <div className="admin-stat-icon-wrap blue"><CheckCircle2 size={22} /></div>
-                  <div className="admin-stat-info">
-                    <span className="admin-stat-label">Completed</span>
-                    <span className="admin-stat-value">{completedOtherCount}</span>
-                  </div>
-                </div>
-                <div className="admin-stat-card card-red">
-                  <div className="admin-stat-icon-wrap red"><AlertCircle size={22} /></div>
-                  <div className="admin-stat-info">
-                    <span className="admin-stat-label">Cancelled</span>
-                    <span className="admin-stat-value">{cancelledOtherCount}</span>
-                  </div>
-                </div>
-              </div>
-              <div className="admin-analytics-section">
-                <div className="analytics-card">
-                  <h3 className="analytics-title">Bookings by Service Type</h3>
-                  <div className="service-bars-container">
-                    {categoryCounts.length === 0 ? (
-                      <p className="admin-no-data">No data yet.</p>
-                    ) : categoryCounts.map(([name, count]) => {
-                      const pct = totalBookings > 0 ? (count / totalBookings) * 100 : 0;
-                      return (
-                        <div key={name} className="service-bar-row">
-                          <div className="service-bar-info">
-                            <span className="service-bar-name">{name}</span>
-                            <span className="service-bar-count">{count} ({Math.round(pct)}%)</span>
-                          </div>
-                          <div className="service-bar-bg">
-                            <div className="service-bar-fill" style={{ width: `${pct}%` }} />
-                          </div>
-                        </div>
-                      );
-                    })}
-                  </div>
-                </div>
-                <div className="analytics-card">
-                  <h3 className="analytics-title">Attention Required</h3>
-                  <div className="alerts-inner">
-                    {pendingCount > 0 ? (
-                      <div className="alert-banner">
-                        <div className="alert-banner-icon">
-                          <AlertCircle size={18} />
-                        </div>
-                        <div className="alert-banner-body">
-                          <h4>Pending Requests
-                            <span className="alert-count-badge">{pendingCount}</span>
-                          </h4>
-                          <p>These bookings need diagnostic review and ticket activation before work can begin.</p>
-                        </div>
+              {dashSubTab === 'hardware' && (
+                <>
+                  <h2 className="admin-section-heading">
+                    <span className="admin-section-pill"></span> Hardware Services Overview
+                  </h2>
+                  <div className="admin-stats-grid">
+                    <div className="admin-stat-card card-blue">
+                      <div className="admin-stat-icon-wrap blue"><Users size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Total Booked</span>
+                        <span className="admin-stat-value">{totalHardwareBookings}</span>
                       </div>
-                    ) : (
-                      <div className="alerts-all-clear">
-                        <div className="alerts-all-clear-icon">
-                          <CheckCircle2 size={26} />
-                        </div>
-                        <h4>All clear!</h4>
-                        <p>No pending confirmations at this time.</p>
+                    </div>
+                    <div className="admin-stat-card card-blue">
+                      <div className="admin-stat-icon-wrap blue"><Clock size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Pending</span>
+                        <span className="admin-stat-value">{pendingHardwareCount}</span>
                       </div>
-                    )}
-                    <div className="alert-tip">
-                      <h5>
-                        <Mail size={11} />Operational Tip
-                      </h5>
-                      <p>Confirming a booking generates a service ticket and sends a live tracking URL directly to the client's email.</p>
+                    </div>
+                    <div className="admin-stat-card card-blue">
+                      <div className="admin-stat-icon-wrap blue"><TrendingUp size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Active Jobs</span>
+                        <span className="admin-stat-value">{activeHardwareCount}</span>
+                      </div>
+                    </div>
+                    <div className="admin-stat-card card-blue">
+                      <div className="admin-stat-icon-wrap blue"><CheckCircle2 size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Completed</span>
+                        <span className="admin-stat-value">{completedHardwareCount}</span>
+                      </div>
+                    </div>
+                    <div className="admin-stat-card card-red">
+                      <div className="admin-stat-icon-wrap red"><AlertCircle size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Cancelled</span>
+                        <span className="admin-stat-value">{cancelledHardwareCount}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
+                  <div className="admin-analytics-section mt-section">
+                    <div className="analytics-card">
+                      <h3 className="analytics-title">Hardware Bookings by Category</h3>
+                      <div className="service-bars-container">
+                        {hardwareCategoryCounts.length === 0 ? (
+                          <p className="admin-no-data">No data yet.</p>
+                        ) : hardwareCategoryCounts.map(([name, count]) => {
+                          const pct = totalHardwareBookings > 0 ? (count / totalHardwareBookings) * 100 : 0;
+                          return (
+                            <div key={name} className="service-bar-row">
+                              <div className="service-bar-info">
+                                <span className="service-bar-name">{name}</span>
+                                <span className="service-bar-count">{count} ({Math.round(pct)}%)</span>
+                              </div>
+                              <div className="service-bar-bg">
+                                <div className="service-bar-fill" style={{ width: `${pct}%` }} />
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <div className="analytics-card">
+                      <h3 className="analytics-title">Attention Required (Hardware)</h3>
+                      <div className="alerts-inner">
+                        {pendingHardwareCount > 0 ? (
+                          <div className="alert-banner">
+                            <div className="alert-banner-icon">
+                              <AlertCircle size={18} />
+                            </div>
+                            <div className="alert-banner-body">
+                              <h4>Pending Hardware Requests
+                                <span className="alert-count-badge">{pendingHardwareCount}</span>
+                              </h4>
+                              <p>These hardware bookings need diagnostic review and technician assignment.</p>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="alerts-all-clear">
+                            <div className="alerts-all-clear-icon">
+                              <CheckCircle2 size={26} />
+                            </div>
+                            <h4>All Clear!</h4>
+                            <p>No pending hardware repair requests at this time.</p>
+                          </div>
+                        )}
+                        <div className="alert-tip">
+                          <h5>
+                            <Mail size={11} />Operational Tip
+                          </h5>
+                          <p>Confirming a hardware booking generates a ticket ID and emails tracking link to client.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+              {dashSubTab === 'it' && (
+                <>
+                  <h2 className="admin-section-heading">
+                    <span className="admin-section-pill"></span>IT Services Overview
+                  </h2>
+                  <div className="admin-stats-grid">
+                    <div className="admin-stat-card card-blue">
+                      <div className="admin-stat-icon-wrap blue"><Users size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Total Booked</span>
+                        <span className="admin-stat-value">{totalITBookings}</span>
+                      </div>
+                    </div>
+                    <div className="admin-stat-card card-blue">
+                      <div className="admin-stat-icon-wrap blue"><Clock size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Pending</span>
+                        <span className="admin-stat-value">{pendingITCount}</span>
+                      </div>
+                    </div>
+                    <div className="admin-stat-card card-blue">
+                      <div className="admin-stat-icon-wrap blue"><TrendingUp size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Active Projects</span>
+                        <span className="admin-stat-value">{activeITCount}</span>
+                      </div>
+                    </div>
+                    <div className="admin-stat-card card-blue">
+                      <div className="admin-stat-icon-wrap blue"><CheckCircle2 size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Delivered Projects</span>
+                        <span className="admin-stat-value">{completedITCount}</span>
+                      </div>
+                    </div>
+                    <div className="admin-stat-card card-red">
+                      <div className="admin-stat-icon-wrap red"><AlertCircle size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Cancelled</span>
+                        <span className="admin-stat-value">{cancelledITCount}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="admin-analytics-section mt-section">
+                    <div className="analytics-card">
+                      <h3 className="analytics-title">IT Bookings by Service Type</h3>
+                      <div className="service-bars-container">
+                        {itCategoryCounts.length === 0 ? (
+                          <p className="admin-no-data">No IT project data yet.</p>
+                        ) : itCategoryCounts.map(([name, count]) => {
+                          const pct = totalITBookings > 0 ? (count / totalITBookings) * 100 : 0;
+                          return (
+                            <div key={name} className="service-bar-row">
+                              <div className="service-bar-info">
+                                <span className="service-bar-name">{name}</span>
+                                <span className="service-bar-count">{count} ({Math.round(pct)}%)</span>
+                              </div>
+                              <div className="service-bar-bg">
+                                <div className="service-bar-fill" style={{ width: `${pct}%` }} />
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <div className="analytics-card">
+                      <h3 className="analytics-title">Attention Required (IT Services)</h3>
+                      <div className="alerts-inner">
+                        {pendingITCount > 0 ? (
+                          <div className="alert-banner">
+                            <div className="alert-banner-icon">
+                              <AlertCircle size={18} />
+                            </div>
+                            <div className="alert-banner-body">
+                              <h4>Pending IT Project Requests
+                                <span className="alert-count-badge">{pendingITCount}</span>
+                              </h4>
+                              <p>These IT development/consulting requests need scope review and confirmation.</p>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="alerts-all-clear">
+                            <div className="alerts-all-clear-icon">
+                              <CheckCircle2 size={26} />
+                            </div>
+                            <h4>All Clear!</h4>
+                            <p>No pending IT service requests at this time.</p>
+                          </div>
+                        )}
+                        <div className="alert-tip">
+                          <h5>
+                            <Mail size={11} />Operational Tip
+                          </h5>
+                          <p>You can manage IT service proposals and dispatch client email receipts directly from the IT Ledger.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
+              {dashSubTab === 'other' && (
+                <>
+                  <h2 className="admin-section-heading">
+                    <span className="admin-section-pill"></span>Other Services Overview
+                  </h2>
+                  <div className="admin-stats-grid">
+                    <div className="admin-stat-card card-blue">
+                      <div className="admin-stat-icon-wrap blue"><Users size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Total Booked</span>
+                        <span className="admin-stat-value">{totalOtherBookings}</span>
+                      </div>
+                    </div>
+                    <div className="admin-stat-card card-blue">
+                      <div className="admin-stat-icon-wrap blue"><Clock size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Pending Review</span>
+                        <span className="admin-stat-value">{pendingOtherCount}</span>
+                      </div>
+                    </div>
+                    <div className="admin-stat-card card-blue">
+                      <div className="admin-stat-icon-wrap blue"><TrendingUp size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Active Jobs</span>
+                        <span className="admin-stat-value">{activeOtherCount}</span>
+                      </div>
+                    </div>
+                    <div className="admin-stat-card card-blue">
+                      <div className="admin-stat-icon-wrap blue"><CheckCircle2 size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Completed</span>
+                        <span className="admin-stat-value">{completedOtherCount}</span>
+                      </div>
+                    </div>
+                    <div className="admin-stat-card card-red">
+                      <div className="admin-stat-icon-wrap red"><AlertCircle size={22} /></div>
+                      <div className="admin-stat-info">
+                        <span className="admin-stat-label">Cancelled</span>
+                        <span className="admin-stat-value">{cancelledOtherCount}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="admin-analytics-section mt-section">
+                    <div className="analytics-card">
+                      <h3 className="analytics-title">Other Bookings by Service Type</h3>
+                      <div className="service-bars-container">
+                        {otherCategoryCounts.length === 0 ? (
+                          <p className="admin-no-data">No other service booking data yet.</p>
+                        ) : otherCategoryCounts.map(([name, count]) => {
+                          const pct = totalOtherBookings > 0 ? (count / totalOtherBookings) * 100 : 0;
+                          return (
+                            <div key={name} className="service-bar-row">
+                              <div className="service-bar-info">
+                                <span className="service-bar-name">{name}</span>
+                                <span className="service-bar-count">{count} ({Math.round(pct)}%)</span>
+                              </div>
+                              <div className="service-bar-bg">
+                                <div className="service-bar-fill" style={{ width: `${pct}%` }} />
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                    <div className="analytics-card">
+                      <h3 className="analytics-title">Attention Required (Other Services)</h3>
+                      <div className="alerts-inner">
+                        {pendingOtherCount > 0 ? (
+                          <div className="alert-banner">
+                            <div className="alert-banner-icon">
+                              <AlertCircle size={18} />
+                            </div>
+                            <div className="alert-banner-body">
+                              <h4>Pending Other Requests
+                                <span className="alert-count-badge">{pendingOtherCount}</span>
+                              </h4>
+                              <p>These service requests need diagnostic review and technician assignment.</p>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="alerts-all-clear">
+                            <div className="alerts-all-clear-icon">
+                              <CheckCircle2 size={26} />
+                            </div>
+                            <h4>All Clear!</h4>
+                            <p>No pending service requests at this time.</p>
+                          </div>
+                        )}
+                        <div className="alert-tip">
+                          <h5>
+                            <Mail size={11} />Operational Tip
+                          </h5>
+                          <p>You can manage and update status of other bookings directly in the Other Service Bookings tab.</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              )}
             </>
           )}
           {activeTab === 'ledger' && (
@@ -505,13 +794,11 @@ const AdminDashboard = () => {
               <div className="ledger-controls">
                 <div className="ledger-search-wrapper">
                   <Search size={16} className="ledger-search-icon" />
-                  <input type="text" placeholder="Search name, email or Ticket ID…" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="ledger-search-input" />
+                  <input type="text" placeholder="Search hardware ticket, name, or email…" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="ledger-search-input" />
                 </div>
                 <div className="ledger-filters">
                   {['ALL', 'Pending', 'Confirmed', 'In Progress', 'Completed', 'Cancelled'].map(s => (
-                    <button key={s} className={`filter-btn ${statusFilter === s ? 'active' : ''}`} onClick={() => setStatusFilter(s)}>
-                      {s === 'ALL' ? 'All' : s}
-                    </button>
+                    <button key={s} className={`filter-btn ${statusFilter === s ? 'active' : ''}`} onClick={() => setStatusFilter(s)}>{s === 'ALL' ? 'All' : s}</button>
                   ))}
                 </div>
               </div>
@@ -522,7 +809,7 @@ const AdminDashboard = () => {
                       <tr>
                         <th>Ticket ID</th>
                         <th>Customer</th>
-                        <th>Service</th>
+                        <th>Hardware Service</th>
                         <th>Date</th>
                         <th>Status</th>
                         <th>Actions</th>
@@ -539,7 +826,7 @@ const AdminDashboard = () => {
                           <td>{booking.service}</td>
                           <td>{fmtDate(booking.createdAt)}</td>
                           <td>
-                            <span className={`status-badge ${booking.status.toLowerCase().replace(/\s+/g, '_')}`}>{booking.status}</span>
+                            <span className={`status-badge ${(booking.status || 'Pending').toString().toLowerCase().replace(/\s+/g, '_')}`}>{booking.status}</span>
                           </td>
                           <td>
                             <div className="ledger-actions">
@@ -560,7 +847,79 @@ const AdminDashboard = () => {
                 ) : (
                   <div className="empty-state">
                     <AlertCircle size={40} className="empty-state-icon admin-empty-state-icon" />
-                    <h3 className="empty-state-title">No bookings found</h3>
+                    <h3 className="empty-state-title">No hardware bookings found</h3>
+                    <p>Try adjusting your search or filter.</p>
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+          {activeTab === 'it-ledger' && (
+            <>
+              <div className="ledger-controls">
+                <div className="admin-search-btn-group">
+                  <div className="ledger-search-wrapper admin-search-wrapper-flex">
+                    <Search size={16} className="ledger-search-icon" />
+                    <input type="text" placeholder="Search IT ticket, name, email or service…" value={searchTerm} onChange={e => setSearchTerm(e.target.value)} className="ledger-search-input" />
+                  </div>
+                  <button className="refresh-btn admin-add-booking-btn" onClick={() => setIsAddITOpen(true)}>
+                    <Plus size={14} /> Log IT Service
+                  </button>
+                </div>
+                <div className="ledger-filters">
+                  {['ALL', 'Pending', 'Confirmed', 'In Progress', 'Completed', 'Cancelled'].map(s => (
+                    <button key={s} className={`filter-btn ${statusFilter === s ? 'active' : ''}`} onClick={() => setStatusFilter(s)}>
+                      {s === 'ALL' ? 'All' : s}
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div className="ledger-table-container">
+                {filteredITBookings.length > 0 ? (
+                  <table className="ledger-table">
+                    <thead>
+                      <tr>
+                        <th>Ticket ID</th>
+                        <th>Customer Details</th>
+                        <th>IT Service</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredITBookings.map(booking => (
+                        <tr key={booking.id}>
+                          <td className="ledger-ticket">{booking.ticketId}</td>
+                          <td>
+                            <div className="ledger-customer-name">{booking.name}</div>
+                            <div className="ledger-customer-email">{booking.email}</div>
+                          </td>
+                          <td className="admin-td-font600">{booking.service}</td>
+                          <td>{fmtDate(booking.createdAt)}</td>
+                          <td>
+                            <span className={`status-badge ${(booking.status || 'Pending').toString().toLowerCase().replace(/\s+/g, '_')}`}>{booking.status}</span>
+                          </td>
+                          <td>
+                            <div className="ledger-actions">
+                              {booking.status === 'Pending' && (
+                                <button className="btn-confirm" onClick={() => quickConfirm(booking)} title="Quick Confirm">
+                                  <Check size={13} /> Confirm
+                                </button>
+                              )}
+                              <button className="btn-manage" onClick={() => openDrawer(booking)}>
+                                <Edit3 size={13} /> Manage
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                ) : (
+                  <div className="empty-state">
+                    <AlertCircle size={40} className="empty-state-icon admin-empty-state-icon" />
+                    <h3 className="empty-state-title">No IT service bookings found</h3>
                     <p>Try adjusting your search or filter.</p>
                   </div>
                 )}
@@ -581,9 +940,7 @@ const AdminDashboard = () => {
                 </div>
                 <div className="ledger-filters">
                   {['ALL', 'Pending', 'Confirmed', 'In Progress', 'Completed', 'Cancelled'].map(s => (
-                    <button key={s} className={`filter-btn ${statusFilter === s ? 'active' : ''}`} onClick={() => setStatusFilter(s)}>
-                      {s === 'ALL' ? 'All' : s}
-                    </button>
+                    <button key={s} className={`filter-btn ${statusFilter === s ? 'active' : ''}`} onClick={() => setStatusFilter(s)}>{s === 'ALL' ? 'All' : s}</button>
                   ))}
                 </div>
               </div>
@@ -620,7 +977,7 @@ const AdminDashboard = () => {
                           </td>
                           <td className="admin-td-cost">{booking.estimatedCost}</td>
                           <td>
-                            <span className={`status-badge ${booking.status.toLowerCase().replace(/\s+/g, '_')}`}>{booking.status}</span>
+                            <span className={`status-badge ${(booking.status || 'Pending').toString().toLowerCase().replace(/\s+/g, '_')}`}>{booking.status}</span>
                           </td>
                           <td>
                             <div className="ledger-actions">
@@ -675,7 +1032,7 @@ const AdminDashboard = () => {
             <InvoiceGenerator
               invoices={invoices}
               setInvoices={setInvoices}
-              bookings={bookings}
+              bookings={[...bookings, ...itBookings]}
               otherBookings={otherBookings}
               isSyncing={isSyncing}
               setIsSyncing={setIsSyncing}
@@ -688,7 +1045,7 @@ const AdminDashboard = () => {
           <div className="drawer-panel" onClick={e => e.stopPropagation()}>
             <div className="drawer-header">
               <div>
-                <div className="drawer-title-sub">Manage Booking</div>
+                <div className="drawer-title-sub">Manage {selectedBooking.type === 'IT' ? 'IT Service' : 'Hardware'} Booking</div>
                 <h3 className="drawer-title">{selectedBooking.ticketId}</h3>
               </div>
               <button className="drawer-close-btn" onClick={() => setIsDrawerOpen(false)}>
@@ -701,12 +1058,13 @@ const AdminDashboard = () => {
                 <div className="drawer-info-row"><strong>Name:</strong> {selectedBooking.name}</div>
                 <div className="drawer-info-row"><strong>Email:</strong> {selectedBooking.email}</div>
                 {selectedBooking.phone && <div className="drawer-info-row"><strong>Phone:</strong> {selectedBooking.phone}</div>}
-                <div className="drawer-info-row"><strong>Address:</strong> {selectedBooking.address}</div>
+                {selectedBooking.address && <div className="drawer-info-row"><strong>Address:</strong> {selectedBooking.address}</div>}
+                <div className="drawer-info-row"><strong>Service:</strong> {selectedBooking.service}</div>
                 <div className="drawer-info-row"><strong>Date:</strong> {fmtDate(selectedBooking.createdAt)}</div>
               </div>
             </div>
             <div>
-              <span className="drawer-section-label">Reported Issue</span>
+              <span className="drawer-section-label">Reported Issue / Scope</span>
               <div className="drawer-issue-block">"{selectedBooking.issue}"</div>
             </div>
             <form onSubmit={handleSave} className="drawer-edit-form">
@@ -722,21 +1080,26 @@ const AdminDashboard = () => {
                 </select>
               </div>
               <div className="drawer-form-group">
-                <label className="drawer-label">Technician Note / Log</label>
-                <textarea rows={3} className="drawer-textarea" value={editNotes} onChange={e => setEditNotes(e.target.value)} placeholder="Describe diagnostic result or repair stage..." />
+                <label className="drawer-label">Technician / Consultant Note</label>
+                <textarea rows={3} className="drawer-textarea" value={editNotes} onChange={e => setEditNotes(e.target.value)} placeholder="Describe diagnostic result or progress..." />
               </div>
               <div className="drawer-cost-delivery">
                 <div className="drawer-form-group">
                   <label className="drawer-label">Estimated Cost</label>
-                  <input type="text" className="drawer-input" value={editCost} onChange={e => setEditCost(e.target.value)} placeholder="e.g. ₹850" />
+                  <input type="text" className="drawer-input" value={editCost} onChange={e => setEditCost(e.target.value)} placeholder="e.g. ₹850 or Quote" />
                 </div>
                 <div className="drawer-form-group">
                   <label className="drawer-label">Est. Turnaround</label>
-                  <input type="text" className="drawer-input" value={editDelivery} onChange={e => setEditDelivery(e.target.value)} placeholder="e.g. 2 Days" />
+                  <input type="text" className="drawer-input" value={editDelivery} onChange={e => setEditDelivery(e.target.value)} placeholder="e.g. 2 Days / 1 Week" />
                 </div>
               </div>
               <div>
                 <button type="submit" className="drawer-save-btn">Save & Dispatch Status Alert</button>
+                {(selectedBooking.type === 'IT' || (selectedBooking.id || '').startsWith('it-bk-')) && (
+                  <button type="button" className="drawer-delete-btn" onClick={() => handleITDelete(selectedBooking.id)}>
+                    <Trash2 size={16} /> Delete IT Booking
+                  </button>
+                )}
                 {selectedBooking.status === 'Pending' && editStatus === 'Pending' && (
                   <button type="button" className="drawer-approve-btn" onClick={() => {
                     setEditStatus('Confirmed');
@@ -818,6 +1181,69 @@ const AdminDashboard = () => {
           </div>
         </div>
       )}
+      {isAddITOpen && (
+        <div className="drawer-overlay" onClick={() => setIsAddITOpen(false)}>
+          <div className="drawer-panel" onClick={e => e.stopPropagation()}>
+            <div className="drawer-header">
+              <div>
+                <div className="drawer-title-sub">Add New IT Service Booking</div>
+                <h3 className="drawer-title">Log IT Project</h3>
+              </div>
+              <button className="drawer-close-btn" onClick={() => setIsAddITOpen(false)}>
+                <X size={18} />
+              </button>
+            </div>
+            <form onSubmit={handleAddITBooking} className="drawer-edit-form admin-drawer-form-mt">
+              <span className="drawer-section-label">Client Information</span>
+              <div className="drawer-form-group">
+                <label className="drawer-label">Full Name *</label>
+                <input type="text" className="drawer-input" value={newITBooking.name} onChange={e => setNewITBooking({ ...newITBooking, name: e.target.value })} placeholder="Client Name" required />
+              </div>
+              <div className="drawer-form-group">
+                <label className="drawer-label">Email Address *</label>
+                <input type="email" className="drawer-input" value={newITBooking.email} onChange={e => setNewITBooking({ ...newITBooking, email: e.target.value })} placeholder="e.g. client@domain.com" required />
+              </div>
+              <div className="drawer-form-group">
+                <label className="drawer-label">Mobile Number</label>
+                <input type="tel" className="drawer-input" value={newITBooking.phone} onChange={e => { const val = e.target.value.replace(/\D/g, '').slice(0, 10); setNewITBooking({ ...newITBooking, phone: val }); }} placeholder="e.g. 9876543210" />
+              </div>
+              <div className="drawer-form-group">
+                <label className="drawer-label">Company / Address</label>
+                <input type="text" className="drawer-input" value={newITBooking.address} onChange={e => setNewITBooking({ ...newITBooking, address: e.target.value })} placeholder="e.g. Madurai" />
+              </div>
+              <span className="drawer-section-label">IT Service Information</span>
+              <div className="drawer-form-group">
+                <label className="drawer-label">IT Service *</label>
+                <select className="drawer-select" value={newITBooking.service} onChange={e => setNewITBooking({ ...newITBooking, service: e.target.value })} required>
+                  <option value="Website Development & Design">Website Development & Design</option>
+                  <option value="Freelancing IT Services">Freelancing IT Services</option>
+                  <option value="Custom Web Application">Custom Web Application</option>
+                  <option value="Database & Cloud Setup">Database & Cloud Setup</option>
+                  <option value="SEO & Speed Optimization">SEO & Speed Optimization</option>
+                </select>
+              </div>
+              <div className="drawer-form-group">
+                <label className="drawer-label">Project Requirement / Description</label>
+                <textarea rows={2} className="drawer-textarea" value={newITBooking.issue} onChange={e => setNewITBooking({ ...newITBooking, issue: e.target.value })} placeholder="Project scope details..." />
+              </div>
+              <span className="drawer-section-label">Project Details</span>
+              <div className="drawer-cost-delivery">
+                <div className="drawer-form-group">
+                  <label className="drawer-label">Estimated Cost</label>
+                  <input type="text" className="drawer-input" value={newITBooking.estimatedCost} onChange={e => setNewITBooking({ ...newITBooking, estimatedCost: e.target.value })} placeholder="e.g. ₹8,999" />
+                </div>
+                <div className="drawer-form-group">
+                  <label className="drawer-label">Est. Delivery</label>
+                  <input type="text" className="drawer-input" value={newITBooking.estimatedDelivery} onChange={e => setNewITBooking({ ...newITBooking, estimatedDelivery: e.target.value })} placeholder="e.g. 2 Weeks" />
+                </div>
+              </div>
+              <div className="admin-drawer-submit-wrapper">
+                <button type="submit" className="drawer-save-btn">Log IT Service Booking</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
       {isAddOtherOpen && (
         <div className="drawer-overlay" onClick={() => setIsAddOtherOpen(false)}>
           <div className="drawer-panel" onClick={e => e.stopPropagation()}>
@@ -834,12 +1260,11 @@ const AdminDashboard = () => {
               <span className="drawer-section-label">Customer Information</span>
               <div className="drawer-form-group">
                 <label className="drawer-label">Full Name *</label>
-                <input type="text" className="drawer-input" value={newOtherBooking.name} onChange={e => setNewOtherBooking({ ...newOtherBooking, name: e.target.value })} placeholder="Customer Full Name" required
-                />
+                <input type="text" className="drawer-input" value={newOtherBooking.name} onChange={e => setNewOtherBooking({ ...newOtherBooking, name: e.target.value })} placeholder="Customer Full Name" required />
               </div>
               <div className="drawer-form-group">
                 <label className="drawer-label">Email Address *</label>
-                <input type="email" className="drawer-input" value={newOtherBooking.email} onChange={e => setNewOtherBooking({ ...newOtherBooking, email: e.target.value })} placeholder="e.g. client [at] domain.com" required />
+                <input type="email" className="drawer-input" value={newOtherBooking.email} onChange={e => setNewOtherBooking({ ...newOtherBooking, email: e.target.value })} placeholder="e.g. client@domain.com" required />
               </div>
               <div className="drawer-form-group">
                 <label className="drawer-label">Mobile Number</label>
@@ -863,7 +1288,6 @@ const AdminDashboard = () => {
                   <option value="Data Backup">Data Backup</option>
                   <option value="Software Setup">Software Setup</option>
                   <option value="Custom Build">Custom Build</option>
-                  <option value="Website Development">Website Development</option>
                   <option value="Other Service">Other Service</option>
                 </select>
               </div>
@@ -936,7 +1360,11 @@ const AdminDashboard = () => {
               <button type="button" className="delete-confirm-btn-cancel" onClick={() => setShowDeleteConfirm(false)}>Cancel</button>
               <button type="button" className="delete-confirm-btn-confirm" onClick={() => {
                 setShowDeleteConfirm(false);
-                confirmOtherDelete(otherBookingToDelete);
+                if (itBookingToDelete) {
+                  confirmITDelete(itBookingToDelete);
+                } else if (otherBookingToDelete) {
+                  confirmOtherDelete(otherBookingToDelete);
+                }
               }}>Delete
               </button>
             </div>

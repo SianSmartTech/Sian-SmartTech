@@ -1976,6 +1976,7 @@ h6,
   transform: rotate(-3deg);
   margin-left: 1rem;
 }
+
 .sticker-1::before {
   --bg-img: url('../../public/images/process/define.webp');
 }
@@ -1985,6 +1986,7 @@ h6,
   transform: rotate(2deg);
   margin-top: 2rem;
 }
+
 .sticker-2::before {
   --bg-img: url('../../public/images/process/design.webp');
 }
@@ -1994,6 +1996,7 @@ h6,
   transform: rotate(-2deg);
   margin-left: -1rem;
 }
+
 .sticker-3::before {
   --bg-img: url('../../public/images/process/build.webp');
 }
@@ -2003,6 +2006,7 @@ h6,
   transform: rotate(3deg);
   margin-top: 3rem;
 }
+
 .sticker-4::before {
   --bg-img: url('../../public/images/process/launch.webp');
 }
@@ -2012,6 +2016,7 @@ h6,
   transform: rotate(-1deg);
   margin-top: 4rem;
 }
+
 .sticker-5::before {
   --bg-img: url('../../public/images/process/handover.webp');
 }

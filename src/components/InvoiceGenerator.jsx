@@ -138,8 +138,10 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
       source: 'Manual'
     }))
   ];
-  const parsePrice = (priceStr) => {
-    if (!priceStr) return 350;
+  const parsePrice = (priceVal) => {
+    if (priceVal === null || priceVal === undefined) return 350;
+    if (typeof priceVal === 'number') return isNaN(priceVal) ? 350 : priceVal;
+    const priceStr = String(priceVal);
     const cleaned = priceStr.replace(/[^0-9.]/g, '');
     const parsed = parseFloat(cleaned);
     return isNaN(parsed) ? 350 : parsed;

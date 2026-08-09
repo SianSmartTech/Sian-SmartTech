@@ -1,12 +1,17 @@
 import { useState, useEffect } from 'react';
 import { CheckCircle2, Ticket, ArrowRight, ArrowLeft } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { services, itServicesData } from '../mockData';
+import { services, itServicesData, pricing, itPricing } from '../mockData';
 import { toast, Toaster } from 'sonner';
 import { bookingStore } from '../utils/bookingStore';
 import "../css/App.css";
 import "../css/BookServicePage.css";
-const allServices = [...services, ...itServicesData];
+const allServiceOptions = [
+  ...services.map(s => s.title),
+  ...itServicesData.map(s => s.title),
+  ...pricing.map(p => p.name),
+  ...itPricing.map(p => p.name)
+].filter((title, idx, arr) => arr.indexOf(title) === idx);
 const BookServicePage = () => {
   const [formData, setFormData] = useState({ name: '', email: '', phone: '', address: '', service: '', issue: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -18,11 +23,13 @@ const BookServicePage = () => {
     const stateService = location.state?.selectedService;
     const preselectedService = stateService || serviceParam;
     if (preselectedService) {
-      const matched = allServices.find(
-        s => s.title.toLowerCase() === preselectedService.toLowerCase()
+      const matched = allServiceOptions.find(
+        title => title.toLowerCase() === preselectedService.toLowerCase()
       );
       if (matched) {
-        setFormData(prev => ({ ...prev, service: matched.title }));
+        setFormData(prev => ({ ...prev, service: matched }));
+      } else {
+        setFormData(prev => ({ ...prev, service: preselectedService }));
       }
     }
   }, [location]);
@@ -132,11 +139,12 @@ const BookServicePage = () => {
               <input type="text" name="address" value={formData.address} onChange={handleChange} required placeholder="Full Address" className="contact-v2-input book-service-address" />
               <select name="service" value={formData.service} onChange={handleChange} required className="contact-v2-input book-service-select">
                 <option value="" disabled>-- Select Service Type --</option>
-                {allServices.map((service) => (
-                  <option key={`${service.id}-${service.title}`} value={service.title}>
-                    {service.title}
-                  </option>
+                {allServiceOptions.map((title, idx) => (
+                  <option key={`${idx}-${title}`} value={title}>{title}</option>
                 ))}
+                {formData.service && !allServiceOptions.includes(formData.service) && (
+                  <option value={formData.service}>{formData.service}</option>
+                )}
               </select>
               <textarea name="issue" value={formData.issue} onChange={handleChange} required rows="6" placeholder="Briefly describe your issue..." className="contact-v2-input contact-v2-textarea book-service-textarea"></textarea>
               <button type="submit" className="contact-v2-submit" disabled={isSubmitting}>{isSubmitting ? 'Sending Request...' : 'Submit Booking Request'}</button>

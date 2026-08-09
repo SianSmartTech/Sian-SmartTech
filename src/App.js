@@ -115,8 +115,8 @@ function AppContent() {
     };
     const handleMouseOver = (e) => {
       const target = e.target;
-      const isInteractive = target && typeof target.closest === 'function' 
-        ? target.closest('a, button, .dropdown-trigger, .theme-toggle, .btn-primary, .accent-card-action') 
+      const isInteractive = target && typeof target.closest === 'function'
+        ? target.closest('a, button, .dropdown-trigger, .theme-toggle, .btn-primary, .accent-card-action')
         : null;
       if (isInteractive) {
         cursor?.classList.add('cursor-hover');
@@ -148,11 +148,11 @@ function AppContent() {
       const images = document.querySelectorAll('img:not(.img-processed)');
       images.forEach(img => {
         img.classList.add('img-reveal', 'img-processed');
-        const isHero = img.classList.contains('hero-img') || 
-                       img.closest('.hero-section') || 
-                       img.closest('.hero-container') || 
-                       img.getAttribute('fetchpriority') === 'high' ||
-                       img.getAttribute('loading') === 'eager';
+        const isHero = img.classList.contains('hero-img') ||
+          img.closest('.hero-section') ||
+          img.closest('.hero-container') ||
+          img.getAttribute('fetchpriority') === 'high' ||
+          img.getAttribute('loading') === 'eager';
         if (!img.hasAttribute('loading') && !isHero) {
           img.setAttribute('loading', 'lazy');
         }
@@ -201,11 +201,7 @@ function AppContent() {
       {!isAdmin && <Footer />}
       <ScrollToTop />
       {!isAdmin && <WhatsAppButton />}
-      {!isAdmin && (
-        <Suspense fallback={null}>
-          <Chatbot />
-        </Suspense>
-      )}
+      {!isAdmin && (<Suspense fallback={null}><Chatbot /></Suspense>)}
     </>
   );
 }

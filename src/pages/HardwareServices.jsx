@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import "../css/HardwareServices.css";
-import { Layers, Laptop, Monitor, Printer, Cctv, Camera, Plane, Cpu, Zap, Video, HardDrive, Settings, Wrench, RefreshCw, ShoppingBag, Keyboard, Star, CheckCircle, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Layers, Laptop, Monitor, Printer, Cctv, Camera, Plane, Cpu, Zap, Video, HardDrive, Settings, Wrench, RefreshCw, ShoppingBag, Keyboard, CheckCircle, ShieldCheck, ArrowRight } from 'lucide-react';
 import { services } from '../mockData';
 const SERVICE_ICONS = { Laptop, Monitor, Printer, Zap, Cpu, Video, HardDrive, Settings, Wrench, RefreshCw, ShoppingBag, Keyboard };
 const HardwareServices = () => {
@@ -107,10 +107,6 @@ const HardwareServices = () => {
                     <div className="hw-card-content-section">
                       <div className="hw-card-header">
                         <span className="hw-category">{service.category}</span>
-                        <div className="hw-rating">
-                          <Star size={16} className="hw-rating-icon" />
-                          <span>{service.rating || '4.9'}</span>
-                        </div>
                       </div>
                       <h3 className="hw-card-title">{service.title}</h3>
                       <p className="hw-card-desc">{service.description}</p>

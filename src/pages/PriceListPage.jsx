@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Check, Star, Shield, Wrench, Globe, FileSearch, Search, Settings, Laptop, Monitor, HardDrive, Save, Cpu, Settings2, BarChart2 } from 'lucide-react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Check, Star, Shield, Wrench, Globe, FileSearch, Search, Settings, Laptop, Monitor, HardDrive, Save, Cpu, Settings2, BarChart2, ShoppingCart } from 'lucide-react';
 import { pricing, itPricing } from '../mockData';
 import "../css/App.css";
-const IT_ICONS = { Globe, BarChart2 };
+const IT_ICONS = { Globe, BarChart2, ShoppingCart };
 const PriceListPage = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState('hardware');
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -93,7 +94,7 @@ const PriceListPage = () => {
                           </li>
                         ))}
                       </ul>
-                      <button onClick={scrollToContact} className="pricing-v2-btn pricing-v2-btn-auto-margin">Book Service </button>
+                      <button onClick={() => navigate('/book-service', { state: { selectedService: plan.name } })} className="pricing-v2-btn pricing-v2-btn-auto-margin">Book Service</button>
                     </div>
                   );
                 })}
@@ -125,11 +126,13 @@ const PriceListPage = () => {
                         </div>
                         <div className="pricing-v2-price pricing-card-price-col">
                           <span className="pricing-card-price-label">
-                            {plan.price === 'Custom' ? 'Quote-based' : 'Started at'}
+                            {plan.price === 'Custom' || plan.price.includes('Based') ? 'Quote-based' : 'Started at'}
                           </span>
                           <div className="pricing-card-price-row">
                             {plan.price}
-                            <span className="pricing-v2-period">/{plan.period}</span>
+                            {plan.period && plan.period !== 'custom' && (
+                              <span className="pricing-v2-period">/{plan.period}</span>
+                            )}
                           </div>
                           {plan.hostingNote && (
                             <span className="pricing-card-note-hosting">
@@ -151,7 +154,7 @@ const PriceListPage = () => {
                           </li>
                         ))}
                       </ul>
-                      <button onClick={scrollToContact} className="pricing-v2-btn pricing-v2-btn-auto-margin">Get Started</button>
+                      <button onClick={() => navigate('/book-service', { state: { selectedService: plan.name } })} className="pricing-v2-btn pricing-v2-btn-auto-margin">Get Started</button>
                     </div>
                   );
                 })}
