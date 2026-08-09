@@ -1274,3 +1274,128 @@
 .inv-input-padded {
   padding: 6px 8px;
 }
+
+.mt-12 {
+  margin-top: 12px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.invoice-btn-full {
+  width: 100% !important;
+  justify-content: center !important;
+}
+
+.invoice-preview-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+.invoice-btn-success {
+  background: #22c55e !important;
+}
+
+.invoice-btn-success:hover {
+  background: #16a34a !important;
+  box-shadow: 0 4px 12px rgba(34, 197, 94, 0.25) !important;
+}
+
+.invoice-paper.theme-challan .invoice-stamp {
+  top: 160px;
+  right: 60px;
+}
+
+.challan-tagline-style {
+  font-size: 9px;
+  font-style: italic;
+  font-weight: bold;
+  color: #3b82f6;
+  margin-top: -4px;
+  margin-bottom: 2px;
+  display: block;
+}
+
+.challan-billto-title {
+  font-weight: bold;
+  font-size: 9px;
+  text-transform: uppercase;
+  color: #555;
+  margin-bottom: 4px;
+}
+
+.challan-meta-value-small {
+  font-size: 11px !important;
+}
+
+.challan-meta-note-value {
+  padding: 4px !important;
+  font-size: 10px !important;
+  font-weight: normal !important;
+  text-align: left !important;
+  min-height: 30px !important;
+}
+
+.challan-col-sno {
+  width: 45px;
+}
+
+.challan-col-rate {
+  width: 80px;
+  text-align: right;
+}
+
+.challan-col-qty {
+  width: 70px;
+  text-align: center;
+}
+
+.challan-col-per {
+  width: 60px;
+  text-align: center;
+}
+
+.challan-col-amount {
+  width: 100px;
+  text-align: right;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-right {
+  text-align: right !important;
+}
+
+.font-medium {
+  font-weight: 500 !important;
+}
+
+.font-bold {
+  font-weight: bold !important;
+}
+
+.font-normal {
+  font-weight: normal !important;
+}
+
+.challan-grand-total-label {
+  text-align: right !important;
+  font-weight: bold !important;
+  text-transform: uppercase !important;
+  padding-right: 15px !important;
+}
+
+.challan-grand-total-value {
+  text-align: right !important;
+  font-weight: bold !important;
+  font-size: 12px !important;
+}
+
+.challan-upi-value {
+  color: #11678E !important;
+  font-weight: bold !important;
+}

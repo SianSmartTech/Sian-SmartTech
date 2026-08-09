@@ -1,7 +1,7 @@
 import "./css/App.css";
 import { BrowserRouter, useLocation } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
-import { useEffect, Suspense, lazy } from "react";
+import { useEffect, Suspense } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import { Routes, Route } from "react-router-dom";
@@ -10,16 +10,16 @@ import ScrollToTop from "./components/ScrollToTop";
 import WhatsAppButton from "./components/WhatsAppButton";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
-const HardwareServices = lazy(() => import("./pages/HardwareServices"));
-const ITServices = lazy(() => import("./pages/ITServices"));
-const PriceListPage = lazy(() => import("./pages/PriceListPage"));
-const FaqPage = lazy(() => import("./pages/FaqPage"));
-const AboutPage = lazy(() => import("./pages/AboutPage"));
-const AllFaqsPage = lazy(() => import("./pages/AllFaqsPage"));
-const BookServicePage = lazy(() => import("./pages/BookServicePage"));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
-const TrackTicket = lazy(() => import("./pages/TrackTicket"));
-const Chatbot = lazy(() => import("./components/Chatbot"));
+import HardwareServices from "./pages/HardwareServices";
+import ITServices from "./pages/ITServices";
+import PriceListPage from "./pages/PriceListPage";
+import FaqPage from "./pages/FaqPage";
+import AboutPage from "./pages/AboutPage";
+import AllFaqsPage from "./pages/AllFaqsPage";
+import BookServicePage from "./pages/BookServicePage";
+import AdminDashboard from "./pages/AdminDashboard";
+import TrackTicket from "./pages/TrackTicket";
+import Chatbot from "./components/Chatbot";
 function PageLoading() {
   return (
     <div className="page-loading-fallback">

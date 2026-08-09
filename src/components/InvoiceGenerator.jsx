@@ -44,7 +44,7 @@ const numberToWords = (num) => {
   }
   return words.trim() + ' Rupees Only';
 };
-const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSyncing, setIsSyncing }) => {
+const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, setIsSyncing }) => {
   const [isEditingInvoice, setIsEditingInvoice] = useState(false);
   const [invoiceSearchTerm, setInvoiceSearchTerm] = useState('');
   const [invoiceStatusFilter, setInvoiceStatusFilter] = useState('ALL');
@@ -564,25 +564,25 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                   <input type="number" min="0" className="invoice-input" value={invoiceForm.discount} onChange={e => setInvoiceForm({ ...invoiceForm, discount: parseFloat(e.target.value) || 0 })} placeholder="e.g. 100" />
                 </div>
               </div>
-              <div className="invoice-form-group" style={{ marginTop: '12px' }}>
+              <div className="invoice-form-group mt-12">
                 <label className="invoice-label">Notes & Terms / Declaration Notes</label>
                 <textarea rows={3} className="invoice-textarea" value={invoiceForm.notes} onChange={e => setInvoiceForm({ ...invoiceForm, notes: e.target.value })} placeholder="Special conditions or notes..." />
               </div>
             </div>
-            <div style={{ marginTop: '10px' }}>
-              <button type="submit" className="invoice-btn-primary" style={{ width: '100%', justifyContent: 'center' }}>Save Invoice Details</button>
+            <div className="mt-10">
+              <button type="submit" className="invoice-btn-primary invoice-btn-full">Save Invoice Details</button>
             </div>
           </form>
           <div className="invoice-preview-panel">
             <div className="invoice-actions-row">
-              <span style={{ fontSize: '0.85rem', fontWeight: '700', color: 'var(--text-secondary)' }}>Live A4 Paper Preview</span>
-              <button type="button" className="invoice-btn-primary" style={{ background: '#22c55e' }} onClick={() => window.print()}>
+              <span className="invoice-preview-title">Live A4 Paper Preview</span>
+              <button type="button" className="invoice-btn-primary invoice-btn-success" onClick={() => window.print()}>
                 <Printer size={16} /> Print / Save PDF
               </button>
             </div>
             <div className="invoice-paper-shadow" ref={containerRef} style={{ '--invoice-container-height': containerHeight }}>
               <div className="invoice-paper theme-challan" ref={paperRef} style={{ '--invoice-scale': scale, '--invoice-position': scale < 1 ? 'absolute' : 'relative' }}>
-                <div className={`invoice-stamp ${invoiceForm.status.toLowerCase()}`} style={{ top: '160px', right: '60px' }}>{invoiceForm.status}</div>
+                <div className={`invoice-stamp ${invoiceForm.status.toLowerCase()}`}>{invoiceForm.status}</div>
                 <div className="challan-title-bar">INVOICE CUM DELIVERY CHALLAN</div>
                 <div className="challan-header-grid">
                   <div className="challan-logo-box">
@@ -590,7 +590,7 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                   </div>
                   <div className="challan-address-box">
                     <h3>{invoiceForm.fromName}</h3>
-                    <span style={{ fontSize: '9px', fontStyle: 'italic', fontWeight: 'bold', color: '#3b82f6', marginTop: '-4px', marginBottom: '2px' }}>Tech with Care</span>
+                    <span className="challan-tagline-style">Tech with Care</span>
                     <span>{invoiceForm.fromAddress}</span>
                     <span>PH - {invoiceForm.fromPhone}</span>
                     <span>E-Mail - {invoiceForm.fromEmail}</span>
@@ -631,7 +631,7 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                 </div>
                 <div className="challan-billto-grid">
                   <div className="challan-billto-box">
-                    <div style={{ fontWeight: 'bold', fontSize: '9px', textTransform: 'uppercase', color: '#555', marginBottom: '4px' }}>Bill to Details</div>To,<br />
+                    <div className="challan-billto-title">Bill to Details</div>To,<br />
                     <strong>{invoiceForm.toName || '(Customer Name)'}</strong><br />
                     {invoiceForm.toAddress || '(Billing Address)'}<br />
                     {invoiceForm.toPhone && <>PH: {invoiceForm.toPhone}</>}
@@ -639,13 +639,13 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                   <div className="challan-receiver-box">
                     <div className="challan-receiver-row">
                       <span className="challan-meta-label">Bill Receiver Name</span>
-                      <span className="challan-meta-value" style={{ padding: '4px', fontSize: '11px' }}>
+                      <span className="challan-meta-value challan-meta-value-small">
                         {invoiceForm.billReceiverName || invoiceForm.toName || '(Receiver Name)'}
                       </span>
                     </div>
                     <div className="challan-receiver-row">
                       <span className="challan-meta-label">Note</span>
-                      <span className="challan-meta-value" style={{ padding: '4px', fontSize: '10px', fontWeight: 'normal', textAlign: 'left', minHeight: '30px' }}>
+                      <span className="challan-meta-value challan-meta-note-value">
                         {invoiceForm.notes}
                       </span>
                     </div>
@@ -654,12 +654,12 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                 <table className="challan-items-table">
                   <thead>
                     <tr>
-                      <th style={{ width: '45px' }}>S/NO.</th>
+                      <th className="challan-col-sno">S/NO.</th>
                       <th>Item Description</th>
-                      <th style={{ width: '80px', textAlign: 'right' }}>Rate</th>
-                      <th style={{ width: '70px', textAlign: 'center' }}>Quantity</th>
-                      <th style={{ width: '60px', textAlign: 'center' }}>per</th>
-                      <th style={{ width: '100px', textAlign: 'right' }}>Amount</th>
+                      <th className="challan-col-rate">Rate</th>
+                      <th className="challan-col-qty">Quantity</th>
+                      <th className="challan-col-per">per</th>
+                      <th className="challan-col-amount">Amount</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -667,12 +667,12 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                       const item = invoiceForm.items[idx];
                       return (
                         <tr key={idx}>
-                          <td style={{ textAlign: 'center' }}>{item ? `${idx + 1}.` : ''}</td>
-                          <td style={{ fontWeight: item ? '500' : 'normal' }}>{item ? item.description : ''}</td>
-                          <td style={{ textAlign: 'right' }}>{item ? `₹${item.unitPrice.toFixed(2)}` : ''}</td>
-                          <td style={{ textAlign: 'center' }}>{item ? item.quantity : ''}</td>
-                          <td style={{ textAlign: 'center' }}>{item ? (item.per || 'Nos') : ''}</td>
-                          <td style={{ textAlign: 'right', fontWeight: item ? 'bold' : 'normal' }}>
+                          <td className="text-center">{item ? `${idx + 1}.` : ''}</td>
+                          <td className={item ? 'font-medium' : 'font-normal'}>{item ? item.description : ''}</td>
+                          <td className="text-right">{item ? `₹${item.unitPrice.toFixed(2)}` : ''}</td>
+                          <td className="text-center">{item ? item.quantity : ''}</td>
+                          <td className="text-center">{item ? (item.per || 'Nos') : ''}</td>
+                          <td className={`text-right ${item ? 'font-bold' : 'font-normal'}`}>
                             {item ? `₹${(item.quantity * item.unitPrice).toFixed(2)}` : ''}
                           </td>
                         </tr>
@@ -682,8 +682,8 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                       const { grandTotal } = calculateFinancials(invoiceForm.items, invoiceForm.discount);
                       return (
                         <tr>
-                          <td colSpan="5" style={{ textAlign: 'right', fontWeight: 'bold', textTransform: 'uppercase', paddingRight: '15px' }}>Grand Total</td>
-                          <td style={{ textAlign: 'right', fontWeight: 'bold', fontSize: '12px' }}>₹{grandTotal}</td>
+                          <td colSpan="5" className="challan-grand-total-label">Grand Total</td>
+                          <td className="challan-grand-total-value">₹{grandTotal}</td>
                         </tr>
                       );
                     })()}
@@ -725,7 +725,7 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, isSy
                         </tr>
                         <tr>
                           <td>UPI ID</td>
-                          <td style={{ color: '#11678E', fontWeight: 'bold' }}>{invoiceForm.upiId || 'sivask7kumar@oksbi'}</td>
+                          <td className="challan-upi-value">{invoiceForm.upiId || 'sivask7kumar@oksbi'}</td>
                         </tr>
                       </tbody>
                     </table>
