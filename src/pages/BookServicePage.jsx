@@ -6,6 +6,7 @@ import { toast, Toaster } from 'sonner';
 import { bookingStore } from '../utils/bookingStore';
 import "../css/App.css";
 import "../css/BookServicePage.css";
+import { event } from '../utils/analytics';
 const allServiceOptions = [
   ...services.map(s => s.title),
   ...itServicesData.map(s => s.title),
@@ -81,10 +82,16 @@ const BookServicePage = () => {
     setIsSubmitting(true);
     try {
       await new Promise(resolve => setTimeout(resolve, 800));
+      const serviceType = formData.service;
       const newBooking = await bookingStore.addBooking(formData);
       if (newBooking) {
         setSuccessBooking(newBooking);
         toast.success('Service booked successfully!');
+        event({
+          action: "booking_submit",
+          category: "engagement",
+          label: serviceType
+        });
         setFormData({ name: '', email: '', phone: '', address: '', service: '', issue: '' });
       } else {
         throw new Error('Store rejected booking');

@@ -3,6 +3,7 @@ import { BrowserRouter, useLocation } from "react-router-dom";
 import { ThemeProvider } from "./context/ThemeContext";
 import { useEffect, Suspense } from "react";
 import Header from "./components/Header";
+import { pageview } from "./utils/analytics";
 import Footer from "./components/Footer";
 import { Routes, Route } from "react-router-dom";
 import Home from "./pages/Home";
@@ -69,6 +70,7 @@ function AppContent() {
       document.head.appendChild(canonicalLink);
     }
     canonicalLink.href = `https://siansmarttech.com${location.pathname}`;
+    pageview(location.pathname, document.title);
   }, [location.pathname]);
   useEffect(() => {
     if (location.state?.scrollTo) {

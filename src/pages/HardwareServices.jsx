@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import "../css/HardwareServices.css";
 import { Layers, Laptop, Monitor, Printer, Cctv, Camera, Plane, Cpu, Zap, Video, HardDrive, Settings, Wrench, RefreshCw, ShoppingBag, Keyboard, CheckCircle, ShieldCheck, ArrowRight } from 'lucide-react';
 import { services } from '../mockData';
+import { event } from '../utils/analytics';
 const SERVICE_ICONS = { Laptop, Monitor, Printer, Zap, Cpu, Video, HardDrive, Settings, Wrench, RefreshCw, ShoppingBag, Keyboard };
 const HardwareServices = () => {
   const location = useLocation();
@@ -138,7 +139,14 @@ const HardwareServices = () => {
                           <span>{service.benefits?.[2] || 'Quality Spares'}</span>
                         </div>
                       </div>
-                      <button className="hw-book-btn" onClick={() => navigate('/book-service', { state: { selectedService: service.title } })}>
+                      <button className="hw-book-btn" onClick={() => {
+                        event({
+                          action: "select_service",
+                          category: "engagement",
+                          label: service.title
+                        });
+                        navigate('/book-service', { state: { selectedService: service.title } });
+                      }}>
                         <span>Book This Service</span> <ArrowRight size={18} />
                       </button>
                     </div>

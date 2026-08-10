@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import "../css/HardwareServices.css";
 import { CheckCircle, ArrowRight, Globe, Briefcase, Cpu, ShoppingCart } from 'lucide-react';
 import { itServicesData } from '../mockData';
+import { event } from '../utils/analytics';
 const IT_SERVICE_ICONS = { Globe, Briefcase, Cpu, ShoppingCart };
 const ITServices = () => {
   const navigate = useNavigate();
@@ -69,7 +70,14 @@ const ITServices = () => {
                           </div>
                         ))}
                       </div>
-                      <button className="hw-book-btn" onClick={() => navigate('/book-service', { state: { selectedService: service.title } })}>
+                      <button className="hw-book-btn" onClick={() => {
+                        event({
+                          action: "select_service",
+                          category: "engagement",
+                          label: service.title
+                        });
+                        navigate('/book-service', { state: { selectedService: service.title } });
+                      }}>
                         <span>Book This Service</span> <ArrowRight size={18} />
                       </button>
                     </div>

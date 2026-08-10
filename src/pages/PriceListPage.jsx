@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { Check, Star, Shield, Wrench, Globe, FileSearch, Search, Settings, Laptop, Monitor, HardDrive, Save, Cpu, Settings2, BarChart2, ShoppingCart } from 'lucide-react';
 import { pricing, itPricing } from '../mockData';
 import "../css/App.css";
+import { event } from '../utils/analytics';
 const IT_ICONS = { Globe, BarChart2, ShoppingCart };
 const PriceListPage = () => {
   const location = useLocation();
@@ -94,7 +95,14 @@ const PriceListPage = () => {
                           </li>
                         ))}
                       </ul>
-                      <button onClick={() => navigate('/book-service', { state: { selectedService: plan.name } })} className="pricing-v2-btn pricing-v2-btn-auto-margin">Book Service</button>
+                      <button onClick={() => {
+                        event({
+                          action: "select_service",
+                          category: "engagement",
+                          label: plan.name
+                        });
+                        navigate('/book-service', { state: { selectedService: plan.name } });
+                      }} className="pricing-v2-btn pricing-v2-btn-auto-margin">Book Service</button>
                     </div>
                   );
                 })}
@@ -154,7 +162,14 @@ const PriceListPage = () => {
                           </li>
                         ))}
                       </ul>
-                      <button onClick={() => navigate('/book-service', { state: { selectedService: plan.name } })} className="pricing-v2-btn pricing-v2-btn-auto-margin">Get Started</button>
+                      <button onClick={() => {
+                        event({
+                          action: "select_service",
+                          category: "engagement",
+                          label: plan.name
+                        });
+                        navigate('/book-service', { state: { selectedService: plan.name } });
+                      }} className="pricing-v2-btn pricing-v2-btn-auto-margin">Get Started</button>
                     </div>
                   );
                 })}

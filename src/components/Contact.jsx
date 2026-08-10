@@ -4,6 +4,7 @@ import { companyInfo } from '../mockData';
 import { toast } from 'sonner';
 import "../css/App.css";
 import ProtectedEmail from './ProtectedEmail';
+import { event } from '../utils/analytics';
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -26,6 +27,11 @@ const Contact = () => {
     if (!contactUrl) {
       setTimeout(() => {
         toast.success('Message sent successfully! We will get back to you soon.');
+        event({
+          action: "contact_form_submit",
+          category: "engagement",
+          label: "Contact Form Submit Success"
+        });
         setFormData({ name: '', email: '', message: '' });
         setIsSubmitting(false);
       }, 1000);
@@ -44,6 +50,11 @@ const Contact = () => {
       const result = await response.json();
       if (result.success) {
         toast.success('Message sent successfully! We will get back to you soon.');
+        event({
+          action: "contact_form_submit",
+          category: "engagement",
+          label: "Contact Form Submit Success"
+        });
         setFormData({ name: '', email: '', message: '' });
       } else {
         throw new Error(result.error || 'Failed to save submission');
@@ -73,7 +84,11 @@ const Contact = () => {
                 <ArrowUpRight size={18} />
               </div>
             </ProtectedEmail>
-            <a href={`tel:${companyInfo.phone}`} className="contact-v2-card accent-card">
+            <a href={`tel:${companyInfo.phone}`} onClick={() => event({
+              action: "phone_click",
+              category: "engagement",
+              label: `Call ${companyInfo.phone}`
+            })} className="contact-v2-card accent-card">
               <div className="contact-v2-card-icon">
                 <Phone size={22} />
               </div>

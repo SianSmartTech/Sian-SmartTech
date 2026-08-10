@@ -2,6 +2,7 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { auth, googleProvider } from "../utils/firebase";
 import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { toast } from "sonner";
+import { event } from "../utils/analytics";
 const AuthContext = createContext();
 const SESSION_DURATION = 2 * 60 * 60 * 1000; 
 const LOGIN_TIME_KEY = "sian_admin_login_time";
@@ -75,9 +76,26 @@ export const AuthProvider = ({ children }) => {
     try {
       localStorage.setItem(LOGIN_TIME_KEY, Date.now().toString());
     } catch (e) {}
-    return signInWithPopup(auth, googleProvider).finally(() => {
-      setLoading(false);
-    });
+    return signInWithPopup(auth, googleProvider)
+      .then((result) => {
+        event({
+          action: "login_success",
+          category: "engagement",
+          label: "Admin Login Success"
+        });
+        return result;
+      })
+      .catch((error) => {
+        event({
+          action: "login_failure",
+          category: "engagement",
+          label: "Admin Login Failure"
+        });
+        throw error;
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   };
   return (
     <AuthContext.Provider value={{ user, loading, loginWithGoogle, logout, isAuthorized, allowedEmailsConfigured, allowedEmails }}>{children}</AuthContext.Provider>

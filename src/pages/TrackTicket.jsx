@@ -3,6 +3,7 @@ import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { Search, Loader2, CheckCircle2, AlertCircle, Clock, ShieldAlert, Cpu, Check, MapPin, Mail, User, Briefcase, Calendar } from 'lucide-react';
 import { bookingStore } from '../utils/bookingStore';
 import "../css/TrackTicket.css";
+import { event } from '../utils/analytics';
 const TrackTicket = () => {
   const { ticketId } = useParams();
   const [searchParams] = useSearchParams();
@@ -44,6 +45,13 @@ const TrackTicket = () => {
     e.preventDefault();
     const trimmedInput = inputTicket.trim().toUpperCase();
     if (!trimmedInput) return;
+    
+    event({
+      action: "track_ticket_search",
+      category: "engagement",
+      label: "Search Ticket Status"
+    });
+
     const currentTicketId = (ticketId || searchParams.get('ticket') || '').trim().toUpperCase();
     if (trimmedInput === currentTicketId) {
       loadTicket(trimmedInput);
