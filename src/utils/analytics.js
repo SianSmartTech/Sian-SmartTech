@@ -1,42 +1,26 @@
 const MEASUREMENT_ID = process.env.REACT_APP_GA_MEASUREMENT_ID;
 const ENABLE_IN_DEV = process.env.REACT_APP_GA_ENABLE_IN_DEV === 'true';
 const IS_PROD = process.env.NODE_ENV === 'production';
-
-// Helper to check if analytics should run
 const shouldRun = () => {
   return typeof window !== 'undefined' && !!MEASUREMENT_ID && (IS_PROD || ENABLE_IN_DEV);
 };
-
-/**
- * Dynamically loads Google Analytics (gtag.js) script
- */
 export const initGA = () => {
   if (!shouldRun()) {
     return;
   }
-
-  // Check if already initialized to avoid duplicate tag injection
   if (window.dataLayer && window.gtag) {
     return;
   }
-
   try {
-    // Inject the gtag script tag into the head
     const script = document.createElement('script');
     script.async = true;
     script.src = `https://www.googletagmanager.com/gtag/js?id=${MEASUREMENT_ID}`;
     document.head.appendChild(script);
-
-    // Initialize the dataLayer and gtag function
     window.dataLayer = window.dataLayer || [];
     window.gtag = function () {
       window.dataLayer.push(arguments);
-    };
-
+    };  
     window.gtag('js', new Date());
-
-    // Configure gtag with send_page_view: false to prevent duplicate pageviews on initial load
-    // since we manually track route changes inside the application routing
     window.gtag('config', MEASUREMENT_ID, {
       send_page_view: false,
     });
@@ -52,9 +36,8 @@ export const initGA = () => {
  */
 export const pageview = (path, title) => {
   if (!shouldRun()) return;
-
   try {
-    initGA(); // Ensure it's initialized
+    initGA();
     if (typeof window.gtag === 'function') {
       window.gtag('event', 'page_view', {
         page_path: path,
@@ -66,7 +49,6 @@ export const pageview = (path, title) => {
     console.warn('Failed to track pageview:', error);
   }
 };
-
 /**
  * Tracks a custom event
  * @param {Object} options
@@ -77,9 +59,8 @@ export const pageview = (path, title) => {
  */
 export const event = ({ action, category, label, value, ...rest }) => {
   if (!shouldRun()) return;
-
   try {
-    initGA(); // Ensure it's initialized
+    initGA();
     if (typeof window.gtag === 'function') {
       window.gtag('event', action, {
         event_category: category,

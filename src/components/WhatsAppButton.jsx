@@ -1,11 +1,9 @@
 import '../css/WhatsAppButton.css';
 import { event } from '../utils/analytics';
-
 const WhatsAppButton = () => {
   const phoneNumber = "919344678135";
   const message = "Hello! I would like to know more about your services.";
   const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
-  
   const handleWhatsAppClick = () => {
     event({
       action: "whatsapp_click",
@@ -13,7 +11,6 @@ const WhatsAppButton = () => {
       label: "Contact WhatsApp"
     });
   };
-
   return (
     <div className="whatsapp-container">
       <a href={whatsappUrl} onClick={handleWhatsAppClick} target="_blank" rel="noopener noreferrer" className="whatsapp-float-btn" aria-label="Chat with us on WhatsApp">

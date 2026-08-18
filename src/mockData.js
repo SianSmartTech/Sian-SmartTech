@@ -400,44 +400,45 @@ export const itPricing = [
 export const testimonials = [
   {
     id: 1,
-    name: "Rajesh Kumar",
-    role: "Retail Store Owner",
-    content: "Sian SmartTech saved our business! They recovered all our crucial files after a database crash and set up a secure automatic data backup system. Extremely reliable and professional team.",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80",
+    name: "CMA Enterprises",
+    role: "Sikkandhar Savadi",
+    content: "Good service from Sian SmartTech. They installed our office systems properly and completed the setup quickly. Cable management was also neat.",
+    rating: 5
   },
   {
     id: 2,
-    name: "Priya Sharma",
-    role: "E-commerce Founder",
-    content: "They built a highly responsive e-commerce website for my brand. The design is absolutely premium, it loads instantly, and they optimized the SEO perfectly. The best website development team in Madurai!",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&q=80",
+    name: "UCO Bank",
+    role: "Vadipatty",
+    content: "Good experience with the system installation. They came on time, completed the setup properly and everything is working fine.",
+    rating: 5
   },
-
+  {
+    id: 3,
+    name: "Attica Gold",
+    role: "KK Nagar",
+    content: "Got my system OS installed and all the required drivers and software set up. Service was quick and the system is working well now.",
+    rating: 5
+  },
   {
     id: 4,
-    name: "Arun Prasath",
-    role: "Gaming Enthusiast",
-    content: "The custom gaming PC they built for me is a beast! Clean cable management, perfect airflow, and top performance. I also purchased all my mechanical keyboard and gaming mouse accessories here.",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=400&q=80",
+    name: "Malar Printers",
+    role: "Pandiyan Nagar",
+    content: "Purchased computer and printer accessories from them. Good quality products and the pricing was also reasonable. Good service overall.",
+    rating: 5
   },
   {
     id: 5,
-    name: "Meenakshi Sundaram",
-    role: "School Administrator",
-    content: "Excellent CCTV installation service. They set up high-definition cameras across our school campus and configured remote mobile viewing. They also handle our school printer maintenance with great efficiency.",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80",
+    name: "STW - LIC Vendar",
+    role: "Delhi",
+    content: "Printer was having some print and paper feeding issues. They checked it and fixed the problem quickly. Good service and support.",
+    rating: 5
   },
   {
     id: 6,
-    name: "Siddharth",
-    role: "Drone Photographer",
-    content: "Superb drone service! Sian SmartTech repaired my drone's cracked motor arm, replaced the damaged ESC, and calibrated the flight controller. It flies perfectly stable now. Highly recommended for drone repairs.",
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?w=400&q=80",
+    name: "Sevenseas International",
+    role: "Annabus Stand",
+    content: "They installed our printer and connected it to the office network. Setup was done quickly and they helped us with the configuration too.",
+    rating: 5
   }
 ];
 export const companyInfo = {

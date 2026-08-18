@@ -1,17 +1,17 @@
 const BOOKINGS_KEY = 'sian_bookings';
 const EMAIL_LOGS_KEY = 'sian_email_logs';
 let bookingsCache = [];
-let itBookingsCache = []; 
+let itBookingsCache = [];
 let emailLogsCache = [];
 let otherBookingsCache = [];
 const getItemSafe = (key) => {
   try { return localStorage.getItem(key); } catch (e) { return null; }
 };
 const setItemSafe = (key, val) => {
-  try { localStorage.setItem(key, val); } catch (e) {}
+  try { localStorage.setItem(key, val); } catch (e) { }
 };
 const removeItemSafe = (key) => {
-  try { localStorage.removeItem(key); } catch (e) {}
+  try { localStorage.removeItem(key); } catch (e) { }
 };
 const cleanServiceName = (serviceStr, addressStr, defaultName = 'General Service') => {
   if (!serviceStr || typeof serviceStr !== 'string') return defaultName;
@@ -289,7 +289,7 @@ export const bookingStore = {
     const serviceName = (bookingData.service || bookingData.serviceType || '').toLowerCase();
     const isITService = bookingData.category === 'IT' || bookingData.type === 'IT' ||
       ['website development', 'web development', 'freelancing', 'software', 'it service', 'consulting'].some(k => serviceName.includes(k));
-    
+
     if (isITService) {
       return this.addITBooking(bookingData);
     }
@@ -387,28 +387,44 @@ export const bookingStore = {
     }
     return newBooking;
   },
-  async getBookingByTicket(ticketId) {
+  async getBookingByTicket(ticketId, email = null) {
     if (!ticketId) return null;
     const cleanId = ticketId.trim().toUpperCase();
-    const hwMatch = bookingsCache.find(b => (b.ticketId || '').trim().toUpperCase() === cleanId);
+    const cleanEmail = email ? email.trim().toLowerCase() : null;
+    const matchesFilter = (b) => {
+      const matchId = (b.ticketId || '').trim().toUpperCase() === cleanId;
+      if (!matchId) return false;
+      if (cleanEmail) {
+        return (b.email || '').trim().toLowerCase() === cleanEmail;
+      }
+      return true;
+    };
+    const hwMatch = bookingsCache.find(matchesFilter);
     if (hwMatch) return hwMatch;
-    const itMatch = itBookingsCache.find(b => (b.ticketId || '').trim().toUpperCase() === cleanId);
+    const itMatch = itBookingsCache.find(matchesFilter);
     if (itMatch) return itMatch;
     if (this.isHardwareGoogleSheetsConfigured()) {
       try {
         const freshHw = await this.fetchHardwareBookings();
-        const match = freshHw.find(b => (b.ticketId || '').trim().toUpperCase() === cleanId);
+        const match = freshHw.find(matchesFilter);
         if (match) return match;
-      } catch (err) {}
+      } catch (err) { }
     }
     if (this.isITGoogleSheetsConfigured()) {
       try {
         const freshIt = await this.fetchITBookings();
-        const match = freshIt.find(b => (b.ticketId || '').trim().toUpperCase() === cleanId);
+        const match = freshIt.find(matchesFilter);
         if (match) return match;
-      } catch (err) {}
+      } catch (err) { }
     }
-    const otherMatch = otherBookingsCache.find(b => (b.id || '').trim().toUpperCase() === cleanId);
+    const otherMatch = otherBookingsCache.find(b => {
+      const matchId = (b.id || b.ticketId || '').trim().toUpperCase() === cleanId;
+      if (!matchId) return false;
+      if (cleanEmail) {
+        return (b.email || '').trim().toLowerCase() === cleanEmail;
+      }
+      return true;
+    });
     return otherMatch || null;
   },
   getOutboxSheetsUrl() {
@@ -434,6 +450,7 @@ export const bookingStore = {
       Completed: 'Great news! Your service order has been <strong>COMPLETED</strong> successfully. Your device is ready for collection/delivery.',
       Cancelled: 'Please note that your service request has been <strong>CANCELLED</strong>. Contact us if this was an error.'
     };
+    const emailParam = booking.email ? `&email=${encodeURIComponent(booking.email)}` : '';
     return `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #11678E; border-radius: 8px; background-color: #ffffff; color: #333;">
         <div style="text-align: center; border-bottom: 2px solid #11678E; padding-bottom: 20px; margin-bottom: 20px;">
@@ -470,7 +487,7 @@ export const bookingStore = {
         </div>
         <p style="margin-bottom: 25px;">You can track the real-time status of your repair at any time by clicking the link below:</p>
         <p style="text-align: center; margin: 25px 0;">
-          <a href="${origin}/track/${booking.ticketId}" style="background-color: #11678E; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; box-shadow: 0 4px 6px rgba(17, 103, 142, 0.2);">Track Live Status</a>
+          <a href="${origin}/track?ticket=${booking.ticketId}${emailParam}" style="background-color: #11678E; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; box-shadow: 0 4px 6px rgba(17, 103, 142, 0.2);">Track Live Status</a>
         </p>
 
         <p style="font-size: 0.85rem; color: #666; border-top: 1px solid #eee; padding-top: 15px; margin-top: 30px;">

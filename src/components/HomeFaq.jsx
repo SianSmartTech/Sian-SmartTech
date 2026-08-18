@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Plus, Minus } from 'lucide-react';
 import { Link } from 'react-router-dom';
-
 const homeFaqData = [
   {
     id: 1,
@@ -29,14 +28,11 @@ const homeFaqData = [
     answer: 'Yes! You can track the real-time progress of your repair ticket directly on our Track Ticket page by entering your unique Ticket ID.'
   }
 ];
-
 const HomeFaq = () => {
   const [openId, setOpenId] = useState(null);
-
   const toggleFaq = (id) => {
     setOpenId(openId === id ? null : id);
   };
-
   return (
     <section className="section bg-alt" id="home-faq">
       <div className="container">
@@ -47,21 +43,12 @@ const HomeFaq = () => {
             Got questions about our computer, mobile repair, or IT services? Find the answers to the most common queries below.
           </p>
         </div>
-
         <div className="faq-list-v2">
           {homeFaqData.map((faq) => (
             <div key={faq.id} className={`faq-item-v2 glass-card ${openId === faq.id ? 'faq-open' : ''}`}>
-              <button 
-                className="faq-question-v2" 
-                onClick={() => toggleFaq(faq.id)}
-                aria-expanded={openId === faq.id}
-              >
+              <button className="faq-question-v2" onClick={() => toggleFaq(faq.id)} aria-expanded={openId === faq.id}>
                 <span>{faq.question}</span>
-                {openId === faq.id ? (
-                  <Minus size={24} className="faq-icon-v2" />
-                ) : (
-                  <Plus size={24} className="faq-icon-v2" />
-                )}
+                {openId === faq.id ? (<Minus size={24} className="faq-icon-v2" />) : (<Plus size={24} className="faq-icon-v2" />)}
               </button>
               <div className={`faq-answer-v2 ${openId === faq.id ? 'faq-answer-open' : ''}`}>
                 <p>{faq.answer}</p>
@@ -69,7 +56,6 @@ const HomeFaq = () => {
             </div>
           ))}
         </div>
-
         <div className="faq-action-v2" style={{ marginTop: '2rem' }}>
           <Link to="/faq" className="btn-view-more">View All FAQs</Link>
         </div>
@@ -77,5 +63,4 @@ const HomeFaq = () => {
     </section>
   );
 };
-
 export default HomeFaq;

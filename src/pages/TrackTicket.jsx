@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
-import { Search, Loader2, CheckCircle2, AlertCircle, Clock, ShieldAlert, Cpu, Check, MapPin, Mail, User, Briefcase, Calendar } from 'lucide-react';
+import { Search, Loader2, CheckCircle2, AlertCircle, Clock, ShieldAlert, Cpu, Check, MapPin, Mail, User, Briefcase, Calendar, Ticket } from 'lucide-react';
 import { bookingStore } from '../utils/bookingStore';
 import "../css/TrackTicket.css";
 import { event } from '../utils/analytics';
@@ -9,6 +9,7 @@ const TrackTicket = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const [inputTicket, setInputTicket] = useState('');
+  const [inputEmail, setInputEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [ticketDetails, setTicketDetails] = useState(null);
   const [hasSearched, setHasSearched] = useState(false);
@@ -17,12 +18,12 @@ const TrackTicket = () => {
     if (status === 'Cancelled') return 3;
     return statusSteps.indexOf(status);
   };
-  const loadTicket = async (id) => {
-    if (!id) return;
+  const loadTicket = async (id, emailVal) => {
+    if (!id || !emailVal) return;
     setLoading(true);
     setHasSearched(true);
     try {
-      const details = await bookingStore.getBookingByTicket(id.trim());
+      const details = await bookingStore.getBookingByTicket(id.trim(), emailVal.trim());
       setTicketDetails(details);
     } catch (error) {
       console.error("Failed to load ticket details:", error);
@@ -33,9 +34,15 @@ const TrackTicket = () => {
   };
   useEffect(() => {
     const urlTicketId = ticketId || searchParams.get('ticket');
+    const urlEmail = searchParams.get('email');
     if (urlTicketId) {
       setInputTicket(urlTicketId);
-      loadTicket(urlTicketId);
+    }
+    if (urlEmail) {
+      setInputEmail(urlEmail);
+    }
+    if (urlTicketId && urlEmail) {
+      loadTicket(urlTicketId, urlEmail);
     } else {
       setTicketDetails(null);
       setHasSearched(false);
@@ -43,21 +50,16 @@ const TrackTicket = () => {
   }, [ticketId, searchParams]);
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    const trimmedInput = inputTicket.trim().toUpperCase();
-    if (!trimmedInput) return;
-    
+    const trimmedTicket = inputTicket.trim().toUpperCase();
+    const trimmedEmail = inputEmail.trim().toLowerCase();
+    if (!trimmedTicket || !trimmedEmail) return;
     event({
       action: "track_ticket_search",
       category: "engagement",
       label: "Search Ticket Status"
     });
-
-    const currentTicketId = (ticketId || searchParams.get('ticket') || '').trim().toUpperCase();
-    if (trimmedInput === currentTicketId) {
-      loadTicket(trimmedInput);
-    } else {
-      navigate(`/track/${trimmedInput}`);
-    }
+    loadTicket(trimmedTicket, trimmedEmail);
+    navigate(`/track?ticket=${encodeURIComponent(trimmedTicket)}&email=${encodeURIComponent(trimmedEmail)}`);
   };
   const currentStatusIndex = ticketDetails ? getStatusIndex(ticketDetails.status) : -1;
   const formatDate = (isoString) => {
@@ -78,16 +80,39 @@ const TrackTicket = () => {
         <div className="container">
           <span className="section-subtitle">Real-time Diagnostics</span>
           <h1 className="section-title">Track Your Ticket</h1>
-          <p className="page-description">Enter your service Ticket ID to track the real-time repair and delivery status of your device.</p>
+          <p className="page-description">
+            Enter your service Ticket ID and registered Email Address to track the real-time repair and delivery status of your device.
+          </p>
         </div>
       </section>
       <div className="search-section">
         <div className="search-glass-card">
-          <h3 className="search-title-small">Enter Ticket ID</h3>
-          <form onSubmit={handleSearchSubmit} className="search-input-wrapper">
-            <input type="text" placeholder="e.g., SIAN-2026-1002" value={inputTicket} onChange={(e) => setInputTicket(e.target.value)} className="search-input" required />
-            <button type="submit" className="search-button">
-              <Search size={18} />Track
+          <h3 className="search-title-small">Verify & Track Your Service</h3>
+          <form onSubmit={handleSearchSubmit} className="search-form-group">
+            <div className="search-input-field">
+              <Ticket size={18} className="search-field-icon" />
+              <input
+                type="text"
+                placeholder="Ticket ID (e.g., SIAN-2026-1002)"
+                value={inputTicket}
+                onChange={(e) => setInputTicket(e.target.value)}
+                className="search-input"
+                required
+              />
+            </div>
+            <div className="search-input-field">
+              <Mail size={18} className="search-field-icon" />
+              <input
+                type="email"
+                placeholder="Registered Email Address"
+                value={inputEmail}
+                onChange={(e) => setInputEmail(e.target.value)}
+                className="search-input"
+                required
+              />
+            </div>
+            <button type="submit" className="search-button search-button-full">
+              <Search size={18} /> Track Status
             </button>
           </form>
         </div>
@@ -218,16 +243,20 @@ const TrackTicket = () => {
           <div className="glass-tracking-card reveal active">
             <div className="no-ticket-state">
               <AlertCircle size={48} className="no-ticket-icon" />
-              <h3 className="no-ticket-title">Ticket Not Found</h3>
-              <p>We couldn't find a service booking with the ID <strong>"{inputTicket}"</strong>. Please verify the ID on your receipt/email and try again.</p>
+              <h3 className="no-ticket-title">Booking Details Not Found</h3>
+              <p>
+                We couldn't find a service booking matching Ticket ID <strong>"{inputTicket}"</strong> and Email <strong>"{inputEmail}"</strong>. Please verify both details on your receipt/email and try again.
+              </p>
             </div>
           </div>
         ) : (
           <div className="glass-tracking-card reveal active">
             <div className="no-ticket-state">
               <Search size={48} className="no-ticket-icon" />
-              <h3 className="no-ticket-title">Awaiting Search Query</h3>
-              <p>Please enter your Ticket ID in the search bar above to fetch your real-time status. E.g. <strong>SIAN-2026-1026</strong>.</p>
+              <h3 className="no-ticket-title">Enter Details to Track</h3>
+              <p>
+                Please enter your Ticket ID (e.g., <strong>SIAN-2026-1002</strong>) and your registered Email Address above to fetch your real-time repair status.
+              </p>
             </div>
           </div>
         )}

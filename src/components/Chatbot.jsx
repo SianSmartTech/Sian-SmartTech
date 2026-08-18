@@ -5,7 +5,7 @@ import '../css/Chatbot.css';
 import { companyInfo, services, itServicesData, itPricing } from '../mockData';
 import { bookingStore } from '../utils/bookingStore';
 import ProtectedEmail from './ProtectedEmail';
-const initialMessages = [{ sender: 'bot', text: `Hi there! Welcome to ${companyInfo.name}. How can I help you today?`}];
+const initialMessages = [{ sender: 'bot', text: `Hi there! Welcome to ${companyInfo.name}. How can I help you today?` }];
 const DEFAULT_QUICK_REPLIES = ["Book a service", "Track my ticket", "What are your services?", "Pricing info", "Contact details"];
 const hardwareMap = services.map(s => {
   let label = s.title;
