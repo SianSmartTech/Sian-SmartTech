@@ -64,6 +64,11 @@ const routesMetadata = {
     title: 'Track Your Tech Repair Ticket Online | SiAn SmartTech',
     description: 'Track the real-time status of your computer, laptop, or mobile repair ticket online with SiAn SmartTech Madurai quick tracking system.',
     canonical: 'https://siansmarttech.in/track'
+  },
+  '/admin': {
+    title: 'Admin Dashboard | SiAn SmartTech',
+    description: 'SiAn SmartTech Admin Dashboard for managing computer repair orders, service tickets, customer inquiries, and system operations in Madurai.',
+    canonical: 'https://siansmarttech.in/admin'
   }
 };
 const routes = Object.keys(routesMetadata);

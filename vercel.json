@@ -61,7 +61,7 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!api/.*|static/.*|cpuframes/.*|images/.*|invoice/.*|.*\\..*).*)",
+      "source": "/(.*)",
       "destination": "/index.html"
     }
   ]
