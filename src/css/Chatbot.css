@@ -31,8 +31,9 @@
   position: fixed;
   bottom: 2rem;
   right: 2rem;
-  width: 480px;
-  max-height: 720px;
+  width: 560px;
+  max-width: calc(100vw - 4rem);
+  max-height: 750px;
   height: 80vh;
   background-color: var(--glass-bg);
   backdrop-filter: blur(10px);
@@ -208,9 +209,10 @@
 
 @media (max-width: 768px) {
   .chatbot-window {
-    width: 420px;
+    width: 500px;
+    max-width: calc(100vw - 3rem);
     height: 75vh;
-    max-height: 650px;
+    max-height: 680px;
     bottom: 1.5rem;
     right: 1.5rem;
   }
@@ -435,8 +437,13 @@
   margin: 0 0 8px 0;
 }
 
-.chat-contact-flex {
+.chat-contact-flex,
+.chat-it-contact-list {
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.chat-it-contact-title {
+  margin: 0 0 8px 0;
 }

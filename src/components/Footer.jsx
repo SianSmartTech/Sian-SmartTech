@@ -33,7 +33,7 @@ const Footer = () => {
               </li>
               <li>
                 <Mail size={16} />
-                <ProtectedEmail email={companyInfo.email} className="footer-email-link" />
+                <ProtectedEmail email={companyInfo.email} />
               </li>
               <li>
                 <MapPin size={16} />

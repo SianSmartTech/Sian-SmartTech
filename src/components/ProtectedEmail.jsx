@@ -1,17 +1,15 @@
-import { decodeEmail, encodeEmail } from '../utils/emailProtection';
-const ProtectedEmail = ({ email, className = '', children, label = null }) => {
-  const encoded = encodeEmail(email);
-  const actualEmail = decodeEmail(encoded);
-  const displayText = label || children || actualEmail;
-  const handleClick = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
-    if (actualEmail) {
-      window.location.href = `mailto:${actualEmail}`;
-    }
-  };
+const ProtectedEmail = ({ email = '', className = '', children, label = null, type = 'default' }) => {
+  if (label || children) {
+    return <span className={className}>{label || children}</span>;
+  }
+  const isIT = type === 'it' || (email && email.includes('santhosh'));
+  const badgeClass = isIT ? 'email-img-badge email-img-badge-it' : 'email-img-badge';
   return (
-    <a href={actualEmail ? `mailto:${actualEmail}` : "#email"} onClick={handleClick} className={className} title="Click to send email" rel="nofollow noreferrer">{displayText}</a>
+    <span
+      className={`${badgeClass} ${className}`.trim()}
+      role="img"
+      aria-label="Email"
+    />
   );
 };
 export default ProtectedEmail;

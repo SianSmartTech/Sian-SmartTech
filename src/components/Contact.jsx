@@ -3,7 +3,6 @@ import { Mail, Phone, MapPin, ArrowUpRight, Loader2, Instagram } from 'lucide-re
 import { companyInfo } from '../mockData';
 import { toast } from 'sonner';
 import "../css/App.css";
-import ProtectedEmail from './ProtectedEmail';
 import { event } from '../utils/analytics';
 import { validateCustomerEmail } from '../utils/validation';
 const Contact = () => {
@@ -75,16 +74,18 @@ const Contact = () => {
           <p className="contact-v2-desc"> Have questions or ready to transform your business with our tech solutions?
           </p>
           <div className="contact-v2-cards">
-            <ProtectedEmail email={companyInfo.email} className="contact-v2-card accent-card">
+            <div className="contact-v2-card accent-card">
               <div className="contact-v2-card-icon"><Mail size={22} /></div>
               <div className="contact-v2-card-content">
                 <span className="contact-v2-card-label">Email us</span>
-                <span className="contact-v2-card-value">{companyInfo.email.replace('@', ' [at] ')}</span>
+                <span className="contact-v2-card-value">
+                  <span className="email-img-badge" role="img" aria-label="Contact Email" />
+                </span>
               </div>
               <div className="contact-v2-card-arrow">
                 <ArrowUpRight size={18} />
               </div>
-            </ProtectedEmail>
+            </div>
             <a href={`tel:${companyInfo.phone}`} onClick={() => event({
               action: "phone_click",
               category: "engagement",

@@ -105,11 +105,14 @@ const Hero = () => {
       }
     };
     handleResize();
-    window.addEventListener('resize', handleResize);
-    const intervalId = setInterval(handleResize, 500);
+    let resizeObserver;
+    if (window.ResizeObserver) {
+      resizeObserver = new ResizeObserver(() => handleResize());
+      resizeObserver.observe(canvas);
+    }
     return () => {
       window.removeEventListener('resize', handleResize);
-      clearInterval(intervalId);
+      if (resizeObserver) resizeObserver.disconnect();
     };
   }, [canvasLoaded]);
   useEffect(() => {
