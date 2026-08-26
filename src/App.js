@@ -62,14 +62,29 @@ function AppContent() {
       metaDescription.name = "description";
       document.head.appendChild(metaDescription);
     }
-    metaDescription.content = routeDescriptions[location.pathname] || "Expert computer, laptop & mobile repair in Madurai. SiAn SmartTech offers certified hardware diagnostics, chip-level repairs & genuine replacement parts.";
+    const targetCanonical = location.pathname === '/' ? 'https://siansmarttech.in/' : `https://siansmarttech.in${location.pathname}`;
     let canonicalLink = document.querySelector('link[rel="canonical"]');
     if (!canonicalLink) {
       canonicalLink = document.createElement('link');
       canonicalLink.rel = "canonical";
       document.head.appendChild(canonicalLink);
     }
-    canonicalLink.href = location.pathname === '/' ? 'https://siansmarttech.com/' : `https://siansmarttech.com${location.pathname}`;
+    canonicalLink.href = targetCanonical;
+    const setMetaTag = (attr, key, value) => {
+      let tag = document.querySelector(`meta[${attr}="${key}"]`);
+      if (!tag) {
+        tag = document.createElement('meta');
+        tag.setAttribute(attr, key);
+        document.head.appendChild(tag);
+      }
+      tag.content = value;
+    };
+    setMetaTag('property', 'og:title', document.title);
+    setMetaTag('property', 'og:description', metaDescription.content);
+    setMetaTag('property', 'og:url', targetCanonical);
+    setMetaTag('property', 'twitter:title', document.title);
+    setMetaTag('property', 'twitter:description', metaDescription.content);
+    setMetaTag('property', 'twitter:url', targetCanonical);
     pageview(location.pathname, document.title);
   }, [location.pathname]);
   useEffect(() => {

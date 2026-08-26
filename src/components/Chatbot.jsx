@@ -204,7 +204,7 @@ const Chatbot = () => {
             <div className="chat-contact-flex">
               <div>📞 <strong>Contact Number:</strong> {companyInfo.phone}</div>
               <div>✉️ <strong>Email:</strong> <ProtectedEmail email={companyInfo.email} /></div>
-              <div>📸 <strong>Instagram:</strong> <a href="https://www.instagram.com/sian_smart_tech?igsh=MTJ5Y3YybXl3aXBrYQ==" target="_blank" rel="noopener noreferrer" className="chat-link">@sian_smart_tech</a></div>
+              <div>📸 <strong>Instagram:</strong> <a href="https://www.instagram.com/sian_smart_tech/" target="_blank" rel="noopener noreferrer" className="chat-link">@sian_smart_tech</a></div>
               <div>📍 <strong>Shop Location:</strong> {companyInfo.address}</div>
             </div>
           </div>

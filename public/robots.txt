@@ -5,8 +5,8 @@ User-agent: *
 Allow: /
 Disallow: /admin
 
-Sitemap: https://siansmarttech.com/sitemap.xml
+Sitemap: https://siansmarttech.in/sitemap.xml
 # LLM & AI Context
 # https://llmstxt.org
-# https://siansmarttech.com/llms.txt
-# https://siansmarttech.com/llms-full.txt
+# https://siansmarttech.in/llms.txt
+# https://siansmarttech.in/llms-full.txt

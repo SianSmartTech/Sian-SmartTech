@@ -108,7 +108,7 @@ const AboutPage = () => {
         <motion.section className="founder-section" variants={containerVariants} initial="hidden" whileInView="visible" viewport={{ once: true, margin: "-100px" }}>
           <motion.div className="founder-img-wrapper" variants={itemVariants}>
             <div className="founder-img-card">
-              <img src="/images/about_repair.webp" alt="Sivakumar SG - Certified Chip Level Laptop Repair Specialist" loading="lazy" decoding="async" />
+              <img src="/images/about_repair.webp" alt="Sivakumar SG - Certified Chip Level Laptop Repair Specialist" loading="lazy" decoding="async" width="600" height="450" />
               <div className="founder-badge-floating">
                 <span className="badge-tagline">Founder</span>
                 <span className="badge-experience">Sivakumar SG</span>

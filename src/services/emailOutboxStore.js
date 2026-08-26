@@ -8,7 +8,7 @@ export const emailOutboxStore = {
   },
   getEmailHtml(booking, status) {
     if (!booking) return '';
-    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://siansmarttech.com';
+    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://siansmarttech.in';
     const statusBadges = {
       Pending: '<span style="background-color: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">Pending Review</span>',
       Confirmed: '<span style="background-color: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">Confirmed</span>',

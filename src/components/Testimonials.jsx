@@ -122,7 +122,7 @@ const Testimonials = () => {
                 <div className="sian-smart-tech-card-profile">
                   <div className="sian-smart-tech-avatar-wrapper">
                     {testimonial.image ? (
-                      <img src={testimonial.image} alt={`Client ${testimonial.name} - Sian SmartTech Madurai Customer`} className="sian-smart-tech-avatar-img" loading="lazy" decoding="async" />
+                      <img src={testimonial.image} alt={`Client ${testimonial.name} - Sian SmartTech Madurai Customer`} className="sian-smart-tech-avatar-img" loading="lazy" decoding="async" width="56" height="56" />
                     ) : (
                       <div className={`sian-smart-tech-avatar-fallback ${getAvatarClass(testimonial.name)}`}>
                         {testimonial.name.trim().charAt(0).toUpperCase()}

@@ -601,7 +601,7 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, setI
                 <div className="challan-title-bar">INVOICE CUM DELIVERY CHALLAN</div>
                 <div className="challan-header-grid">
                   <div className="challan-logo-box">
-                    <img src="/invoice/siansmarttech.jpg" alt="SiAn Smart Tech Logo" className="challan-logo-img" />
+                    <img src="/invoice/siansmarttech.jpg" alt="SiAn Smart Tech Logo" className="challan-logo-img" width="160" height="45" />
                   </div>
                   <div className="challan-address-box">
                     <h3>{invoiceForm.fromName}</h3>
@@ -748,7 +748,7 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, setI
                   <div className="challan-seal-box">
                     <div className="challan-seal-title">For SiAn Smart Tech</div>
                     <div className="challan-seal-img-wrap">
-                      <img src="/invoice/Seal with sign for bill.jpg" alt="SiAn SmartTech Seal" className="challan-seal-img" />
+                      <img src="/invoice/Seal with sign for bill.jpg" alt="SiAn SmartTech Seal" className="challan-seal-img" width="120" height="120" />
                     </div>
                     <div className="challan-seal-sign-lbl">Authorised Signatory</div>
                   </div>

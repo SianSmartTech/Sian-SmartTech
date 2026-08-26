@@ -19,17 +19,54 @@ const MIME_TYPES = {
   '.ico': 'image/x-icon',
   '.webp': 'image/webp',
 };
-const routes = [
-  '/',
-  '/hardware-services',
-  '/it-services',
-  '/price-list',
-  '/faq',
-  '/about',
-  '/all-faqs',
-  '/book-service',
-  '/track'
-];
+const routesMetadata = {
+  '/': {
+    title: 'SiAn SmartTech | Premium Computer & Mobile Repair Services',
+    description: 'Expert computer, laptop & mobile repair in Madurai. SiAn SmartTech offers certified hardware diagnostics, chip-level repairs & genuine replacement parts.',
+    canonical: 'https://siansmarttech.in/'
+  },
+  '/hardware-services': {
+    title: 'Computer & Mobile Hardware Repairs | SiAn SmartTech',
+    description: 'Professional hardware repair services in Madurai. Expert chip-level repair, screen replacements, motherboard fixes & laptop servicing.',
+    canonical: 'https://siansmarttech.in/hardware-services'
+  },
+  '/it-services': {
+    title: 'IT Software & Web Development Services | SiAn SmartTech',
+    description: 'Comprehensive IT software solutions, web development, custom software, and digital services in Madurai by SiAn SmartTech specialists.',
+    canonical: 'https://siansmarttech.in/it-services'
+  },
+  '/price-list': {
+    title: 'Computer & Mobile Repair Price List | SiAn SmartTech',
+    description: 'Transparent pricing for computer, laptop, and mobile repair in Madurai. Check diagnostic rates and service costs at SiAn SmartTech.',
+    canonical: 'https://siansmarttech.in/price-list'
+  },
+  '/about': {
+    title: 'About Us - Tech Repair Experts in Madurai | SiAn SmartTech',
+    description: "Learn about SiAn SmartTech, Madurai's trusted computer and mobile repair center providing reliable hardware and IT tech support.",
+    canonical: 'https://siansmarttech.in/about'
+  },
+  '/book-service': {
+    title: 'Book Computer & Mobile Repair Online | SiAn SmartTech',
+    description: 'Book computer, laptop, or mobile repair service online with SiAn SmartTech Madurai. Fast diagnostics, doorstep pickup & quick turnaround.',
+    canonical: 'https://siansmarttech.in/book-service'
+  },
+  '/faq': {
+    title: 'Tech Repair FAQs & Troubleshooting Tips | SiAn SmartTech',
+    description: 'Find answers to frequently asked questions regarding computer and mobile repair services, pricing, warranty, and IT support in Madurai.',
+    canonical: 'https://siansmarttech.in/faq'
+  },
+  '/all-faqs': {
+    title: 'Complete Tech Repair Guide & FAQs | SiAn SmartTech',
+    description: 'Comprehensive tech repair guide and FAQs for computer, laptop, and mobile servicing, hardware upgrades, and solutions in Madurai.',
+    canonical: 'https://siansmarttech.in/all-faqs'
+  },
+  '/track': {
+    title: 'Track Your Tech Repair Ticket Online | SiAn SmartTech',
+    description: 'Track the real-time status of your computer, laptop, or mobile repair ticket online with SiAn SmartTech Madurai quick tracking system.',
+    canonical: 'https://siansmarttech.in/track'
+  }
+};
+const routes = Object.keys(routesMetadata);
 let server;
 function startServer() {
   server = http.createServer((req, res) => {
@@ -66,6 +103,7 @@ async function runPrerender() {
   }
   await startServer();
   for (const route of routes) {
+    const meta = routesMetadata[route];
     const url = `http://localhost:${PORT}${route}`;
     const virtualConsole = new VirtualConsole();
     virtualConsole.sendTo(console, { omitJSDOMErrors: true });
@@ -104,6 +142,34 @@ async function runPrerender() {
       }, 100);
     });
     await new Promise(resolve => setTimeout(resolve, 600));
+    const doc = window.document;
+    if (meta) {
+      doc.title = meta.title;
+      const setMeta = (attr, key, val) => {
+        let el = doc.querySelector(`meta[${attr}="${key}"]`);
+        if (!el) {
+          el = doc.createElement('meta');
+          el.setAttribute(attr, key);
+          doc.head.appendChild(el);
+        }
+        el.setAttribute('content', val);
+      };
+      setMeta('name', 'title', meta.title);
+      setMeta('name', 'description', meta.description);
+      setMeta('property', 'og:title', meta.title);
+      setMeta('property', 'og:description', meta.description);
+      setMeta('property', 'og:url', meta.canonical);
+      setMeta('property', 'twitter:title', meta.title);
+      setMeta('property', 'twitter:description', meta.description);
+      setMeta('property', 'twitter:url', meta.canonical);
+      let canonical = doc.querySelector('link[rel="canonical"]');
+      if (!canonical) {
+        canonical = doc.createElement('link');
+        canonical.setAttribute('rel', 'canonical');
+        doc.head.appendChild(canonical);
+      }
+      canonical.setAttribute('href', meta.canonical);
+    }
     const html = dom.serialize();
     let outputDir = BUILD_DIR;
     let outputFile = 'index.html';
@@ -112,6 +178,8 @@ async function runPrerender() {
       if (!fs.existsSync(outputDir)) {
         fs.mkdirSync(outputDir, { recursive: true });
       }
+      const flatHtmlPath = path.join(BUILD_DIR, `${route.replace(/^\//, '')}.html`);
+      fs.writeFileSync(flatHtmlPath, html, 'utf8');
     }
     const outputPath = path.join(outputDir, outputFile);
     fs.writeFileSync(outputPath, html, 'utf8');

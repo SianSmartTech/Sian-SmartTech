@@ -53,7 +53,7 @@ const ProtectedRoute = ({ children }) => {
           </div>
           <div className="auth-user-block">
             {user.photoURL && (
-              <img src={user.photoURL} alt="Avatar" className="auth-user-avatar" />
+              <img src={user.photoURL} alt="Avatar" className="auth-user-avatar" width="40" height="40" />
             )}
             <div className="auth-user-info">
               <div className="auth-user-name">{user.displayName || "Google User"}</div>
@@ -81,7 +81,7 @@ const ProtectedRoute = ({ children }) => {
           </div>
           <div className="auth-user-block">
             {user.photoURL && (
-              <img src={user.photoURL} alt="Avatar" className="auth-user-avatar" />
+              <img src={user.photoURL} alt="Avatar" className="auth-user-avatar" width="40" height="40" />
             )}
             <div className="auth-user-info">
               <div className="auth-user-name">{user.displayName || "Google User"}</div>

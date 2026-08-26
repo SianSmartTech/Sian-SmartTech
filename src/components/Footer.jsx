@@ -47,7 +47,7 @@ const Footer = () => {
         <div className="footer-bottom">
           <div className="footer-social">
             <a href="https://www.facebook.com/share/14gwyQLfC7J/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="social-link"><Facebook size={20} /></a>
-            <a href="https://www.instagram.com/sian_smart_tech?igsh=MTJ5Y3YybXl3aXBrYQ==" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="social-link"> <Instagram size={20} /></a>
+            <a href="https://www.instagram.com/sian_smart_tech/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="social-link"> <Instagram size={20} /></a>
           </div>
           <p className="footer-copyright">© {currentYear} {companyInfo.name}. All rights reserved.</p>
         </div>

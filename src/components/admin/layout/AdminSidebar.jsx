@@ -96,7 +96,7 @@ export const AdminSidebar = ({
     <aside className={`admin-sidebar ${isSidebarOpen ? 'open' : ''} ${isSidebarCollapsed ? 'collapsed' : ''}`}>
       <div className="admin-sidebar-brand">
         <div className="admin-sidebar-brand-icon">
-          <img src="/favicon.png" alt="Logo" className="admin-brand-logo-img" />
+          <img src="/favicon.png" alt="Logo" className="admin-brand-logo-img" width="32" height="32" />
         </div>
         <div className="admin-brand-texts">
           <div className="admin-sidebar-title">Admin Hub</div>
@@ -217,7 +217,7 @@ export const AdminSidebar = ({
       <div className="admin-sidebar-profile admin-sidebar-profile-custom">
         <div className="admin-profile-container">
           {user?.photoURL ? (
-            <img src={user.photoURL} alt="Avatar" className="admin-profile-avatar-img" />
+            <img src={user.photoURL} alt="Avatar" className="admin-profile-avatar-img" width="36" height="36" />
           ) : (
             <div className="admin-profile-fallback-box">
               {user?.displayName?.charAt(0) || user?.email?.charAt(0).toUpperCase() || 'A'}

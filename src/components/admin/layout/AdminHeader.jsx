@@ -58,7 +58,7 @@ export const AdminHeader = ({
         </button>
         <div className="admin-mobile-brand">
           <div className="admin-sidebar-brand-icon">
-            <img src="/favicon.png" alt="Logo" className="admin-brand-logo-img" />
+            <img src="/favicon.png" alt="Logo" className="admin-brand-logo-img" width="32" height="32" />
           </div>
           <span className="admin-mobile-title">Admin Panel</span>
         </div>

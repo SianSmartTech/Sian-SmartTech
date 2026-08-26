@@ -114,7 +114,7 @@ const Contact = () => {
                 <ArrowUpRight size={18} />
               </div>
             </div>
-            <a href="https://www.instagram.com/sian_smart_tech?igsh=MTJ5Y3YybXl3aXBrYQ==" target="_blank" rel="noopener noreferrer" className="contact-v2-card accent-card">
+            <a href="https://www.instagram.com/sian_smart_tech/" target="_blank" rel="noopener noreferrer" className="contact-v2-card accent-card">
               <div className="contact-v2-card-icon">
                 <Instagram size={22} />
               </div>
