@@ -32,44 +32,44 @@ function AppContent() {
   const location = useLocation();
   useEffect(() => {
     const routeTitles = {
-      "/": "Sian SmartTech | Premium Computer & Mobile Repair Services",
-      "/hardware-services": "Computer & Mobile Hardware Repairs | Sian SmartTech",
-      "/it-services": "IT Software & Web Development Services | Sian SmartTech",
-      "/price-list": "Computer & Mobile Repair Price List | Sian SmartTech",
-      "/about": "About Us - Tech Repair Experts in Madurai | Sian SmartTech",
-      "/book-service": "Book Computer & Mobile Repair Online | Sian SmartTech",
-      "/faq": "Tech Repair FAQs & Troubleshooting Tips | Sian SmartTech",
-      "/all-faqs": "Complete Tech Repair Guide & FAQs | Sian SmartTech",
-      "/admin": "Admin Dashboard | Sian SmartTech",
-      "/track": "Track Your Tech Repair Ticket Online | Sian SmartTech"
+      "/": "SiAn SmartTech | Premium Computer & Mobile Repair Services",
+      "/hardware-services": "Computer & Mobile Hardware Repairs | SiAn SmartTech",
+      "/it-services": "IT Software & Web Development Services | SiAn SmartTech",
+      "/price-list": "Computer & Mobile Repair Price List | SiAn SmartTech",
+      "/about": "About Us - Tech Repair Experts in Madurai | SiAn SmartTech",
+      "/book-service": "Book Computer & Mobile Repair Online | SiAn SmartTech",
+      "/faq": "Tech Repair FAQs & Troubleshooting Tips | SiAn SmartTech",
+      "/all-faqs": "Complete Tech Repair Guide & FAQs | SiAn SmartTech",
+      "/admin": "Admin Dashboard | SiAn SmartTech",
+      "/track": "Track Your Tech Repair Ticket Online | SiAn SmartTech"
     };
     const routeDescriptions = {
-      "/": "Expert computer, laptop, and mobile repair services in Madurai. Sian SmartTech provides professional hardware diagnostics, IT solutions, and genuine parts.",
+      "/": "Professional computer, laptop, and mobile repair services in Madurai. SiAn SmartTech provides expert hardware diagnostics, chip-level repairs, IT solutions, and genuine parts.",
       "/hardware-services": "Professional hardware repair services in Madurai. We fix motherboards, screens, batteries, and provide chip-level servicing for laptops and mobiles.",
-      "/it-services": "Comprehensive IT software solutions, web development, custom software, and digital services by Sian SmartTech experts.",
-      "/price-list": "Transparent and affordable pricing for all computer, laptop, and mobile repair services at Sian SmartTech Madurai.",
-      "/about": "Learn more about Sian SmartTech, Madurai's trusted experts in premium computer and mobile repair services with years of experience.",
-      "/book-service": "Book your computer or mobile repair service online with Sian SmartTech for fast, reliable, and professional tech support.",
+      "/it-services": "Comprehensive IT software solutions, web development, custom software, and digital services by SiAn SmartTech experts.",
+      "/price-list": "Transparent and affordable pricing for all computer, laptop, and mobile repair services at SiAn SmartTech Madurai.",
+      "/about": "Learn more about SiAn SmartTech, Madurai's trusted experts in premium computer and mobile repair services with years of experience.",
+      "/book-service": "Book your computer or mobile repair service online with SiAn SmartTech for fast, reliable, and professional tech support.",
       "/faq": "Find answers to frequently asked questions about our repair services, pricing, warranty, and technical support.",
-      "/all-faqs": "Comprehensive list of all frequently asked questions regarding Sian SmartTech services and support.",
-      "/admin": "Sian SmartTech Admin Dashboard.",
-      "/track": "Track the real-time status of your computer or mobile repair ticket at Sian SmartTech."
+      "/all-faqs": "Comprehensive list of all frequently asked questions regarding SiAn SmartTech services and support.",
+      "/admin": "SiAn SmartTech Admin Dashboard.",
+      "/track": "Track the real-time status of your computer or mobile repair ticket at SiAn SmartTech."
     };
-    document.title = routeTitles[location.pathname] || "Sian SmartTech | Premium Computer & Mobile Repair Services";
+    document.title = routeTitles[location.pathname] || "SiAn SmartTech | Premium Computer & Mobile Repair Services";
     let metaDescription = document.querySelector('meta[name="description"]');
     if (!metaDescription) {
       metaDescription = document.createElement('meta');
       metaDescription.name = "description";
       document.head.appendChild(metaDescription);
     }
-    metaDescription.content = routeDescriptions[location.pathname] || "Expert computer, laptop, and mobile repair services in Madurai. Professional hardware diagnostics and IT solutions.";
+    metaDescription.content = routeDescriptions[location.pathname] || "Professional computer, laptop, and mobile repair services in Madurai. SiAn SmartTech provides expert hardware diagnostics, IT solutions, and genuine parts.";
     let canonicalLink = document.querySelector('link[rel="canonical"]');
     if (!canonicalLink) {
       canonicalLink = document.createElement('link');
       canonicalLink.rel = "canonical";
       document.head.appendChild(canonicalLink);
     }
-    canonicalLink.href = `https://siansmarttech.com${location.pathname}`;
+    canonicalLink.href = location.pathname === '/' ? 'https://siansmarttech.com/' : `https://siansmarttech.com${location.pathname}`;
     pageview(location.pathname, document.title);
   }, [location.pathname]);
   useEffect(() => {
