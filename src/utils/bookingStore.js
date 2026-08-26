@@ -1,54 +1,26 @@
-const BOOKINGS_KEY = 'sian_bookings';
-const EMAIL_LOGS_KEY = 'sian_email_logs';
-let bookingsCache = [];
-let itBookingsCache = [];
-let emailLogsCache = [];
-let otherBookingsCache = [];
-const getItemSafe = (key) => {
-  try { return localStorage.getItem(key); } catch (e) { return null; }
-};
-const setItemSafe = (key, val) => {
-  try { localStorage.setItem(key, val); } catch (e) { }
-};
-const removeItemSafe = (key) => {
-  try { localStorage.removeItem(key); } catch (e) { }
-};
-const cleanServiceName = (serviceStr, addressStr, defaultName = 'General Service') => {
-  if (!serviceStr || typeof serviceStr !== 'string') return defaultName;
-  const s = serviceStr.trim();
-  const a = (addressStr || '').trim();
-  if (!s || (a && s.toLowerCase() === a.toLowerCase())) return defaultName;
-  if (/\b(madurai|thoppu|street|nagar|road|625\d{3})\b/i.test(s) || /^\d+\/\d+/.test(s)) {
-    return defaultName;
-  }
-  return s;
+import { hardwareBookingStore } from '../services/hardwareBookingStore';
+import { itBookingStore } from '../services/itBookingStore';
+import { otherBookingStore } from '../services/otherBookingStore';
+import { invoiceStore } from '../services/invoiceStore';
+import { emailOutboxStore } from '../services/emailOutboxStore';
+import { businessManagementApi } from '../services/businessManagementApi';
+export {
+  hardwareBookingStore,
+  itBookingStore,
+  otherBookingStore,
+  invoiceStore,
+  emailOutboxStore,
+  businessManagementApi
 };
 export const bookingStore = {
   initialize() {
-    removeItemSafe(BOOKINGS_KEY);
-    removeItemSafe(EMAIL_LOGS_KEY);
-    removeItemSafe('sian_other_service_sheets_url');
-    removeItemSafe('sian_it_sheets_url');
-    const storedUrl = getItemSafe('sian_sheets_url');
-    if (storedUrl && (
-      storedUrl.includes('AKfycbzmJ8qfcRvNxyabOXSyIkTuZTd9XkDEwMXTPAoKjnc5kO3x2lkLRNpFCaBAP2cd8zVr') ||
-      storedUrl.includes('AKfycbzArusSl-EWhyizx3gjh2FuLA348ZGBVanw63XF8xbyDke-XCBRrvbdZwsBDZi5rg1T') ||
-      storedUrl.includes('AKfycbzoSrQSG-fMUSnJPucqMnDasDaFCxOAng1YoCHaf7Sez9BYj3n9I1o3bL4Sco2VH7YN')
-    )) {
-      removeItemSafe('sian_sheets_url');
-    }
+    businessManagementApi.initialize();
   },
   getHardwareSheetsUrl() {
-    return getItemSafe('sian_hardware_sheets_url') || process.env.REACT_APP_GOOGLE_HARDWARE_SHEETS_URL || getItemSafe('sian_sheets_url') || process.env.REACT_APP_GOOGLE_SHEETS_URL;
+    return hardwareBookingStore.getHardwareSheetsUrl();
   },
   setHardwareSheetsUrl(url) {
-    setItemSafe('sian_hardware_sheets_url', url ? url.trim() : '');
-  },
-  getITSheetsUrl() {
-    return getItemSafe('sian_it_sheets_url') || process.env.REACT_APP_GOOGLE_IT_SHEETS_URL;
-  },
-  setITSheetsUrl(url) {
-    setItemSafe('sian_it_sheets_url', url ? url.trim() : '');
+    hardwareBookingStore.setHardwareSheetsUrl(url);
   },
   getSheetsUrl() {
     return this.getHardwareSheetsUrl();
@@ -56,23 +28,47 @@ export const bookingStore = {
   setSheetsUrl(url) {
     this.setHardwareSheetsUrl(url);
   },
-  getOtherBookingsSheetsUrl() {
-    return getItemSafe('sian_other_service_sheets_url') || process.env.REACT_APP_GOOGLE_OTHER_SERVICE_SHEETS_URL;
-  },
-  setOtherBookingsSheetsUrl(url) {
-    setItemSafe('sian_other_service_sheets_url', url ? url.trim() : '');
-  },
   isHardwareGoogleSheetsConfigured() {
-    return !!this.getHardwareSheetsUrl();
-  },
-  isITGoogleSheetsConfigured() {
-    return !!this.getITSheetsUrl();
+    return hardwareBookingStore.isHardwareGoogleSheetsConfigured();
   },
   isGoogleSheetsConfigured() {
     return this.isHardwareGoogleSheetsConfigured();
   },
+  getITSheetsUrl() {
+    return itBookingStore.getITSheetsUrl();
+  },
+  setITSheetsUrl(url) {
+    itBookingStore.setITSheetsUrl(url);
+  },
+  isITGoogleSheetsConfigured() {
+    return itBookingStore.isITGoogleSheetsConfigured();
+  },
+  getOtherBookingsSheetsUrl() {
+    return otherBookingStore.getOtherBookingsSheetsUrl();
+  },
+  setOtherBookingsSheetsUrl(url) {
+    otherBookingStore.setOtherBookingsSheetsUrl(url);
+  },
   isOtherBookingsConfigured() {
-    return !!this.getOtherBookingsSheetsUrl();
+    return otherBookingStore.isOtherBookingsConfigured();
+  },
+  getInvoiceSheetsUrl() {
+    return invoiceStore.getInvoiceSheetsUrl();
+  },
+  setInvoiceSheetsUrl(url) {
+    invoiceStore.setInvoiceSheetsUrl(url);
+  },
+  isInvoiceConfigured() {
+    return invoiceStore.isInvoiceConfigured();
+  },
+  getBusinessManagementUrl() {
+    return businessManagementApi.getApiUrl();
+  },
+  setBusinessManagementUrl(url) {
+    businessManagementApi.setApiUrl(url);
+  },
+  isBusinessManagementConfigured() {
+    return businessManagementApi.isConfigured();
   },
   async testConnection(url) {
     if (!url) return { success: false, error: 'URL is empty' };
@@ -80,212 +76,27 @@ export const bookingStore = {
       const response = await fetch(url, { method: 'GET', mode: 'cors', credentials: 'omit', redirect: 'follow' });
       if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
       const data = await response.json();
-      if (Array.isArray(data)) {
-        return { success: true, count: data.length };
+      if (Array.isArray(data) || (data && typeof data === 'object')) {
+        return { success: true, count: Array.isArray(data) ? data.length : 1 };
       }
-      return { success: false, error: 'Response from Apps Script was not a valid JSON array' };
+      return { success: false, error: 'Invalid response from Apps Script' };
     } catch (e) {
       return { success: false, error: e.message || 'Connection failed' };
     }
   },
-  async fetchHardwareBookings() {
-    const url = this.getHardwareSheetsUrl();
-    if (!url) return bookingsCache;
-    try {
-      const response = await fetch(url, { method: 'GET', mode: 'cors', credentials: 'omit', redirect: 'follow' });
-      if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
-      const data = await response.json();
-      if (Array.isArray(data)) {
-        const normalized = data.map(b => ({
-          id: b.id || `bk-${b.ticketId}`,
-          ticketId: b.ticketId,
-          name: b.name || '',
-          email: b.email || '',
-          phone: b.phone || '',
-          address: b.address || '',
-          service: cleanServiceName(b.service, b.address, 'Hardware Repair Service'),
-          issue: b.issue || '',
-          status: b.status || 'Pending',
-          createdAt: b.createdAt || new Date().toISOString(),
-          updatedAt: b.updatedAt || new Date().toISOString(),
-          notes: b.notes || 'Awaiting diagnostics.',
-          estimatedCost: b.estimatedCost || '₹350+',
-          estimatedDelivery: b.estimatedDelivery || 'TBD',
-          type: 'Hardware'
-        }));
-        bookingsCache = normalized;
-        return normalized;
-      }
-    } catch (e) {
-      console.error('Google Sheets fetch for hardware bookings failed, using in-memory cache:', e);
-    }
-    return bookingsCache;
-  },
-  async fetchBookings() {
-    return this.fetchHardwareBookings();
-  },
   getAllHardwareBookings() {
-    this.initialize();
-    return bookingsCache;
+    return hardwareBookingStore.getAllHardwareBookings();
   },
   getAllBookings() {
     return this.getAllHardwareBookings();
   },
-  async fetchITBookings() {
-    const url = this.getITSheetsUrl();
-    if (!url) return itBookingsCache;
-    try {
-      const response = await fetch(url, { method: 'GET', mode: 'cors', credentials: 'omit', redirect: 'follow' });
-      if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
-      const data = await response.json();
-      if (Array.isArray(data)) {
-        const normalized = data.map(b => ({
-          id: b.id || `it-bk-${b.ticketId || Date.now()}`,
-          ticketId: b.ticketId || `SIAN-IT-${Date.now()}`,
-          name: b.name || '',
-          email: b.email || '',
-          phone: b.phone || '',
-          address: b.address || '',
-          service: cleanServiceName(b.service || b.serviceType, b.address, 'IT Service'),
-          issue: b.issue || '',
-          status: b.status || 'Pending',
-          createdAt: b.createdAt || new Date().toISOString(),
-          updatedAt: b.updatedAt || new Date().toISOString(),
-          notes: b.notes || 'Awaiting review.',
-          estimatedCost: b.estimatedCost || 'Based on Project',
-          estimatedDelivery: b.estimatedDelivery || b.estimatedTurnaround || 'TBD',
-          type: 'IT'
-        }));
-        itBookingsCache = normalized;
-        return normalized;
-      }
-    } catch (e) {
-      console.error('Google Sheets fetch for IT bookings failed, using in-memory cache:', e);
-    }
-    return itBookingsCache;
+  async fetchHardwareBookings() {
+    return hardwareBookingStore.fetchHardwareBookings();
   },
-  getAllITBookings() {
-    return itBookingsCache;
-  },
-  async addITBooking(bookingData) {
-    const itBookings = this.getAllITBookings();
-    const lastTicketNum = itBookings
-      .map(b => {
-        const match = (b.ticketId || '').match(/SIAN-IT-2026-(\d+)/) || (b.ticketId || '').match(/SIAN-2026-(\d+)/);
-        return match ? parseInt(match[1]) : 1000;
-      })
-      .reduce((max, val) => Math.max(max, val), 1000);
-    const newTicketId = `SIAN-IT-2026-${lastTicketNum + 1}`;
-    const newBooking = {
-      id: `it-bk-${Date.now()}`,
-      ticketId: newTicketId,
-      name: bookingData.name,
-      email: bookingData.email,
-      phone: bookingData.phone || '',
-      address: bookingData.address || '',
-      service: bookingData.service || bookingData.serviceType || 'IT Service',
-      issue: bookingData.issue || '',
-      status: bookingData.status || 'Pending',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      notes: bookingData.notes || 'Awaiting IT service review & consultation.',
-      estimatedCost: bookingData.estimatedCost || 'Based on Project',
-      estimatedDelivery: bookingData.estimatedDelivery || bookingData.estimatedTurnaround || '1-2 Weeks',
-      type: 'IT'
-    };
-    itBookingsCache.unshift(newBooking);
-    const url = this.getITSheetsUrl();
-    if (url) {
-      try {
-        await fetch(url, {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'text/plain'
-          },
-          body: JSON.stringify({
-            action: 'add',
-            data: newBooking
-          }),
-          redirect: 'follow'
-        });
-      } catch (err) {
-        console.error('Failed to write IT booking to Google Sheets:', err);
-      }
-    }
-    this.sendSimulatedEmail(newBooking, 'Pending');
-    return newBooking;
-  },
-  async updateITBooking(id, updatedFields) {
-    const bookings = this.getAllITBookings();
-    const index = bookings.findIndex(b => b.id === id);
-    if (index === -1) return null;
-    const oldBooking = bookings[index];
-    const newBooking = {
-      ...oldBooking,
-      ...updatedFields,
-      updatedAt: new Date().toISOString()
-    };
-    itBookingsCache[index] = newBooking;
-    if (updatedFields.status && updatedFields.status !== oldBooking.status) {
-      this.sendSimulatedEmail(newBooking, updatedFields.status);
-    }
-    const url = this.getITSheetsUrl();
-    if (url) {
-      try {
-        await fetch(url, {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'text/plain'
-          },
-          body: JSON.stringify({
-            action: 'update',
-            data: {
-              ticketId: newBooking.ticketId,
-              status: newBooking.status,
-              notes: newBooking.notes,
-              estimatedCost: newBooking.estimatedCost,
-              estimatedDelivery: newBooking.estimatedDelivery,
-              phone: newBooking.phone
-            }
-          }),
-          redirect: 'follow'
-        });
-      } catch (err) {
-        console.error('Failed to update IT booking in Google Sheets:', err);
-      }
-    }
-    return newBooking;
-  },
-  async deleteITBooking(id) {
-    const bookings = this.getAllITBookings();
-    const index = bookings.findIndex(b => b.id === id);
-    if (index === -1) return false;
-    itBookingsCache.splice(index, 1);
-    const url = this.getITSheetsUrl();
-    if (url) {
-      try {
-        await fetch(url, {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'text/plain'
-          },
-          body: JSON.stringify({
-            action: 'delete',
-            id: id
-          }),
-          redirect: 'follow'
-        });
-      } catch (err) {
-        console.error('Failed to delete IT booking in Google Sheets:', err);
-      }
-    }
-    return true;
+  async fetchBookings() {
+    return this.fetchHardwareBookings();
   },
   async addBooking(bookingData) {
-    this.initialize();
     const serviceName = (bookingData.service || bookingData.serviceType || '').toLowerCase();
     const isITService = bookingData.category === 'IT' || bookingData.type === 'IT' ||
       ['website development', 'web development', 'freelancing', 'software', 'it service', 'consulting'].some(k => serviceName.includes(k));
@@ -293,99 +104,45 @@ export const bookingStore = {
     if (isITService) {
       return this.addITBooking(bookingData);
     }
-    const bookings = this.getAllHardwareBookings();
-    const lastTicketNum = bookings
-      .map(b => {
-        const match = (b.ticketId || '').match(/SIAN-2026-(\d+)/);
-        return match ? parseInt(match[1]) : 1000;
-      })
-      .reduce((max, val) => Math.max(max, val), 1000);
-    const newTicketId = `SIAN-2026-${lastTicketNum + 1}`;
-    const newBooking = {
-      id: `bk-${Date.now()}`,
-      ticketId: newTicketId,
-      name: bookingData.name,
-      email: bookingData.email,
-      phone: bookingData.phone || '',
-      address: bookingData.address,
-      service: bookingData.service,
-      issue: bookingData.issue,
-      status: 'Pending',
-      createdAt: new Date().toISOString(),
-      updatedAt: new Date().toISOString(),
-      notes: 'Awaiting admin review & diagnostics.',
-      estimatedCost: '₹350+',
-      estimatedDelivery: 'TBD',
-      type: 'Hardware'
-    };
-    bookingsCache.unshift(newBooking);
-    const url = this.getHardwareSheetsUrl();
-    if (url) {
-      try {
-        await fetch(url, {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'text/plain'
-          },
-          body: JSON.stringify({
-            action: 'add',
-            data: newBooking
-          }),
-          redirect: 'follow'
-        });
-      } catch (err) {
-        console.error('Failed to write booking to Google Sheets:', err);
-      }
-    }
-    this.sendSimulatedEmail(newBooking, 'Pending');
-    return newBooking;
+    return hardwareBookingStore.addBooking(bookingData);
   },
   async updateBooking(id, updatedFields) {
-    const itBooking = itBookingsCache.find(b => b.id === id);
+    const itBooking = itBookingStore.getAllITBookings().find(b => b.id === id);
     if (itBooking) {
-      return this.updateITBooking(id, updatedFields);
+      return itBookingStore.updateITBooking(id, updatedFields);
     }
-    const bookings = this.getAllHardwareBookings();
-    const index = bookings.findIndex(b => b.id === id);
-    if (index === -1) return null;
-    const oldBooking = bookings[index];
-    const newBooking = {
-      ...oldBooking,
-      ...updatedFields,
-      updatedAt: new Date().toISOString()
-    };
-    bookingsCache[index] = newBooking;
-    if (updatedFields.status && updatedFields.status !== oldBooking.status) {
-      this.sendSimulatedEmail(newBooking, updatedFields.status);
-    }
-    const url = this.getHardwareSheetsUrl();
-    if (url) {
-      try {
-        await fetch(url, {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'text/plain'
-          },
-          body: JSON.stringify({
-            action: 'update',
-            data: {
-              ticketId: newBooking.ticketId,
-              status: newBooking.status,
-              notes: newBooking.notes,
-              estimatedCost: newBooking.estimatedCost,
-              estimatedDelivery: newBooking.estimatedDelivery,
-              phone: newBooking.phone
-            }
-          }),
-          redirect: 'follow'
-        });
-      } catch (err) {
-        console.error('Failed to update booking in Google Sheets:', err);
-      }
-    }
-    return newBooking;
+    return hardwareBookingStore.updateBooking(id, updatedFields);
+  },
+
+  getAllITBookings() {
+    return itBookingStore.getAllITBookings();
+  },
+  async fetchITBookings() {
+    return itBookingStore.fetchITBookings();
+  },
+  async addITBooking(bookingData) {
+    return itBookingStore.addITBooking(bookingData);
+  },
+  async updateITBooking(id, updatedFields) {
+    return itBookingStore.updateITBooking(id, updatedFields);
+  },
+  async deleteITBooking(id) {
+    return itBookingStore.deleteITBooking(id);
+  },
+  getAllOtherBookings() {
+    return otherBookingStore.getAllOtherBookings();
+  },
+  async fetchOtherBookings() {
+    return otherBookingStore.fetchOtherBookings();
+  },
+  async addOtherBooking(bookingData) {
+    return otherBookingStore.addOtherBooking(bookingData);
+  },
+  async updateOtherBooking(id, updatedFields) {
+    return otherBookingStore.updateOtherBooking(id, updatedFields);
+  },
+  async deleteOtherBooking(id) {
+    return otherBookingStore.deleteOtherBooking(id);
   },
   async getBookingByTicket(ticketId, email = null) {
     if (!ticketId) return null;
@@ -399,9 +156,9 @@ export const bookingStore = {
       }
       return true;
     };
-    const hwMatch = bookingsCache.find(matchesFilter);
+    let hwMatch = hardwareBookingStore.getAllHardwareBookings().find(matchesFilter);
     if (hwMatch) return hwMatch;
-    const itMatch = itBookingsCache.find(matchesFilter);
+    let itMatch = itBookingStore.getAllITBookings().find(matchesFilter);
     if (itMatch) return itMatch;
     if (this.isHardwareGoogleSheetsConfigured()) {
       try {
@@ -417,7 +174,7 @@ export const bookingStore = {
         if (match) return match;
       } catch (err) { }
     }
-    const otherMatch = otherBookingsCache.find(b => {
+    const otherMatch = otherBookingStore.getAllOtherBookings().find(b => {
       const matchId = (b.id || b.ticketId || '').trim().toUpperCase() === cleanId;
       if (!matchId) return false;
       if (cleanEmail) {
@@ -428,409 +185,74 @@ export const bookingStore = {
     return otherMatch || null;
   },
   getOutboxSheetsUrl() {
-    return process.env.REACT_APP_GOOGLE_SHEETS_OUTBOX_URL;
+    return emailOutboxStore.getOutboxSheetsUrl();
   },
   getEmailLogs() {
-    return emailLogsCache;
+    return emailOutboxStore.getEmailLogs();
   },
   getEmailHtml(booking, status) {
-    if (!booking) return '';
-    const origin = typeof window !== 'undefined' ? window.location.origin : 'https://siansmarttech.com';
-    const statusBadges = {
-      Pending: '<span style="background-color: #fef3c7; color: #b45309; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">Pending Review</span>',
-      Confirmed: '<span style="background-color: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">Confirmed</span>',
-      'In Progress': '<span style="background-color: #f3e8ff; color: #6b21a8; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">In Progress</span>',
-      Completed: '<span style="background-color: #dcfce7; color: #15803d; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">Completed & Ready</span>',
-      Cancelled: '<span style="background-color: #fee2e2; color: #b91c1c; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; font-weight: bold;">Cancelled</span>'
-    };
-    const statusTexts = {
-      Pending: 'Your service booking request has been <strong>RECEIVED</strong>. Our team will review and contact you shortly with diagnostics.',
-      Confirmed: 'Your service booking request has been <strong>CONFIRMED</strong>. We have assigned a technician to look at your device.',
-      'In Progress': 'Our technicians are now actively working to resolve your hardware/software issue.',
-      Completed: 'Great news! Your service order has been <strong>COMPLETED</strong> successfully. Your device is ready for collection/delivery.',
-      Cancelled: 'Please note that your service request has been <strong>CANCELLED</strong>. Contact us if this was an error.'
-    };
-    const emailParam = booking.email ? `&email=${encodeURIComponent(booking.email)}` : '';
-    return `
-      <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #11678E; border-radius: 8px; background-color: #ffffff; color: #333;">
-        <div style="text-align: center; border-bottom: 2px solid #11678E; padding-bottom: 20px; margin-bottom: 20px;">
-          <h2 style="color: #11678E; margin: 0;">Sian SmartTech</h2>
-          <p style="margin: 5px 0 0 0; font-size: 0.9rem; color: #666;">Computer Hardware Repair & Services</p>
-        </div>
-        <p>Dear <strong>${booking.name || 'Customer'}</strong>,</p>
-        <p>${statusTexts[status] || `Your service booking status is now: <strong>${status}</strong>.`}</p>
-        
-        <div style="background-color: #f5f9fc; border-left: 4px solid #11678E; padding: 15px; margin: 20px 0; border-radius: 4px;">
-          <h3 style="margin: 0 0 10px 0; color: #11678E;">Booking & Service Details:</h3>
-          <table style="width: 100%; border-collapse: collapse; font-size: 0.95rem;">
-            <tr>
-              <td style="padding: 4px 0; font-weight: bold; width: 140px;">Ticket ID:</td>
-              <td style="padding: 4px 0; color: #11678E; font-weight: bold;">${booking.ticketId}</td>
-            </tr>
-            <tr>
-              <td style="padding: 4px 0; font-weight: bold;">Service Type:</td>
-              <td style="padding: 4px 0;">${booking.service || 'Diagnostic Service'}</td>
-            </tr>
-            <tr>
-              <td style="padding: 4px 0; font-weight: bold;">Current Status:</td>
-              <td style="padding: 4px 0;">${statusBadges[status] || status}</td>
-            </tr>
-            <tr>
-              <td style="padding: 4px 0; font-weight: bold;">Estimated Cost:</td>
-              <td style="padding: 4px 0; font-weight: bold;">${booking.estimatedCost || '₹350+'}</td>
-            </tr>
-            <tr>
-              <td style="padding: 4px 0; font-weight: bold;">Technician Note:</td>
-              <td style="padding: 4px 0; font-style: italic; color: #555;">"${booking.notes || 'Awaiting diagnostics.'}"</td>
-            </tr>
-          </table>
-        </div>
-        <p style="margin-bottom: 25px;">You can track the real-time status of your repair at any time by clicking the link below:</p>
-        <p style="text-align: center; margin: 25px 0;">
-          <a href="${origin}/track?ticket=${booking.ticketId}${emailParam}" style="background-color: #11678E; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold; box-shadow: 0 4px 6px rgba(17, 103, 142, 0.2);">Track Live Status</a>
-        </p>
-
-        <p style="font-size: 0.85rem; color: #666; border-top: 1px solid #eee; padding-top: 15px; margin-top: 30px;">
-          If you have any questions, please contact our support team at +91 93446 78135 or reply directly to this email.<br/>
-          <strong>Sian SmartTech</strong>, 5/195, Ponnu Pillai Thoppu, Anuppanadi, Madurai - 625009.
-        </p>
-      </div>
-    `;
+    return emailOutboxStore.getEmailHtml(booking, status);
   },
   async fetchEmailLogs() {
-    const url = this.getOutboxSheetsUrl();
-    if (!url) return this.getEmailLogs();
-    try {
-      const response = await fetch(url, {
-        method: 'GET',
-        mode: 'cors',
-        credentials: 'omit',
-        redirect: 'follow'
-      });
-      if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
-      const data = await response.json();
-      if (Array.isArray(data)) {
-        const bookings = this.getAllBookings();
-        const hydrated = data.map(log => {
-          let status = 'Pending';
-          const subj = log.subject || '';
-          if (subj.includes('Confirmed')) status = 'Confirmed';
-          else if (subj.includes('In Progress')) status = 'In Progress';
-          else if (subj.includes('Completed')) status = 'Completed';
-          else if (subj.includes('Cancelled')) status = 'Cancelled';
-          const booking = bookings.find(b => b.ticketId.trim().toUpperCase() === log.ticketId.trim().toUpperCase());
-          return {
-            ...log,
-            html: log.html || this.getEmailHtml(booking || { ticketId: log.ticketId }, status)
-          };
-        });
-        emailLogsCache = hydrated;
-        return hydrated;
-      }
-    } catch (e) {
-      console.error('Google Sheets outbox fetch failed:', e);
-    }
-    return this.getEmailLogs();
+    const allBookings = [
+      ...hardwareBookingStore.getAllHardwareBookings(),
+      ...itBookingStore.getAllITBookings(),
+      ...otherBookingStore.getAllOtherBookings()
+    ];
+    return emailOutboxStore.fetchEmailLogs(allBookings);
   },
   sendSimulatedEmail(booking, newStatus) {
-    const logs = this.getEmailLogs();
-    const subjectText = newStatus === 'Pending' ? `Booking Request Received - Ticket #${booking.ticketId} | Sian SmartTech` : newStatus === 'Confirmed' ? `Booking Confirmed - Ticket #${booking.ticketId} | Sian SmartTech` : `Service Status Updated (#${booking.ticketId}) - ${newStatus} | Sian SmartTech`;
-    const htmlContent = this.getEmailHtml(booking, newStatus);
-    const newEmailLog = {
-      id: `em-${Date.now()}`,
-      ticketId: booking.ticketId,
-      recipient: booking.email,
-      subject: subjectText,
-      sentAt: new Date().toISOString(),
-      html: htmlContent
-    };
-    logs.unshift(newEmailLog);
-    const outboxUrl = this.getOutboxSheetsUrl();
-    if (outboxUrl) {
-      const { html, ...logDataWithoutHtml } = newEmailLog;
-      fetch(outboxUrl, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'text/plain'
-        },
-        body: JSON.stringify({
-          action: 'add',
-          data: logDataWithoutHtml,
-          html: htmlContent
-        }),
-        redirect: 'follow'
-      }).catch(err => console.error('Failed to sync email to Google Sheets:', err));
-    }
-  },
-  getAllOtherBookings() {
-    return otherBookingsCache;
-  },
-  async fetchOtherBookings() {
-    const url = this.getOtherBookingsSheetsUrl();
-    if (!url) return otherBookingsCache;
-    try {
-      const response = await fetch(url, { method: 'GET', mode: 'cors', credentials: 'omit', redirect: 'follow' });
-      if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
-      const data = await response.json();
-      if (Array.isArray(data)) {
-        const normalized = data.map(b => ({
-          id: b.id || `osb-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-          createdAt: b.createdAt || new Date().toISOString(),
-          name: b.name || '',
-          email: b.email || '',
-          phone: b.phone || '',
-          address: b.address || '',
-          serviceType: b.serviceType || '',
-          issue: b.issue || '',
-          status: b.status || 'Pending',
-          estimatedCost: b.estimatedCost || '₹350+',
-          estimatedTurnaround: b.estimatedTurnaround || 'TBD',
-          notes: b.notes || 'Awaiting diagnostics.'
-        }));
-        otherBookingsCache = normalized;
-        return normalized;
-      }
-    } catch (e) {
-      console.error('Google Sheets fetch for other bookings failed, using in-memory cache:', e);
-    }
-    return otherBookingsCache;
-  },
-  async addOtherBooking(bookingData) {
-    const newBooking = {
-      id: bookingData.id || `osb-${Date.now()}`,
-      createdAt: bookingData.createdAt || new Date().toISOString(),
-      name: bookingData.name,
-      email: bookingData.email,
-      phone: bookingData.phone || '',
-      address: bookingData.address,
-      serviceType: bookingData.serviceType,
-      issue: bookingData.issue,
-      status: bookingData.status || 'Pending',
-      estimatedCost: bookingData.estimatedCost || '₹350+',
-      estimatedTurnaround: bookingData.estimatedTurnaround || 'TBD',
-      notes: bookingData.notes || 'Awaiting admin review & diagnostics.'
-    };
-    otherBookingsCache.unshift(newBooking);
-    const url = this.getOtherBookingsSheetsUrl();
-    if (url) {
-      try {
-        await fetch(url, {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'text/plain'
-          },
-          body: JSON.stringify({
-            action: 'add',
-            data: newBooking
-          }),
-          redirect: 'follow'
-        });
-      } catch (err) {
-        console.error('Failed to write other booking to Google Sheets:', err);
-      }
-    }
-    return newBooking;
-  },
-  async updateOtherBooking(id, updatedFields) {
-    const bookings = this.getAllOtherBookings();
-    const index = bookings.findIndex(b => b.id === id);
-    if (index === -1) return null;
-    const oldBooking = bookings[index];
-    const newBooking = {
-      ...oldBooking,
-      ...updatedFields
-    };
-    otherBookingsCache[index] = newBooking;
-    const url = this.getOtherBookingsSheetsUrl();
-    if (url) {
-      try {
-        await fetch(url, {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'text/plain'
-          },
-          body: JSON.stringify({
-            action: 'update',
-            data: {
-              id: newBooking.id,
-              status: newBooking.status,
-              notes: newBooking.notes,
-              estimatedCost: newBooking.estimatedCost,
-              estimatedTurnaround: newBooking.estimatedTurnaround,
-              phone: newBooking.phone
-            }
-          }),
-          redirect: 'follow'
-        });
-      } catch (err) {
-        console.error('Failed to update other booking in Google Sheets:', err);
-      }
-    }
-    return newBooking;
-  },
-  async deleteOtherBooking(id) {
-    const bookings = this.getAllOtherBookings();
-    const index = bookings.findIndex(b => b.id === id);
-    if (index === -1) return false;
-    otherBookingsCache.splice(index, 1);
-    const url = this.getOtherBookingsSheetsUrl();
-    if (url) {
-      try {
-        await fetch(url, {
-          method: 'POST',
-          mode: 'cors',
-          headers: {
-            'Content-Type': 'text/plain'
-          },
-          body: JSON.stringify({
-            action: 'delete',
-            id: id
-          }),
-          redirect: 'follow'
-        });
-      } catch (err) {
-        console.error('Failed to delete other booking in Google Sheets:', err);
-      }
-    }
-    return true;
-  },
-  getInvoiceSheetsUrl() {
-    return getItemSafe('sian_invoice_sheets_url') || process.env.REACT_APP_GOOGLE_INVOICE_TEMPLATE_URL;
-  },
-  setInvoiceSheetsUrl(url) {
-    setItemSafe('sian_invoice_sheets_url', url ? url.trim() : '');
-  },
-  isInvoiceConfigured() {
-    return !!this.getInvoiceSheetsUrl();
+    return emailOutboxStore.sendSimulatedEmail(booking, newStatus);
   },
   async fetchInvoices() {
-    const url = this.getInvoiceSheetsUrl();
-    if (!url) return [];
-    try {
-      const response = await fetch(url, { method: 'GET', mode: 'cors', credentials: 'omit', redirect: 'follow' });
-      if (!response.ok) throw new Error(`HTTP Error Status: ${response.status}`);
-      const data = await response.json();
-      if (Array.isArray(data)) {
-        const normalized = data.map(inv => {
-          let parsedItems = [];
-          if (inv.items) {
-            try {
-              parsedItems = typeof inv.items === 'string' ? JSON.parse(inv.items) : inv.items;
-            } catch (e) {
-              console.error("Failed to parse items column JSON:", e);
-              parsedItems = [];
-            }
-          }
-          return {
-            id: inv.id || `inv-${Date.now()}`,
-            invoiceNumber: inv.invoiceNumber || '',
-            date: inv.date || new Date().toISOString().split('T')[0],
-            dueDate: inv.dueDate || new Date().toISOString().split('T')[0],
-            status: inv.status || 'Pending',
-            template: inv.template || 'challan',
-            fromName: inv.fromName || 'SiAn Smart Tech',
-            fromEmail: inv.fromEmail || '',
-            fromPhone: inv.fromPhone || '',
-            fromAddress: inv.fromAddress || '',
-            fromGst: inv.fromGst || '',
-            toName: inv.toName || '',
-            toEmail: inv.toEmail || '',
-            toPhone: inv.toPhone || '',
-            toAddress: inv.toAddress || '',
-            modeOfPayment: inv.modeOfPayment || 'Online',
-            billReceiverName: inv.billReceiverName || '',
-            bankHolderName: inv.bankHolderName || 'Sivakumar S G',
-            bankName: inv.bankName || 'State Bank of India',
-            bankBranchName: inv.bankBranchName || 'Anuppanadi Branch',
-            accountNumber: inv.accountNumber || '35846100378',
-            ifscCode: inv.ifscCode || 'SBIN0061291',
-            upiId: inv.upiId || 'sivask7kumar@oksbi',
-            items: Array.isArray(parsedItems) ? parsedItems : [],
-            discount: parseFloat(inv.discount) || 0,
-            notes: inv.notes || '',
-            createdAt: inv.createdAt || new Date().toISOString(),
-            updatedAt: inv.updatedAt || new Date().toISOString()
-          };
-        });
-        return normalized;
-      }
-    } catch (e) {
-      console.error('Google Sheets fetch for invoices failed:', e);
-    }
-    return [];
+    return invoiceStore.fetchInvoices();
   },
   async addInvoice(invoiceData) {
-    const url = this.getInvoiceSheetsUrl();
-    if (!url) return invoiceData;
-    try {
-      const payload = {
-        ...invoiceData,
-        items: JSON.stringify(invoiceData.items)
-      };
-      await fetch(url, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'text/plain'
-        },
-        body: JSON.stringify({
-          action: 'add',
-          data: payload
-        }),
-        redirect: 'follow'
-      });
-    } catch (err) {
-      console.error('Failed to write invoice to Google Sheets:', err);
-    }
-    return invoiceData;
+    return invoiceStore.addInvoice(invoiceData);
   },
   async updateInvoice(id, invoiceData) {
-    const url = this.getInvoiceSheetsUrl();
-    if (!url) return invoiceData;
-    try {
-      const payload = {
-        ...invoiceData,
-        items: JSON.stringify(invoiceData.items)
-      };
-      await fetch(url, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'text/plain'
-        },
-        body: JSON.stringify({
-          action: 'update',
-          data: payload
-        }),
-        redirect: 'follow'
-      });
-    } catch (err) {
-      console.error('Failed to update invoice in Google Sheets:', err);
-    }
-    return invoiceData;
+    return invoiceStore.updateInvoice(id, invoiceData);
   },
   async deleteInvoice(id) {
-    const url = this.getInvoiceSheetsUrl();
-    if (!url) return false;
-    try {
-      await fetch(url, {
-        method: 'POST',
-        mode: 'cors',
-        headers: {
-          'Content-Type': 'text/plain'
-        },
-        body: JSON.stringify({
-          action: 'delete',
-          id: id
-        }),
-        redirect: 'follow'
-      });
-    } catch (err) {
-      console.error('Failed to delete invoice in Google Sheets:', err);
-    }
-    return true;
+    return invoiceStore.deleteInvoice(id);
+  },
+  async getBusinessData() {
+    return businessManagementApi.getAllData();
+  },
+  async createSchedule(s) {
+    return businessManagementApi.createSchedule(s);
+  },
+  async updateSchedule(s) {
+    return businessManagementApi.updateSchedule(s);
+  },
+  async deleteSchedule(id) {
+    return businessManagementApi.deleteSchedule(id);
+  },
+  async createIncome(i) {
+    return businessManagementApi.createIncome(i);
+  },
+  async updateIncome(i) {
+    return businessManagementApi.updateIncome(i);
+  },
+  async deleteIncome(id) {
+    return businessManagementApi.deleteIncome(id);
+  },
+  async createExpense(e) {
+    return businessManagementApi.createExpense(e);
+  },
+  async updateExpense(e) {
+    return businessManagementApi.updateExpense(e);
+  },
+  async deleteExpense(id) {
+    return businessManagementApi.deleteExpense(id);
+  },
+  async createDuePayment(d) {
+    return businessManagementApi.createDuePayment(d);
+  },
+  async updateDuePayment(d) {
+    return businessManagementApi.updateDuePayment(d);
+  },
+  async deleteDuePayment(id) {
+    return businessManagementApi.deleteDuePayment(id);
   }
 };

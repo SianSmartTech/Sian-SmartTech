@@ -1,7 +1,8 @@
 import { useState, useRef, useEffect } from 'react';
-import { Search, Edit3, X, Database, Plus, Trash2, FileText, Printer, Copy } from 'lucide-react';
+import { Search, Edit3, Database, Plus, Trash2, FileText, Printer, Copy } from 'lucide-react';
 import { toast } from 'sonner';
 import { bookingStore } from '../utils/bookingStore';
+import { validateCustomerPhone, validateCustomerEmail } from '../utils/validation';
 import "../css/InvoiceGenerator.css";
 const numberToWords = (num) => {
   if (!num || isNaN(num) || num === 0) return 'Zero Rupees Only';
@@ -174,22 +175,36 @@ const InvoiceGenerator = ({ invoices, setInvoices, bookings, otherBookings, setI
       toast.error("Please enter Client Name!");
       return;
     }
+    const emailVal = validateCustomerEmail(invoiceForm.toEmail, { required: false, fieldName: 'Client Email' });
+    if (!emailVal.isValid) {
+      toast.error(emailVal.error);
+      return;
+    }
+    const phoneVal = validateCustomerPhone(invoiceForm.toPhone, { required: false, fieldName: 'Client Phone' });
+    if (!phoneVal.isValid) {
+      toast.error(phoneVal.error);
+      return;
+    }
+    const formToSave = {
+      ...invoiceForm,
+      toPhone: phoneVal.cleaned || (invoiceForm.toPhone || '').trim()
+    };
     let updatedInvoices;
-    const isExisting = invoices.some(inv => inv.id === invoiceForm.id);
+    const isExisting = invoices.some(inv => inv.id === formToSave.id);
     let targetInvoice = null;
     if (isExisting) {
-      targetInvoice = { ...invoiceForm, updatedAt: new Date().toISOString() };
-      updatedInvoices = invoices.map(inv => inv.id === invoiceForm.id ? targetInvoice : inv);
-      toast.success(`Invoice ${invoiceForm.invoiceNumber} updated!`);
+      targetInvoice = { ...formToSave, updatedAt: new Date().toISOString() };
+      updatedInvoices = invoices.map(inv => inv.id === formToSave.id ? targetInvoice : inv);
+      toast.success(`Invoice ${formToSave.invoiceNumber} updated!`);
     } else {
       targetInvoice = {
-        ...invoiceForm,
-        id: invoiceForm.id || `inv-${Date.now()}`,
+        ...formToSave,
+        id: formToSave.id || `inv-${Date.now()}`,
         createdAt: new Date().toISOString(),
         updatedAt: new Date().toISOString()
       };
       updatedInvoices = [targetInvoice, ...invoices];
-      toast.success(`Invoice ${invoiceForm.invoiceNumber} created!`);
+      toast.success(`Invoice ${formToSave.invoiceNumber} created!`);
     }
     setInvoices(updatedInvoices);
     setIsEditingInvoice(false);

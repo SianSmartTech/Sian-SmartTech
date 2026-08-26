@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import "../css/App.css";
 import ProtectedEmail from './ProtectedEmail';
 import { event } from '../utils/analytics';
+import { validateCustomerEmail } from '../utils/validation';
 const Contact = () => {
   const [formData, setFormData] = useState({ name: '', email: '', message: '' });
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -13,13 +14,13 @@ const Contact = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!formData.email || !formData.email.trim()) {
-      toast.error('Please enter your email address.');
+    if (!formData.name || !formData.name.trim()) {
+      toast.error('Please enter your name.');
       return;
     }
-    if (!emailRegex.test(formData.email.trim())) {
-      toast.error('Please enter a valid email address.');
+    const emailVal = validateCustomerEmail(formData.email, { required: true, fieldName: 'Email Address' });
+    if (!emailVal.isValid) {
+      toast.error(emailVal.error);
       return;
     }
     setIsSubmitting(true);

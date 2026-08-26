@@ -201,7 +201,7 @@ function AppContent() {
         </Routes>
       </Suspense>
       {!isAdmin && <Footer />}
-      <ScrollToTop />
+      {!isAdmin && <ScrollToTop />}
       {!isAdmin && <WhatsAppButton />}
       {!isAdmin && (<Suspense fallback={null}><Chatbot /></Suspense>)}
     </>

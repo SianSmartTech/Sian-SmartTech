@@ -19,7 +19,7 @@ export const initGA = () => {
     window.dataLayer = window.dataLayer || [];
     window.gtag = function () {
       window.dataLayer.push(arguments);
-    };  
+    };
     window.gtag('js', new Date());
     window.gtag('config', MEASUREMENT_ID, {
       send_page_view: false,
@@ -28,12 +28,6 @@ export const initGA = () => {
     console.warn('Google Analytics failed to initialize:', error);
   }
 };
-
-/**
- * Tracks page view
- * @param {string} path - The relative URL path (e.g. '/about')
- * @param {string} [title] - The page title
- */
 export const pageview = (path, title) => {
   if (!shouldRun()) return;
   try {
@@ -49,14 +43,6 @@ export const pageview = (path, title) => {
     console.warn('Failed to track pageview:', error);
   }
 };
-/**
- * Tracks a custom event
- * @param {Object} options
- * @param {string} options.action - Event action name (e.g. 'whatsapp_click')
- * @param {string} options.category - Event category (e.g. 'engagement')
- * @param {string} options.label - Event label (e.g. 'Contact WhatsApp')
- * @param {number} [options.value] - Optional numeric value
- */
 export const event = ({ action, category, label, value, ...rest }) => {
   if (!shouldRun()) return;
   try {

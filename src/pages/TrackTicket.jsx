@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams, useSearchParams, useNavigate } from 'react-router-dom';
 import { Search, Loader2, CheckCircle2, AlertCircle, Clock, ShieldAlert, Cpu, Check, MapPin, Mail, User, Briefcase, Calendar, Ticket } from 'lucide-react';
+import { toast } from 'sonner';
 import { bookingStore } from '../utils/bookingStore';
+import { validateCustomerEmail } from '../utils/validation';
 import "../css/TrackTicket.css";
 import { event } from '../utils/analytics';
 const TrackTicket = () => {
@@ -52,7 +54,15 @@ const TrackTicket = () => {
     e.preventDefault();
     const trimmedTicket = inputTicket.trim().toUpperCase();
     const trimmedEmail = inputEmail.trim().toLowerCase();
-    if (!trimmedTicket || !trimmedEmail) return;
+    if (!trimmedTicket) {
+      toast.error('Please enter a Ticket ID.');
+      return;
+    }
+    const emailVal = validateCustomerEmail(trimmedEmail, { required: true, fieldName: 'Email Address' });
+    if (!emailVal.isValid) {
+      toast.error(emailVal.error);
+      return;
+    }
     event({
       action: "track_ticket_search",
       category: "engagement",

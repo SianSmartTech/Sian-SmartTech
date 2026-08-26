@@ -4,7 +4,7 @@ import { signInWithPopup, signOut, onAuthStateChanged } from "firebase/auth";
 import { toast } from "sonner";
 import { event } from "../utils/analytics";
 const AuthContext = createContext();
-const SESSION_DURATION = 2 * 60 * 60 * 1000; 
+const SESSION_DURATION = 2 * 60 * 60 * 1000;
 const LOGIN_TIME_KEY = "sian_admin_login_time";
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);

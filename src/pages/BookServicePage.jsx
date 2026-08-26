@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { services, itServicesData, pricing, itPricing } from '../mockData';
 import { toast, Toaster } from 'sonner';
 import { bookingStore } from '../utils/bookingStore';
+import { validateCustomerPhone, validateCustomerEmail } from '../utils/validation';
 import "../css/App.css";
 import "../css/BookServicePage.css";
 import { event } from '../utils/analytics';
@@ -49,22 +50,14 @@ const BookServicePage = () => {
       toast.error('Please enter your full name.');
       return;
     }
-    if (!formData.email || !formData.email.trim()) {
-      toast.error('Please enter your email address.');
+    const emailVal = validateCustomerEmail(formData.email, { required: true, fieldName: 'Email Address' });
+    if (!emailVal.isValid) {
+      toast.error(emailVal.error);
       return;
     }
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(formData.email)) {
-      toast.error('Please enter a valid email address.');
-      return;
-    }
-    if (!formData.phone || !formData.phone.trim()) {
-      toast.error('Please enter your mobile number.');
-      return;
-    }
-    const phoneRegex = /^[6-9]\d{9}$/;
-    if (!phoneRegex.test(formData.phone)) {
-      toast.error('Mobile number must be exactly 10 digits and start with 6, 7, 8, or 9.');
+    const phoneVal = validateCustomerPhone(formData.phone, { required: true, fieldName: 'Mobile Number' });
+    if (!phoneVal.isValid) {
+      toast.error(phoneVal.error);
       return;
     }
     if (!formData.address || !formData.address.trim()) {
