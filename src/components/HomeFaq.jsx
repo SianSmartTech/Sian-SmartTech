@@ -36,10 +36,10 @@ const HomeFaq = () => {
   return (
     <section className="section bg-alt" id="home-faq">
       <div className="container">
-        <div className="text-center" style={{ marginBottom: '3rem' }}>
+        <div className="text-center home-faq-header">
           <span className="section-subtitle">FAQ</span>
           <h2 className="section-title">Frequently Asked Questions</h2>
-          <p className="section-description" style={{ maxWidth: '600px', margin: '10px auto 0' }}>
+          <p className="section-description home-faq-desc">
             Got questions about our computer, mobile repair, or IT services? Find the answers to the most common queries below.
           </p>
         </div>
@@ -56,7 +56,7 @@ const HomeFaq = () => {
             </div>
           ))}
         </div>
-        <div className="faq-action-v2" style={{ marginTop: '2rem' }}>
+        <div className="faq-action-v2 home-faq-action">
           <Link to="/faq" className="btn-view-more">View All FAQs</Link>
         </div>
       </div>

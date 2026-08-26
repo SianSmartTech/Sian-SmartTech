@@ -5321,3 +5321,20 @@ img {
   gap: 8px;
   width: 100%;
 }
+
+.home-faq-header {
+  margin-bottom: 3rem;
+}
+
+.home-faq-desc {
+  max-width: 600px;
+  margin: 10px auto 0;
+}
+
+.home-faq-action {
+  margin-top: 2rem;
+}
+
+.cursor-hidden {
+  display: none !important;
+}

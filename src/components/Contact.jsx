@@ -90,7 +90,7 @@ const Contact = () => {
               action: "phone_click",
               category: "engagement",
               label: `Call ${companyInfo.phone}`
-            })} className="contact-v2-card accent-card">
+            })} className="contact-v2-card accent-card" itemProp="telephone">
               <div className="contact-v2-card-icon">
                 <Phone size={22} />
               </div>
@@ -102,13 +102,13 @@ const Contact = () => {
                 <ArrowUpRight size={18} />
               </div>
             </a>
-            <div className="contact-v2-card accent-card">
+            <div className="contact-v2-card accent-card" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
               <div className="contact-v2-card-icon">
                 <MapPin size={22} />
               </div>
               <div className="contact-v2-card-content">
                 <span className="contact-v2-card-label">Our location</span>
-                <span className="contact-v2-card-value">{companyInfo.address}</span>
+                <span className="contact-v2-card-value" itemProp="streetAddress">{companyInfo.address}</span>
               </div>
               <div className="contact-v2-card-arrow">
                 <ArrowUpRight size={18} />

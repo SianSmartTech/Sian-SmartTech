@@ -26,20 +26,22 @@ const Footer = () => {
           </div>
           <div className="footer-section">
             <h4 className="footer-title">Contact Us</h4>
-            <ul className="footer-contact">
-              <li>
-                <Phone size={16} />
-                <span>{companyInfo.phone}</span>
-              </li>
-              <li>
-                <Mail size={16} />
-                <ProtectedEmail email={companyInfo.email} />
-              </li>
-              <li>
-                <MapPin size={16} />
-                <span>{companyInfo.address}</span>
-              </li>
-            </ul>
+            <address className="footer-contact-address" itemScope itemType="https://schema.org/LocalBusiness">
+              <ul className="footer-contact">
+                <li>
+                  <Phone size={16} />
+                  <a href={`tel:${companyInfo.phone}`} className="footer-contact-link" itemProp="telephone">{companyInfo.phone}</a>
+                </li>
+                <li>
+                  <Mail size={16} />
+                  <ProtectedEmail email={companyInfo.email} />
+                </li>
+                <li itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
+                  <MapPin size={16} />
+                  <span itemProp="streetAddress">{companyInfo.address}</span>
+                </li>
+              </ul>
+            </address>
           </div>
         </div>
         <div className="footer-bottom">

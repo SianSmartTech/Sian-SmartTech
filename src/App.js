@@ -44,16 +44,16 @@ function AppContent() {
       "/track": "Track Your Tech Repair Ticket Online | SiAn SmartTech"
     };
     const routeDescriptions = {
-      "/": "Professional computer, laptop, and mobile repair services in Madurai. SiAn SmartTech provides expert hardware diagnostics, chip-level repairs, IT solutions, and genuine parts.",
-      "/hardware-services": "Professional hardware repair services in Madurai. We fix motherboards, screens, batteries, and provide chip-level servicing for laptops and mobiles.",
-      "/it-services": "Comprehensive IT software solutions, web development, custom software, and digital services by SiAn SmartTech experts.",
-      "/price-list": "Transparent and affordable pricing for all computer, laptop, and mobile repair services at SiAn SmartTech Madurai.",
-      "/about": "Learn more about SiAn SmartTech, Madurai's trusted experts in premium computer and mobile repair services with years of experience.",
-      "/book-service": "Book your computer or mobile repair service online with SiAn SmartTech for fast, reliable, and professional tech support.",
-      "/faq": "Find answers to frequently asked questions about our repair services, pricing, warranty, and technical support.",
-      "/all-faqs": "Comprehensive list of all frequently asked questions regarding SiAn SmartTech services and support.",
-      "/admin": "SiAn SmartTech Admin Dashboard.",
-      "/track": "Track the real-time status of your computer or mobile repair ticket at SiAn SmartTech."
+      "/": "Expert computer, laptop & mobile repair in Madurai. SiAn SmartTech offers certified hardware diagnostics, chip-level repairs & genuine replacement parts.",
+      "/hardware-services": "Professional hardware repair services in Madurai. Expert chip-level repair, screen replacements, motherboard fixes & laptop servicing.",
+      "/it-services": "Comprehensive IT software solutions, web development, custom software, and digital services in Madurai by SiAn SmartTech specialists.",
+      "/price-list": "Transparent pricing for computer, laptop, and mobile repair in Madurai. Check diagnostic rates and service costs at SiAn SmartTech.",
+      "/about": "Learn about SiAn SmartTech, Madurai's trusted computer and mobile repair center providing reliable hardware and IT tech support.",
+      "/book-service": "Book computer, laptop, or mobile repair service online with SiAn SmartTech Madurai. Fast diagnostics, doorstep pickup & quick turnaround.",
+      "/faq": "Find answers to frequently asked questions regarding computer and mobile repair services, pricing, warranty, and IT support in Madurai.",
+      "/all-faqs": "Comprehensive tech repair guide and FAQs for computer, laptop, and mobile servicing, hardware upgrades, and solutions in Madurai.",
+      "/admin": "SiAn SmartTech Admin Dashboard for managing computer repair orders, service tickets, customer inquiries, and system operations in Madurai.",
+      "/track": "Track the real-time status of your computer, laptop, or mobile repair ticket online with SiAn SmartTech Madurai quick tracking system."
     };
     document.title = routeTitles[location.pathname] || "SiAn SmartTech | Premium Computer & Mobile Repair Services";
     let metaDescription = document.querySelector('meta[name="description"]');
@@ -62,7 +62,7 @@ function AppContent() {
       metaDescription.name = "description";
       document.head.appendChild(metaDescription);
     }
-    metaDescription.content = routeDescriptions[location.pathname] || "Professional computer, laptop, and mobile repair services in Madurai. SiAn SmartTech provides expert hardware diagnostics, IT solutions, and genuine parts.";
+    metaDescription.content = routeDescriptions[location.pathname] || "Expert computer, laptop & mobile repair in Madurai. SiAn SmartTech offers certified hardware diagnostics, chip-level repairs & genuine replacement parts.";
     let canonicalLink = document.querySelector('link[rel="canonical"]');
     if (!canonicalLink) {
       canonicalLink = document.createElement('link');
@@ -95,8 +95,8 @@ function AppContent() {
     };
     document.addEventListener('contextmenu', handleContextMenu);
     if (isTouchDevice) {
-      if (cursor) cursor.style.display = 'none';
-      if (glow) glow.style.display = 'none';
+      if (cursor) cursor.classList.add('cursor-hidden');
+      if (glow) glow.classList.add('cursor-hidden');
       return () => {
         document.removeEventListener('contextmenu', handleContextMenu);
       };
