@@ -24,6 +24,7 @@ export const BusinessDashboard = ({
   schedules = [],
   income = [],
   expenses = [],
+  principals = [],
   duePayments = [],
   onOpenModal,
   onNavigateTab
@@ -86,7 +87,7 @@ export const BusinessDashboard = ({
           </div>
           <h2 className="bm-hero-title">Business & Financial Operations</h2>
           <p className="bm-hero-desc">
-            Manage your daily service workflow, sales revenue, operating expenses, and recurring dues in real-time.
+            Manage your daily service workflow, sales revenue, operating expenses, principal capital, and recurring dues in real-time.
           </p>
         </div>
         <div className="bm-quick-actions-row">
@@ -96,8 +97,11 @@ export const BusinessDashboard = ({
           <button className="bm-action-btn secondary" onClick={() => onOpenModal('expense')}>
             <Plus size={16} /> Add Expense
           </button>
-          <button className="bm-action-btn outline" onClick={() => onOpenModal('schedule')}>
-            <Plus size={16} /> New Schedule
+          <button className="bm-action-btn outline" onClick={() => onOpenModal('principal')}>
+            <Plus size={16} /> New Principal
+          </button>
+          <button className="bm-action-btn outline" onClick={() => onOpenModal('due')}>
+            <Plus size={16} /> New Due
           </button>
         </div>
       </div>

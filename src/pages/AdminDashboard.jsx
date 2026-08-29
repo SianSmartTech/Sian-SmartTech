@@ -11,14 +11,10 @@ import { BusinessDashboard } from '../components/admin/business/BusinessDashboar
 import { WorkScheduleView } from '../components/admin/business/WorkScheduleView';
 import { IncomeView } from '../components/admin/business/IncomeView';
 import { ExpensesView } from '../components/admin/business/ExpensesView';
+import { PrincipalsView } from '../components/admin/business/PrincipalsView';
 import { DuePaymentsView } from '../components/admin/business/DuePaymentsView';
 import { BusinessAnalysisView } from '../components/admin/business/BusinessAnalysisView';
-import {
-  ScheduleModal,
-  IncomeModal,
-  ExpenseModal,
-  DuePaymentModal
-} from '../components/admin/business/BusinessModals';
+import { ScheduleModal, IncomeModal, ExpenseModal, DuePaymentModal, PrincipalModal} from '../components/admin/business/BusinessModals';
 import InvoiceGenerator from '../components/InvoiceGenerator';
 import { BookingsOverview } from '../components/admin/bookings/BookingsOverview';
 import { HardwareLedgerView } from '../components/admin/bookings/HardwareLedgerView';
@@ -40,6 +36,7 @@ const AdminDashboard = () => {
   const [schedules, setSchedules] = useState([]);
   const [income, setIncome] = useState([]);
   const [expenses, setExpenses] = useState([]);
+  const [principals, setPrincipals] = useState([]);
   const [duePayments, setDuePayments] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
@@ -119,6 +116,7 @@ const AdminDashboard = () => {
         setIncome(bmRes.data.income || []);
         setExpenses(bmRes.data.expenses || []);
         setDuePayments(bmRes.data.duePayments || []);
+        setPrincipals(bmRes.data.principals || []);
       }
     } catch (err) {
       console.error('Failed to sync with Google Sheets:', err);
@@ -264,6 +262,52 @@ const AdminDashboard = () => {
     } catch (e) {
       toast.error('Error: ' + e.message, { id: toastId });
     }
+  };
+  const handleSavePrincipal = async (principalData) => {
+    const toastId = toast.loading(principalData.id ? 'Updating principal...' : 'Recording principal...');
+    try {
+      let res;
+      if (principalData.id) {
+        res = await businessManagementApi.updatePrincipal(principalData);
+      } else {
+        res = await businessManagementApi.createPrincipal(principalData);
+      }
+      if (res.success) {
+        toast.success(principalData.id ? 'Principal updated!' : 'Principal account created!', { id: toastId });
+        handleCloseBmModal();
+        refreshData();
+      } else {
+        toast.error(res.error || 'Failed to save principal', { id: toastId });
+      }
+    } catch (e) {
+      toast.error('Error: ' + e.message, { id: toastId });
+    }
+  };
+  const handleDeletePrincipal = async (id) => {
+    const toastId = toast.loading('Deleting principal account...');
+    try {
+      const res = await businessManagementApi.deletePrincipal(id);
+      if (res.success) {
+        toast.success('Principal account removed', { id: toastId });
+        refreshData();
+      } else {
+        toast.error('Failed to delete principal', { id: toastId });
+      }
+    } catch (e) {
+      toast.error('Error: ' + e.message, { id: toastId });
+    }
+  };
+  const handleQuickAddDueFromPrincipal = (principal) => {
+    setEditingBmItem({
+      principalId: principal.id,
+      principalName: principal.name,
+      dueType: 'Interest',
+      name: `${principal.name} - Interest Due`,
+      description: `Linked Principal: ${principal.name} (Amount: ₹${(Number(principal.amount) || 0).toLocaleString('en-IN')})`,
+      dueDate: new Date().toISOString().split('T')[0],
+      reminderDate: new Date().toISOString().split('T')[0]
+    });
+    setActiveBmModal('due');
   };
   const handleSaveDuePayment = async (dueData) => {
     const toastId = toast.loading(dueData.id ? 'Updating due payment...' : 'Creating due payment...');
@@ -622,6 +666,7 @@ const AdminDashboard = () => {
               schedules={schedules}
               income={income}
               expenses={expenses}
+              principals={principals}
               duePayments={duePayments}
               onOpenModal={handleOpenBmModal}
               onNavigateTab={(tab) => setActiveTab(`bm-${tab}`)}
@@ -652,9 +697,20 @@ const AdminDashboard = () => {
               onDelete={handleDeleteExpense}
             />
           )}
+          {activeTab === 'bm-principals' && (
+            <PrincipalsView
+              principals={principals}
+              duePayments={duePayments}
+              onOpenModal={handleOpenBmModal}
+              onEdit={(p) => handleOpenBmModal('principal', p)}
+              onDelete={handleDeletePrincipal}
+              onAddDueForPrincipal={handleQuickAddDueFromPrincipal}
+            />
+          )}
           {activeTab === 'bm-due-payments' && (
             <DuePaymentsView
               duePayments={duePayments}
+              principals={principals}
               onOpenModal={handleOpenBmModal}
               onEdit={(d) => handleOpenBmModal('due', d)}
               onDelete={handleDeleteDuePayment}
@@ -747,11 +803,18 @@ const AdminDashboard = () => {
         onSave={handleSaveExpense}
         item={editingBmItem}
       />
+      <PrincipalModal
+        isOpen={activeBmModal === 'principal'}
+        onClose={handleCloseBmModal}
+        onSave={handleSavePrincipal}
+        item={editingBmItem}
+      />
       <DuePaymentModal
         isOpen={activeBmModal === 'due'}
         onClose={handleCloseBmModal}
         onSave={handleSaveDuePayment}
         item={editingBmItem}
+        principals={principals}
       />
       <BookingDrawers
         isDrawerOpen={isDrawerOpen}

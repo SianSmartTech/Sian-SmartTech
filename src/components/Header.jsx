@@ -1,11 +1,13 @@
 import { useState, useEffect } from 'react';
-import { Moon, Sun, Menu, X, ChevronDown } from 'lucide-react';
+import { Moon, Sun, Menu, X, ChevronDown, ShieldCheck } from 'lucide-react';
 import logo from '../assets/images/heroes/sian_smarttech_logo.webp';
 import { useTheme } from '../context/ThemeContext';
+import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import "../css/App.css";
 const Header = () => {
   const { theme, toggleTheme } = useTheme();
+  const { isAuthorized } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
   const navigate = useNavigate();
@@ -92,6 +94,12 @@ const Header = () => {
             ))}
           </nav>
           <div className="header-actions">
+            {isAuthorized && (
+              <Link to="/admin" className="btn-admin-nav" title="Admin Dashboard">
+                <ShieldCheck size={16} />
+                <span>Admin</span>
+              </Link>
+            )}
             <button onClick={toggleTheme} className="theme-toggle" aria-label="Toggle theme">
               {theme === 'light' ? <Moon size={20} /> : <Sun size={20} />}
             </button>
@@ -102,6 +110,17 @@ const Header = () => {
       </header>
       {mobileMenuOpen && (
         <nav className="nav-mobile">
+          {isAuthorized && (
+            <div className="mobile-nav-item-wrapper">
+              <Link
+                to="/admin"
+                onClick={() => setMobileMenuOpen(false)}
+                className="nav-link-mobile btn-admin-nav-mobile"
+              >
+                <ShieldCheck size={18} /> Admin Dashboard
+              </Link>
+            </div>
+          )}
           {navItems.map((item) => (
             <div key={item.label} className="mobile-nav-item-wrapper">
               {item.dropdown ? (

@@ -1,16 +1,5 @@
 import { useState } from 'react';
-import {
-  ClockAlert,
-  Plus,
-  Search,
-  Calendar,
-  Edit2,
-  Trash2,
-  CheckCircle2,
-  AlertTriangle,
-  Clock,
-  Check
-} from 'lucide-react';
+import { ClockAlert, Plus, Search, Calendar, Edit2, Trash2, CheckCircle2, AlertTriangle, Clock, Check, Landmark} from 'lucide-react';
 const formatINR = (val) => {
   const num = Number(val) || 0;
   return new Intl.NumberFormat('en-IN', {
@@ -19,7 +8,7 @@ const formatINR = (val) => {
     maximumFractionDigits: 0
   }).format(num);
 };
-export const DuePaymentsView = ({ duePayments = [], onOpenModal, onEdit, onDelete, onMarkPaid }) => {
+export const DuePaymentsView = ({ duePayments = [], principals = [], onOpenModal, onEdit, onDelete, onMarkPaid }) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
   const [typeFilter, setTypeFilter] = useState('ALL');
@@ -29,6 +18,7 @@ export const DuePaymentsView = ({ duePayments = [], onOpenModal, onEdit, onDelet
       (d.name || '').toLowerCase().includes(q) ||
       (d.description || '').toLowerCase().includes(q) ||
       (d.dueType || '').toLowerCase().includes(q) ||
+      (d.principalName || '').toLowerCase().includes(q) ||
       (d.notes || '').toLowerCase().includes(q);
     const matchStatus = statusFilter === 'ALL' || d.status === statusFilter;
     const matchType = typeFilter === 'ALL' || d.dueType === typeFilter;
@@ -143,6 +133,12 @@ export const DuePaymentsView = ({ duePayments = [], onOpenModal, onEdit, onDelet
                   </td>
                   <td>
                     <div className="bm-cell-primary">{d.name}</div>
+                    {d.principalName && (
+                      <div className="bm-cell-sub bm-linked-principal-text">
+                        <Landmark size={12} className="bm-inline-icon" />
+                        Principal: {d.principalName}
+                      </div>
+                    )}
                     {d.description && <div className="bm-cell-sub">{d.description}</div>}
                     {d.notes && <div className="bm-work-notes">{d.notes}</div>}
                   </td>
@@ -172,26 +168,14 @@ export const DuePaymentsView = ({ duePayments = [], onOpenModal, onEdit, onDelet
                   <td className="text-right">
                     <div className="bm-action-btn-group">
                       {d.status !== 'Paid' && (
-                        <button
-                          className="bm-icon-btn check"
-                          title="Mark as Settled / Paid"
-                          onClick={() => onMarkPaid && onMarkPaid(d)}
-                        >
+                        <button className="bm-icon-btn check" title="Mark as Settled / Paid" onClick={() => onMarkPaid && onMarkPaid(d)}>
                           <Check size={14} />
                         </button>
                       )}
-                      <button
-                        className="bm-icon-btn edit"
-                        title="Edit Due Payment"
-                        onClick={() => onEdit(d)}
-                      >
+                      <button className="bm-icon-btn edit" title="Edit Due Payment" onClick={() => onEdit(d)}>
                         <Edit2 size={14} />
                       </button>
-                      <button
-                        className="bm-icon-btn delete"
-                        title="Delete Record"
-                        onClick={() => onDelete(d.id)}
-                      >
+                      <button className="bm-icon-btn delete" title="Delete Record" onClick={() => onDelete(d.id)}>
                         <Trash2 size={14} />
                       </button>
                     </div>

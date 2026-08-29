@@ -9,7 +9,7 @@ const LOGIN_TIME_KEY = "sian_admin_login_time";
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const allowedEmailsStr = process.env.REACT_APP_ALLOWED_ADMIN_EMAILS || "";
+  const allowedEmailsStr = process.env.REACT_APP_ALLOWED_ADMIN_EMAILS || process.env.REACT_APP_ALLOWED_ADMIN_EMAIL || "";
   const allowedEmails = allowedEmailsStr
     .split(",")
     .map(email => email.trim().toLowerCase())

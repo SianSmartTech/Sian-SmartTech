@@ -17,6 +17,8 @@ export const AdminHeader = ({
         return 'Income & Sales Ledger';
       case 'bm-expenses':
         return 'Operating Expenses & Overheads';
+      case 'bm-principals':
+        return 'Principal Amounts & Capital Borrowings';
       case 'bm-due-payments':
         return 'Interest, Loan EMIs & Due Payments';
       case 'bm-analysis':
@@ -42,6 +44,7 @@ export const AdminHeader = ({
     'bm-schedule',
     'bm-income',
     'bm-expenses',
+    'bm-principals',
     'bm-due-payments',
     'bm-analysis',
     'invoices'
@@ -49,11 +52,7 @@ export const AdminHeader = ({
   return (
     <>
       <header className="admin-mobile-header">
-        <button
-          className="admin-mobile-toggle"
-          onClick={() => setIsSidebarOpen(true)}
-          aria-label="Toggle Sidebar"
-        >
+        <button className="admin-mobile-toggle" onClick={() => setIsSidebarOpen(true)} aria-label="Toggle Sidebar">
           <Menu size={22} />
         </button>
         <div className="admin-mobile-brand">
@@ -67,11 +66,7 @@ export const AdminHeader = ({
       <div className="admin-page-header">
         <div className="admin-page-header-left admin-header-left-flex">
           {isSidebarCollapsed && (
-            <button
-              className="admin-sidebar-toggle-desktop"
-              onClick={() => setIsSidebarCollapsed(false)}
-              aria-label="Open Sidebar"
-            >
+            <button className="admin-sidebar-toggle-desktop" onClick={() => setIsSidebarCollapsed(false)} aria-label="Open Sidebar">
               <Menu size={18} />
             </button>
           )}
@@ -83,12 +78,7 @@ export const AdminHeader = ({
           </div>
         </div>
         <div className="admin-header-actions">
-          <button
-            className="refresh-btn"
-            onClick={refreshData}
-            disabled={isSyncing}
-            title="Synchronize data with Google Sheets"
-          >
+          <button className="refresh-btn" onClick={refreshData} disabled={isSyncing} title="Synchronize data with Google Sheets">
             <RefreshCw size={14} className={isSyncing ? 'animate-spin' : ''} />
             {isSyncing ? 'Syncing...' : 'Sync Data'}
           </button>

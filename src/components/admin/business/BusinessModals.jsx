@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { X, Calendar, DollarSign, Receipt, Clock, Save } from 'lucide-react';
+import { X, Calendar, DollarSign, Receipt, Clock, Save, Landmark, Percent, Building2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { validateCustomerPhone, validateCustomerEmail } from '../../../utils/validation';
 export const ScheduleModal = ({ isOpen, onClose, onSave, item }) => {
@@ -125,7 +125,7 @@ export const ScheduleModal = ({ isOpen, onClose, onSave, item }) => {
                 type="text"
                 readOnly
                 value={formData.assignedTo || 'SivaKumar S G'}
-                style={{ backgroundColor: '#f8fafc', cursor: 'default', fontWeight: 600, color: '#1e293b' }}
+                className="bm-readonly-input"
               />
             </div>
           </div>
@@ -526,8 +526,10 @@ export const ExpenseModal = ({ isOpen, onClose, onSave, item }) => {
     </div>
   );
 };
-export const DuePaymentModal = ({ isOpen, onClose, onSave, item }) => {
+export const DuePaymentModal = ({ isOpen, onClose, onSave, item, principals = [] }) => {
   const [formData, setFormData] = useState({
+    principalId: '',
+    principalName: '',
     dueType: 'Loan',
     name: '',
     description: '',
@@ -543,6 +545,8 @@ export const DuePaymentModal = ({ isOpen, onClose, onSave, item }) => {
     if (item) {
       setFormData({
         id: item.id,
+        principalId: item.principalId || '',
+        principalName: item.principalName || '',
         dueType: item.dueType || 'Loan',
         name: item.name || '',
         description: item.description || '',
@@ -556,6 +560,8 @@ export const DuePaymentModal = ({ isOpen, onClose, onSave, item }) => {
       });
     } else {
       setFormData({
+        principalId: '',
+        principalName: '',
         dueType: 'Loan',
         name: '',
         description: '',
@@ -570,8 +576,34 @@ export const DuePaymentModal = ({ isOpen, onClose, onSave, item }) => {
     }
   }, [item, isOpen]);
   if (!isOpen) return null;
+  const handlePrincipalSelect = (selectedId) => {
+    if (!selectedId) {
+      setFormData((prev) => ({
+        ...prev,
+        principalId: '',
+        principalName: ''
+      }));
+      return;
+    }
+    const matched = principals.find((p) => String(p.id) === String(selectedId));
+    if (matched) {
+      setFormData((prev) => ({
+        ...prev,
+        principalId: matched.id,
+        principalName: matched.name,
+        name: prev.name ? prev.name : `${matched.name} - Interest Due`,
+        description: prev.description
+          ? prev.description
+          : `Linked Principal: ${matched.name} (Amount: ₹${(Number(matched.amount) || 0).toLocaleString('en-IN')})`
+      }));
+    }
+  };
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!formData.name.trim()) {
+      toast.error('Please enter Due Name / Title');
+      return;
+    }
     onSave(formData);
   };
   return (
@@ -588,6 +620,28 @@ export const DuePaymentModal = ({ isOpen, onClose, onSave, item }) => {
           <button className="bm-modal-close" onClick={onClose}><X size={18} /></button>
         </div>
         <form onSubmit={handleSubmit} className="bm-modal-form">
+          <div className="bm-form-group bm-principal-selector-box">
+            <label className="bm-principal-selector-label">
+              <Landmark size={15} /> Link to Principal Account (Optional)
+            </label>
+            <select
+              value={formData.principalId || ''}
+              onChange={(e) => handlePrincipalSelect(e.target.value)}
+              className="bm-principal-selector-select"
+            >
+              <option value="">-- No Linked Principal (Standalone / Other Due) --</option>
+              {principals.map((p) => (
+                <option key={p.id} value={p.id}>
+                  {p.name} — ₹{(Number(p.amount) || 0).toLocaleString('en-IN')} {p.interestRate ? `(${p.interestRate})` : ''} {p.lenderSource ? `[${p.lenderSource}]` : ''}
+                </option>
+              ))}
+            </select>
+            {formData.principalName && (
+              <div className="bm-principal-selected-badge">
+                Linked to Principal: {formData.principalName}
+              </div>
+            )}
+          </div>
           <div className="bm-form-grid-3">
             <div className="bm-form-group">
               <label>Due Type / Obligation *</label>
@@ -595,8 +649,8 @@ export const DuePaymentModal = ({ isOpen, onClose, onSave, item }) => {
                 value={formData.dueType}
                 onChange={(e) => setFormData({ ...formData, dueType: e.target.value })}
               >
-                <option value="Loan">Loan EMI / Equipment Finance</option>
                 <option value="Interest">Interest Due</option>
+                <option value="Loan">Loan EMI / Equipment Finance</option>
                 <option value="Rent">Office Space Rent</option>
                 <option value="Electricity">Electricity Bill</option>
                 <option value="Internet">Internet / Leased Line</option>
@@ -696,6 +750,195 @@ export const DuePaymentModal = ({ isOpen, onClose, onSave, item }) => {
             <button type="button" className="bm-btn-cancel" onClick={onClose}>Cancel</button>
             <button type="submit" className="bm-btn-submit">
               <Save size={16} /> {item ? 'Save Changes' : 'Create Due Payment'}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+export const PrincipalModal = ({ isOpen, onClose, onSave, item }) => {
+  const [formData, setFormData] = useState({
+    name: '',
+    lenderSource: '',
+    amount: 0,
+    interestRate: '',
+    category: 'Bank Loan',
+    startDate: new Date().toISOString().split('T')[0],
+    tenure: '',
+    status: 'Active',
+    description: '',
+    notes: ''
+  });
+  useEffect(() => {
+    if (item) {
+      setFormData({
+        id: item.id,
+        name: item.name || '',
+        lenderSource: item.lenderSource || '',
+        amount: item.amount || 0,
+        interestRate: item.interestRate || '',
+        category: item.category || 'Bank Loan',
+        startDate: item.startDate || new Date().toISOString().split('T')[0],
+        tenure: item.tenure || '',
+        status: item.status || 'Active',
+        description: item.description || '',
+        notes: item.notes || ''
+      });
+    } else {
+      setFormData({
+        name: '',
+        lenderSource: '',
+        amount: 0,
+        interestRate: '',
+        category: 'Bank Loan',
+        startDate: new Date().toISOString().split('T')[0],
+        tenure: '',
+        status: 'Active',
+        description: '',
+        notes: ''
+      });
+    }
+  }, [item, isOpen]);
+  if (!isOpen) return null;
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!formData.name.trim()) {
+      toast.error('Please enter Principal Name / Title.');
+      return;
+    }
+    if (!formData.amount || Number(formData.amount) <= 0) {
+      toast.error('Please enter a valid Principal Amount.');
+      return;
+    }
+    onSave(formData);
+  };
+  return (
+    <div className="bm-modal-overlay" onClick={onClose}>
+      <div className="bm-modal-card" onClick={(e) => e.stopPropagation()}>
+        <div className="bm-modal-header">
+          <div className="bm-modal-header-icon bg-cyan">
+            <Landmark size={20} />
+          </div>
+          <div>
+            <h3>{item ? 'Edit Principal Account' : 'New Principal Account'}</h3>
+            <p className="bm-modal-sub">Record principal borrowing, loan capital, financier balances & terms</p>
+          </div>
+          <button className="bm-modal-close" onClick={onClose}><X size={18} /></button>
+        </div>
+        <form onSubmit={handleSubmit} className="bm-modal-form">
+          <div className="bm-form-grid-3">
+            <div className="bm-form-group">
+              <label>Principal Name / Loan Title *</label>
+              <input
+                type="text"
+                required
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="e.g. HDFC Machinery Loan"
+              />
+            </div>
+            <div className="bm-form-group">
+              <label>Lender / Financier / Source</label>
+              <input
+                type="text"
+                value={formData.lenderSource}
+                onChange={(e) => setFormData({ ...formData, lenderSource: e.target.value })}
+                placeholder="e.g. HDFC Bank / Private Lender"
+              />
+            </div>
+            <div className="bm-form-group">
+              <label>Principal Amount (₹) *</label>
+              <input
+                type="number"
+                min="0"
+                required
+                value={formData.amount}
+                onChange={(e) => setFormData({ ...formData, amount: parseFloat(e.target.value) || 0 })}
+                placeholder="e.g. 500000"
+              />
+            </div>
+          </div>
+          <div className="bm-form-grid-3">
+            <div className="bm-form-group">
+              <label>Category / Loan Type</label>
+              <select
+                value={formData.category}
+                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+              >
+                <option value="Bank Loan">Bank Loan</option>
+                <option value="Private Financier">Private Financier</option>
+                <option value="Equipment Finance">Equipment Finance</option>
+                <option value="Partner Capital">Partner Capital</option>
+                <option value="Credit Line">Credit Line</option>
+                <option value="Vehicle Loan">Vehicle Loan</option>
+                <option value="Personal Borrowing">Personal Borrowing</option>
+                <option value="Other">Other Category</option>
+              </select>
+            </div>
+            <div className="bm-form-group">
+              <label>Interest Rate (% or details)</label>
+              <input
+                type="text"
+                value={formData.interestRate}
+                onChange={(e) => setFormData({ ...formData, interestRate: e.target.value })}
+                placeholder="e.g. 10.5% p.a. or 1.5% / mo"
+              />
+            </div>
+            <div className="bm-form-group">
+              <label>Start / Sanction Date *</label>
+              <input
+                type="date"
+                required
+                value={formData.startDate}
+                onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+              />
+            </div>
+          </div>
+          <div className="bm-form-grid-2">
+            <div className="bm-form-group">
+              <label>Tenure / Duration / Maturity</label>
+              <input
+                type="text"
+                value={formData.tenure}
+                onChange={(e) => setFormData({ ...formData, tenure: e.target.value })}
+                placeholder="e.g. 24 Months, Till Oct 2027"
+              />
+            </div>
+            <div className="bm-form-group">
+              <label>Status</label>
+              <select
+                value={formData.status}
+                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+              >
+                <option value="Active">Active (Ongoing)</option>
+                <option value="Settled">Settled (Paid Off)</option>
+                <option value="Closed">Closed</option>
+              </select>
+            </div>
+          </div>
+          <div className="bm-form-group">
+            <label>Description / Loan Account Details</label>
+            <textarea
+              rows={2}
+              value={formData.description}
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+              placeholder="Account #, EMI auto-debit details, branch info..."
+            />
+          </div>
+          <div className="bm-form-group">
+            <label>Internal Notes</label>
+            <textarea
+              rows={2}
+              value={formData.notes}
+              onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+              placeholder="Collateral, guarantor, special agreements..."
+            />
+          </div>
+          <div className="bm-modal-actions">
+            <button type="button" className="bm-btn-cancel" onClick={onClose}>Cancel</button>
+            <button type="submit" className="bm-btn-submit">
+              <Save size={16} /> {item ? 'Save Changes' : 'Create Principal Record'}
             </button>
           </div>
         </form>

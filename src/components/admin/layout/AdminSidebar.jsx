@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Briefcase, LayoutDashboard, CalendarCheck, TrendingUp, Receipt, ClockAlert, LineChart, FileText, Users, Wrench, Globe, Database, Mail, ChevronDown, ChevronRight, ChevronLeft, X, Sun, Moon, LogOut, Layers } from 'lucide-react';
+import { Link } from 'react-router-dom';
+import { Home, Briefcase, LayoutDashboard, CalendarCheck, TrendingUp, Receipt, ClockAlert, LineChart, FileText, Users, Wrench, Globe, Database, Mail, ChevronDown, ChevronRight, ChevronLeft, X, Sun, Moon, LogOut, Layers, Landmark } from 'lucide-react';
 export const AdminSidebar = ({
   activeTab,
   setActiveTab,
@@ -22,6 +23,7 @@ export const AdminSidebar = ({
     'bm-schedule',
     'bm-income',
     'bm-expenses',
+    'bm-principals',
     'bm-due-payments',
     'bm-analysis',
     'invoices'
@@ -48,48 +50,19 @@ export const AdminSidebar = ({
   };
   const businessNavItems = [
     { key: 'bm-dashboard', label: 'Business Overview', icon: <LayoutDashboard size={16} /> },
-    {
-      key: 'bm-schedule',
-      label: 'Work Schedule',
-      icon: <CalendarCheck size={16} />,
-      badge: pendingSchedulesCount > 0 ? pendingSchedulesCount : null,
-      badgeType: 'amber'
-    },
+    { key: 'bm-schedule', label: 'Work Schedule', icon: <CalendarCheck size={16} />, badge: pendingSchedulesCount > 0 ? pendingSchedulesCount : null, badgeType: 'amber' },
     { key: 'bm-income', label: 'Income & Sales', icon: <TrendingUp size={16} /> },
     { key: 'bm-expenses', label: 'Expenses', icon: <Receipt size={16} /> },
-    {
-      key: 'bm-due-payments',
-      label: 'Interest & Due',
-      icon: <ClockAlert size={16} />,
-      badge: dueAlertCount > 0 ? dueAlertCount : null,
-      badgeType: 'rose'
-    },
+    { key: 'bm-principals', label: 'Principal Amount', icon: <Landmark size={16} /> },
+    { key: 'bm-due-payments', label: 'Interest & Due', icon: <ClockAlert size={16} />, badge: dueAlertCount > 0 ? dueAlertCount : null, badgeType: 'rose' },
     { key: 'bm-analysis', label: 'Business Analysis', icon: <LineChart size={16} /> },
     { key: 'invoices', label: 'Invoice Generator', icon: <FileText size={16} /> }
   ];
   const bookingNavItems = [
     { key: 'dashboard', label: 'Operations Overview', icon: <Users size={16} /> },
-    {
-      key: 'ledger',
-      label: 'Hardware Ledger',
-      icon: <Wrench size={16} />,
-      badge: pendingHardwareCount > 0 ? pendingHardwareCount : null,
-      badgeType: 'blue'
-    },
-    {
-      key: 'it-ledger',
-      label: 'IT Services Ledger',
-      icon: <Globe size={16} />,
-      badge: pendingITCount > 0 ? pendingITCount : null,
-      badgeType: 'indigo'
-    },
-    {
-      key: 'other-bookings',
-      label: 'Other Bookings',
-      icon: <Database size={16} />,
-      badge: pendingOtherCount > 0 ? pendingOtherCount : null,
-      badgeType: 'amber'
-    },
+    { key: 'ledger', label: 'Hardware Ledger', icon: <Wrench size={16} />, badge: pendingHardwareCount > 0 ? pendingHardwareCount : null, badgeType: 'blue' },
+    { key: 'it-ledger', label: 'IT Services Ledger', icon: <Globe size={16} />, badge: pendingITCount > 0 ? pendingITCount : null, badgeType: 'indigo' },
+    { key: 'other-bookings', label: 'Other Bookings', icon: <Database size={16} />, badge: pendingOtherCount > 0 ? pendingOtherCount : null, badgeType: 'amber' },
     { key: 'outbox', label: 'Email Outbox', icon: <Mail size={16} /> }
   ];
   return (
@@ -102,41 +75,21 @@ export const AdminSidebar = ({
           <div className="admin-sidebar-title">Admin Hub</div>
           <div className="admin-sidebar-sub">Sian SmartTech</div>
         </div>
-        <button
-          type="button"
-          className="admin-brand-theme-toggle"
-          onClick={toggleTheme}
-          title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-          aria-label="Toggle Theme"
-        >
+        <button type="button" className="admin-brand-theme-toggle" onClick={toggleTheme} title={theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'} aria-label="Toggle Theme">
           {theme === 'light' ? <Moon size={15} /> : <Sun size={15} />}
         </button>
-        <button
-          className="admin-sidebar-close"
-          onClick={() => setIsSidebarOpen(false)}
-          aria-label="Close Sidebar"
-        >
+        <button className="admin-sidebar-close" onClick={() => setIsSidebarOpen(false)} aria-label="Close Sidebar">
           <X size={18} />
         </button>
-        <button
-          className="admin-sidebar-collapse-btn"
-          onClick={() => setIsSidebarCollapsed(true)}
-          aria-label="Collapse Sidebar"
-        >
+        <button className="admin-sidebar-collapse-btn" onClick={() => setIsSidebarCollapsed(true)} aria-label="Collapse Sidebar">
           <ChevronLeft size={18} />
         </button>
       </div>
       <div className="admin-sidebar-nav-container">
         <div className="admin-sidebar-group">
-          <button
-            type="button"
-            className={`admin-group-header ${isBusinessTab ? 'group-active' : ''}`}
-            onClick={() => setIsBusinessOpen(!isBusinessOpen)}
-          >
+          <button type="button" className={`admin-group-header ${isBusinessTab ? 'group-active' : ''}`} onClick={() => setIsBusinessOpen(!isBusinessOpen)}>
             <div className="admin-group-header-left">
-              <span className="admin-group-icon bg-indigo-soft">
-                <Briefcase size={16} />
-              </span>
+              <span className="admin-group-icon bg-indigo-soft"><Briefcase size={16} /></span>
               <span className="admin-group-title">Business Management</span>
             </div>
             <div className="admin-group-header-right">
@@ -152,10 +105,7 @@ export const AdminSidebar = ({
                 const isActive = activeTab === item.key;
                 return (
                   <li key={item.key} className="admin-menu-item">
-                    <button
-                      className={`admin-menu-btn ${isActive ? 'active' : ''}`}
-                      onClick={() => handleSelectTab(item.key)}
-                    >
+                    <button className={`admin-menu-btn ${isActive ? 'active' : ''}`} onClick={() => handleSelectTab(item.key)}>
                       <span className="admin-menu-icon">{item.icon}</span>
                       <span className="admin-menu-text">{item.label}</span>
                       {item.badge && (
@@ -171,11 +121,7 @@ export const AdminSidebar = ({
           )}
         </div>
         <div className="admin-sidebar-group">
-          <button
-            type="button"
-            className={`admin-group-header ${isClientBookingTab ? 'group-active' : ''}`}
-            onClick={() => setIsBookingsOpen(!isBookingsOpen)}
-          >
+          <button type="button" className={`admin-group-header ${isClientBookingTab ? 'group-active' : ''}`} onClick={() => setIsBookingsOpen(!isBookingsOpen)}>
             <div className="admin-group-header-left">
               <span className="admin-group-icon bg-blue-soft">
                 <Layers size={16} />
@@ -195,10 +141,7 @@ export const AdminSidebar = ({
                 const isActive = activeTab === item.key;
                 return (
                   <li key={item.key} className="admin-menu-item">
-                    <button
-                      className={`admin-menu-btn ${isActive ? 'active' : ''}`}
-                      onClick={() => handleSelectTab(item.key)}
-                    >
+                    <button className={`admin-menu-btn ${isActive ? 'active' : ''}`} onClick={() => handleSelectTab(item.key)}>
                       <span className="admin-menu-icon">{item.icon}</span>
                       <span className="admin-menu-text">{item.label}</span>
                       {item.badge && (
@@ -224,19 +167,14 @@ export const AdminSidebar = ({
             </div>
           )}
           <div className="admin-profile-info-col">
-            <div className="admin-profile-name-text">
-              {user?.displayName || 'Administrator'}
-            </div>
+            <div className="admin-profile-name-text">{user?.displayName || 'Administrator'}</div>
             <div className="admin-profile-email-text">{user?.email}</div>
           </div>
         </div>
-        <button
-          onClick={() => {
-            handleLogout();
-            setIsSidebarOpen(false);
-          }}
-          className="admin-btn-logout"
-        >
+        <Link to="/" className="admin-btn-home" onClick={() => setIsSidebarOpen(false)}>
+          <Home size={14} /> Back to Website
+        </Link>
+        <button onClick={() => { handleLogout(); setIsSidebarOpen(false); }} className="admin-btn-logout">
           <LogOut size={14} /> Sign Out
         </button>
       </div>

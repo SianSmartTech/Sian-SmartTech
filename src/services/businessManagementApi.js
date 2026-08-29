@@ -4,6 +4,7 @@ try {
     'sian_bm_income',
     'sian_bm_expenses',
     'sian_bm_due_payments',
+    'sian_bm_principals',
     'sian_bm_settings',
     'sian_bm_empty_init_v1',
     'sian_bm_mock_cleaned_v2'
@@ -72,7 +73,8 @@ export const businessManagementApi = {
                 schedules: Array.isArray(res.data.schedules) ? res.data.schedules : [],
                 income: Array.isArray(res.data.income) ? res.data.income : [],
                 expenses: Array.isArray(res.data.expenses) ? res.data.expenses : [],
-                duePayments: Array.isArray(res.data.duePayments) ? res.data.duePayments : []
+                duePayments: Array.isArray(res.data.duePayments) ? res.data.duePayments : [],
+                principals: Array.isArray(res.data.principals) ? res.data.principals : []
               }
             };
           }
@@ -87,7 +89,8 @@ export const businessManagementApi = {
         schedules: [],
         income: [],
         expenses: [],
-        duePayments: []
+        duePayments: [],
+        principals: []
       }
     };
   },
@@ -385,6 +388,79 @@ export const businessManagementApi = {
         }
       } catch (e) {
         console.error('Failed to delete due payment in Google Apps Script:', e);
+      }
+    }
+    return { success: true };
+  },
+  async createPrincipal(principal) {
+    const newId = `PRN-${new Date().toISOString().replace(/\D/g, '').slice(0, 8)}-${String(Math.floor(Math.random() * 900) + 100)}`;
+    const newRecord = {
+      ...principal,
+      id: principal.id || newId,
+      amount: Number(principal.amount) || 0,
+      createdAt: new Date().toISOString(),
+      updatedAt: new Date().toISOString()
+    };
+    if (this.isConfigured()) {
+      try {
+        const res = await fetch(this.getApiUrl(), {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ action: 'createPrincipal', data: newRecord }),
+          redirect: 'follow'
+        });
+        if (res.ok) {
+          const json = await res.json();
+          return json.success ? json : { success: true, data: newRecord };
+        }
+      } catch (e) {
+        console.error('Failed to create principal in Google Apps Script:', e);
+      }
+    }
+    return { success: true, data: newRecord };
+  },
+  async updatePrincipal(principal) {
+    const updated = {
+      ...principal,
+      amount: Number(principal.amount) || 0,
+      updatedAt: new Date().toISOString()
+    };
+    if (this.isConfigured()) {
+      try {
+        const res = await fetch(this.getApiUrl(), {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ action: 'updatePrincipal', data: updated }),
+          redirect: 'follow'
+        });
+        if (res.ok) {
+          const json = await res.json();
+          return json.success ? json : { success: true, data: updated };
+        }
+      } catch (e) {
+        console.error('Failed to update principal in Google Apps Script:', e);
+      }
+    }
+    return { success: true, data: updated };
+  },
+  async deletePrincipal(id) {
+    if (this.isConfigured()) {
+      try {
+        const res = await fetch(this.getApiUrl(), {
+          method: 'POST',
+          mode: 'cors',
+          headers: { 'Content-Type': 'text/plain' },
+          body: JSON.stringify({ action: 'deletePrincipal', data: { id } }),
+          redirect: 'follow'
+        });
+        if (res.ok) {
+          const json = await res.json();
+          return json;
+        }
+      } catch (e) {
+        console.error('Failed to delete principal in Google Apps Script:', e);
       }
     }
     return { success: true };
